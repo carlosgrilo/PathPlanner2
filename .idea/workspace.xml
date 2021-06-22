@@ -30,42 +30,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30f1fc5e-b7d1-491f-90d6-e044eea9e023" name="Default" comment="Alterações:&#10;- Alterámos classe Agent&#10;- Alterámos classe Pick&#10;- Criámos classe Problem&#10;- Criámos classe Solution&#10;- Criámos classe DynamicProgrammingOneAgentPerExit&#10;- Alterámos PathPlanner de modo a lidar com vários agentes &#10;- Estamos a meio da alteração da classe Datastruct de modo a esta lide com vários agentes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/arwdatastruct/OneAgentOneDestinyTask.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tarefa_copy.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tarefa_d1e2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tarefa_d2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/warehouse_model_copy.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/warehouse_model_lab_copy.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/arwdatastruct/AStarDistance.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/requestmanagers/RequestsManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/requestmanagers/RequestsManagerDP.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/requestmanagers/RequestsManagerDPAgentPerDestinyPerOrder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/requestmanagers/RequestsManagerDPWithClusters.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logPathPlanner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logPathPlanner.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/Algorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithms/Algorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/DynamicProgrammingOneAgentPerExit.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/MultiExitProblem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/OneExitProblem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/Problem.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/SingleOrderDyn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithms/SingleOrderDyn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithms/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/arwdatastruct/Agent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/arwdatastruct/Agent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/arwdatastruct/DataStruct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/arwdatastruct/RequestsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/arwdatastruct/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/arwdatastruct/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/arwdatastruct/OneAgentOneDestinyTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/arwdatastruct/TaskOneAgentOneDestiny.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/arwdatastruct/RequestsManager.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/arwdatastruct/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/arwdatastruct/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/communication/esb_callbacks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/communication/esb_callbacks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/GuiARWCommTB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GuiARWCommTB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/PathPlanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/PathPlanner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TestNewWarehouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TestNewWarehouse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TestaGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TestaGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/orderpicking/Pick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/orderpicking/Pick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/orderpicking/PickingOrders.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/orderpicking/Request.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pathfinder/Route.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pathfinder/Route.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pathfinder/RouteFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pathfinder/RouteFinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/whgraph/ARWGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whgraph/ARWGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/utils/SettingsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/utils/SettingsDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pathfinder/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pathfinder/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tarefa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tarefa.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tarefa_concluida.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tarefa_concluida.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/arwdatastruct/Agent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/arwdatastruct/Agent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/arwdatastruct/DataStruct.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/arwdatastruct/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/arwdatastruct/Order.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/arwdatastruct/Task.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/arwdatastruct/Task.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/communication/esb_callbacks.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/communication/esb_callbacks.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$3.class" afterDir="false" />
@@ -78,16 +60,10 @@
       <change beforePath="$PROJECT_DIR$/target/classes/gui/PathPlanner$CheckERP.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/PathPlanner$CheckERP.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/PathPlanner$CheckXML.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/PathPlanner$CheckXML.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/PathPlanner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/PathPlanner.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TestNewWarehouse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TestNewWarehouse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TestaGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TestaGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/orderpicking/Pick.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/orderpicking/Pick.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/orderpicking/PickingOrders.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pathfinder/Route.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pathfinder/Route.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pathfinder/RouteFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pathfinder/RouteFinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/whgraph/ARWGraph.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/whgraph/ARWGraph.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskreceived.xml" beforeDir="false" afterPath="$PROJECT_DIR$/taskreceived.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse_model.xml" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse_model.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse_model_lab.xml" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse_model_lab.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/SettingsDialog$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/SettingsDialog$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/SettingsDialog$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/SettingsDialog$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/SettingsDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/SettingsDialog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pathfinder/Graph.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pathfinder/Graph.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +153,7 @@
     <property name="extract.method.default.visibility" value="private" />
     <property name="findjar.last.used.dir" value="$PROJECT_DIR$" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/CommTestBed/src/main/java" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PathPlanner - Cópia" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ArwarePathFinder-master" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -747,13 +723,13 @@
       <workItem from="1622617973748" duration="29000" />
       <workItem from="1622663826612" duration="41783000" />
       <workItem from="1622818215531" duration="21474000" />
-    </task>
-    <task id="LOCAL-00001" summary="forgot">
-      <created>1582509185139</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1582509185139</updated>
+      <workItem from="1622990732345" duration="773000" />
+      <workItem from="1623160291304" duration="2723000" />
+      <workItem from="1623747407134" duration="12401000" />
+      <workItem from="1623772030311" duration="27304000" />
+      <workItem from="1624006177484" duration="5493000" />
+      <workItem from="1624187904932" duration="26170000" />
+      <workItem from="1624370319551" duration="395000" />
     </task>
     <task id="LOCAL-00002" summary="13/03/2020&#10;Edges&#10;Replay Seed">
       <created>1584139817517</created>
@@ -1091,7 +1067,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622138172529</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Alteração do RequestManager de modo a termos uma lista de pendingTasks em vez de um lista de pendingOrders.">
+      <created>1622990888965</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1622990888965</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1111,7 +1094,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="24/10/2020&#10;Drawing" />
     <MESSAGE value="31/10/2020&#10;Drawing + XML" />
     <MESSAGE value="3/11/2020&#10;Read + draw graph" />
     <MESSAGE value="3/11/2020&#10;Artifact Working" />
@@ -1136,55 +1118,56 @@
     <MESSAGE value="Correções formais 0" />
     <MESSAGE value="Alterações:&#10;- Alterámos classe Agent&#10;- Alterámos classe Pick&#10;- Criámos classe Problem&#10;- Criámos classe Solution&#10;- Criámos classe DynamicProgrammingOneAgentPerExit&#10;- Alterámos PathPlanner de modo a lidar com vários agentes &#10;- Estamos a meio da alteração da classe Datastruct de modo a esta lide com vários agentes" />
     <MESSAGE value="Criámos uma versão alternativa do método handlePendingOrders que funde o que já havia com o pathPlan de modo a trabalhar com orders com mais do que uma saída e depois distribuir os picks de cada saída por diferentes agentes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Criámos uma versão alternativa do método handlePendingOrders que funde o que já havia com o pathPlan de modo a trabalhar com orders com mais do que uma saída e depois distribuir os picks de cada saída por diferentes agentes." />
+    <MESSAGE value="Alteração do RequestManager de modo a termos uma lista de pendingTasks em vez de um lista de pendingOrders." />
+    <option name="LAST_COMMIT_MESSAGE" value="Alteração do RequestManager de modo a termos uma lista de pendingTasks em vez de um lista de pendingOrders." />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1622797861520">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1622797861520" />
-    <state x="669" y="37" key="#com.intellij.ide.util.MemberChooser" timestamp="1622723099222">
+    <state x="669" y="37" key="#com.intellij.ide.util.MemberChooser" timestamp="1624292283143">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="446" y="24" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1621004681832" />
-    <state x="669" y="37" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1622723099222" />
+    <state x="669" y="37" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1624292283143" />
     <state x="424" y="235" width="432" height="217" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1620983488834">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="424" y="235" width="432" height="217" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.680@0.0.1280.680" timestamp="1620983488834" />
-    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1622679826949">
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1624370063883">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.680@0.0.1280.680" timestamp="1621003911889" />
-    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1622679826949" />
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1622677426008">
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1624370063883" />
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1623844460207">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1622677426008" />
-    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1617969175552">
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1623844460207" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1623748786592">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1617969175552" />
-    <state width="1877" height="73" key="GridCell.Tab.0.bottom" timestamp="1622990713410">
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1623748786592" />
+    <state width="1877" height="488" key="GridCell.Tab.0.bottom" timestamp="1624370402797">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1237" height="91" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1621019115125" />
-    <state width="1877" height="73" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1622990713410" />
-    <state width="1877" height="73" key="GridCell.Tab.0.center" timestamp="1622990713410">
+    <state width="1877" height="488" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624370402797" />
+    <state width="1877" height="488" key="GridCell.Tab.0.center" timestamp="1624370402797">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1237" height="91" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1621019115124" />
-    <state width="1877" height="73" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1622990713410" />
-    <state width="1877" height="73" key="GridCell.Tab.0.left" timestamp="1622990713410">
+    <state width="1877" height="488" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624370402797" />
+    <state width="1877" height="488" key="GridCell.Tab.0.left" timestamp="1624370402797">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1237" height="91" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1621019115123" />
-    <state width="1877" height="73" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1622990713410" />
-    <state width="1877" height="73" key="GridCell.Tab.0.right" timestamp="1622990713410">
+    <state width="1877" height="488" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624370402797" />
+    <state width="1877" height="488" key="GridCell.Tab.0.right" timestamp="1624370402797">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1237" height="91" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1621019115124" />
-    <state width="1877" height="73" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1622990713410" />
+    <state width="1877" height="488" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624370402797" />
     <state width="1877" height="180" key="GridCell.Tab.1.bottom" timestamp="1622990713379">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -1209,10 +1192,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1920.1040@0.0.1920.1040" timestamp="1621591552751" />
-    <state x="233" y="60" key="Vcs.Push.Dialog.v2" timestamp="1619776801559">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state x="350" y="92" key="Vcs.Push.Dialog.v2" timestamp="1622990893131">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="233" y="60" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1619776801559" />
+    <state x="350" y="92" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1622990893131" />
     <state x="777" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1622664286992">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -1221,15 +1205,15 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="93" y="93" width="1095" height="495" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1619775097041" />
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1622720694445">
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1624299579062">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1622720694445" />
-    <state x="455" y="2" width="1008" height="1037" key="search.everywhere.popup" timestamp="1622820558540">
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1624299579062" />
+    <state x="455" y="2" width="1008" height="1037" key="search.everywhere.popup" timestamp="1623750684463">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1619091336961" />
-    <state x="455" y="2" width="1008" height="1037" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1622820558540" />
+    <state x="455" y="2" width="1008" height="1037" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1623750684463" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1291,7 +1275,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/gui/GuiARWCommTB.java</url>
-          <line>174</line>
+          <line>175</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>

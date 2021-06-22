@@ -33,7 +33,6 @@ public class Task {
     private double massCenterY;
 
     private Graph<GNode> graph;
-    private Map<Integer, ArrayList<Pick>> picksAtNode;
     private Agent agent;
     private Route route;
 
@@ -60,6 +59,10 @@ public class Task {
         return picks;
     }
 
+    public void setPicks(List<Pick> picks) {
+        this.picks = picks;
+    }
+
     public void addPick(Pick pick){
         picks.add(pick);
     }
@@ -78,14 +81,6 @@ public class Task {
 
     public void setGraph(Graph<GNode> graph) {
         this.graph = graph;
-    }
-
-    public Map<Integer, ArrayList<Pick>> getPicksAtNode() {
-        return picksAtNode;
-    }
-
-    public void setPicksAtNode(Map<Integer, ArrayList<Pick>> picksAtNode) {
-        this.picksAtNode = picksAtNode;
     }
 
     public Route getRoute() {
@@ -131,7 +126,7 @@ public class Task {
             attrAgent.setValue(agent.getId());
             root.setAttributeNode(attrAgent);
             Attr attRoot = document.createAttribute("id");
-            String taskId = picksAtNode.keySet().toString();
+            String taskId = getGraph().getPicksAtNode().keySet().toString();
             attRoot.setValue(taskId);
             root.setAttributeNode(attRoot);
             document.appendChild(root);
@@ -163,6 +158,8 @@ public class Task {
                 position.appendChild(pos);
 
                 nodeXML.appendChild(position);
+
+                Map<Integer, ArrayList<Pick>> picksAtNode = graph.getPicksAtNode();
 
                 if (picksAtNode.containsKey(Integer.parseInt(nodeId))) {
                     ArrayList<Pick> picks1 = picksAtNode.get(Integer.parseInt(nodeId));

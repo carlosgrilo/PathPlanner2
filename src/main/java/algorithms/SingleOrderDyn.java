@@ -1,16 +1,16 @@
 package algorithms;
 
 import arwdatastruct.Agent;
-import arwdatastruct.OneAgentOneDestinyTask;
+import arwdatastruct.TaskOneAgentOneDestiny;
 import orderpicking.DistanceScorer;
 import pathfinder.*;
 import tsp.TspDynamicProgrammingIterative;
 
 import java.util.*;
 
-public class SingleOrderDyn extends Algorithm<OneAgentOneDestinyTask>{
+public class SingleOrderDyn extends Algorithm<TaskOneAgentOneDestiny>{
 
-    public Solution solve(OneAgentOneDestinyTask task){
+    public Solution solve(TaskOneAgentOneDestiny task){
 
         RouteFinder routeFinder = new RouteFinder<>(task.getGraph(), new DistanceScorer(), new DistanceScorer());
         //Constroi matriz de distâncias com m x m, m = nnosproduto + entrada+saída
@@ -40,7 +40,7 @@ public class SingleOrderDyn extends Algorithm<OneAgentOneDestinyTask>{
             r = routeFinder.findRoute(
                     task.getGraph().getNode(nodeID1),
                     task.getGraph().getNode(agent.getEndNode()));
-            distanceMatrix[i][numNos-1] = r.getCost();
+            distanceMatrix[i][numNos - 1] = r.getCost();
             rotas[i][numNos - 1] = r.getNodes();
             for(int j = i + 1; j < numNos - 1; j++){
                 if (i != j) {
@@ -64,8 +64,7 @@ public class SingleOrderDyn extends Algorithm<OneAgentOneDestinyTask>{
         distanceMatrix[numNos - 1][0] = 0;
 
         //Calcula a melhor rota entre a entrada e a saída, passando por todos os produtos
-        TspDynamicProgrammingIterative solver =
-                new TspDynamicProgrammingIterative(0, distanceMatrix);
+        TspDynamicProgrammingIterative solver = new TspDynamicProgrammingIterative(0, distanceMatrix);
 
         // Imprime o resultado do TSP
         // System.out.println("Tour: " + solver.getTour());

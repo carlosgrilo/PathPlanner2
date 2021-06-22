@@ -20,10 +20,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
-import arwdatastruct.Agent;
+import arwdatastruct.*;
 
-import arwdatastruct.RequestsManager;
-import arwdatastruct.Task;
 import newWarehouse.Warehouse;
 
 import gui.utils.*;
@@ -45,6 +43,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import requestmanagers.RequestsManager;
+import requestmanagers.RequestsManagerDPAgentPerDestinyPerOrder;
+import requestmanagers.RequestsManagerDPWithClusters;
 import whgraph.ARWGraph;
 
 import static xmlutils.XMLfuncs.read_xml_from_file;
@@ -52,29 +53,13 @@ import static xmlutils.XMLfuncs.write_xml_to_file;
 
 
 public class PathPlanner extends JFrame {
-    private final BackgroundSurface background;
-    private final GraphSurface graphsurface;
 
-    private final JTextArea Consola;
-    private final JTextField numTasks;
-    private final JTextField numOps;
-    private final JLabel alertaNovoXML;
-    private final Warehouse warehouse;
-    private final ARWGraph arwgraph;
-    Timer time, timeXML;
-    String idXML = "";
-    Boolean xmlReceived;
-    PacManSurface pacmanSurface;
-    CommunicationManager cm;
-    esb_callbacks Checkbus;
-    String lastTask;
-    RequestsManager requestsManager;
-    static PrintStream printOut;
-
-    public static String CLIENT_ID = "planeador";
-
+    public static PrintStream printOut;
+    public static String CLIENT_ID = "planeador2";
+    public static final int DEFAULT_MIN_NUM_AGENTS = 2;
+    public static final int DEFAULT_MIN_AVERAGE_PICKS_PER_TASK = 2;
+    public static final int DEFAULT_MAX_AVERAGE_PICKS_PER_TASK = 10;
     private static float corridorWidth = 1f;
-
     public static final String ERP_ID = "ERP";
     public static final String RA_ID = "ra";
     public static final String LOC_APROX_ID = "locaproximada";
@@ -90,33 +75,63 @@ public class PathPlanner extends JFrame {
     public static final String TOPIC_NEWTASK = "newTask";
     public static final String TOPIC_CONCLUDETASK = "setTarefaFinalizada";
 
-    public int CHECK_ERP_PERIOD = 5; //MINUTOS
+    private final BackgroundSurface background;
+    private final GraphSurface graphsurface;
+
+    private final JTextArea consola;
+    private final JTextField numTasks;
+    private final JTextField numOps;
+    private final JLabel alertaNovoXML;
+    private final Warehouse warehouse;
+    private final ARWGraph arwgraph;
+    Timer time, timeXML;
+    String idXML = "";
+    Boolean xmlReceived;
+    PacManSurface pacmanSurface;
+    CommunicationManager cm;
+    esb_callbacks Checkbus;
+    String lastTask;
+    private RequestsManager requestsManager;
+
+    public int minNumberAgents = DEFAULT_MIN_NUM_AGENTS;
+    public int minAveragePicksPerTask = DEFAULT_MIN_AVERAGE_PICKS_PER_TASK;
+    public int maxAveragePicksPerTask = DEFAULT_MAX_AVERAGE_PICKS_PER_TASK;
+
+    public int erpCheckPeriod = 5; //MINUTOS
+    private boolean checkERPTasksAutomatically;
 
     public PathPlanner() {
         super("ARWARE Path Planner v1");
+
+        checkERPTasksAutomatically = true;
 
         setLayout(new BorderLayout());
 
         setupMenuBar();
 
-        warehouse = new Warehouse();
+        this.warehouse = new Warehouse();
         try {
             String xmlcontent = read_xml_from_file(WAREHOUSE_FILE);
             warehouse.createFromXML(xmlcontent);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        requestsManager = new RequestsManager();
+
         arwgraph = new ARWGraph();
 
         background = new BackgroundSurface(warehouse, false, 950);
-        requestsManager.setWarehouse(warehouse);
 
         File file = new File(GRAPH_FILE);
         //VERIFICAR COMO TESTAR PARA ERRO
         arwgraph.readGraphFile(file);
 
+        requestsManager = new RequestsManagerDPAgentPerDestinyPerOrder();
+        requestsManager.setWarehouse(warehouse);
         requestsManager.setGraph(arwgraph);
+        requestsManager.setMinNumAgents(DEFAULT_MIN_NUM_AGENTS);
+        requestsManager.setMinAveragePicksPerTask(DEFAULT_MIN_AVERAGE_PICKS_PER_TASK);
+        requestsManager.setMaxAveragePicksPerTask(DEFAULT_MAX_AVERAGE_PICKS_PER_TASK);
+
         graphsurface = new GraphSurface(arwgraph, warehouse, 5);
         pacmanSurface = new PacManSurface(background, 15);
         JLayer<JPanel> jlayer = new JLayer<>(background, graphsurface);
@@ -129,8 +144,8 @@ public class PathPlanner extends JFrame {
         pane.setOpaque(false);
         pane.setVisible(true);
 
-        Consola = new JTextArea(2, 40);
-        JScrollPane scrollpane = new JScrollPane(Consola);
+        consola = new JTextArea(2, 40);
+        JScrollPane scrollpane = new JScrollPane(consola);
 
         JLabel et_tasks = new JLabel("Tarefas pendentes");
         JLabel et_ops = new JLabel("Operadores disponíveis");
@@ -194,8 +209,8 @@ public class PathPlanner extends JFrame {
         //a group of JMenuItems
         menuItem = new JMenuItem("Load Warehouse", KeyEvent.VK_W);
         menuItem.getAccessibleContext().setAccessibleDescription("Load Warehouse Model");
-        menu.add(menuItem);
         menuItem.addActionListener(e -> loadWarehouse());
+        menu.add(menuItem);
 
         menuItem = new JMenuItem("Generate graph", KeyEvent.VK_G);
         menuItem.getAccessibleContext().setAccessibleDescription("Generate new graph of path nodes");
@@ -210,21 +225,45 @@ public class PathPlanner extends JFrame {
         menuItem = new JMenuItem("Edit graph", KeyEvent.VK_E);
         menuItem.getAccessibleContext().setAccessibleDescription("Edit graph of path nodes");
         menuItem.addActionListener(e -> editGraph());
+        menu.add(menuItem);
 
+        menuItem = new JMenuItem("Ask ERP task", KeyEvent.VK_S);
+        menuItem.getAccessibleContext().setAccessibleDescription("Ask ERP for a Task");
+        menuItem.addActionListener(e -> askERPTask());
         menu.add(menuItem);
 
         menuItem = new JMenuItem("Load Tasksim", KeyEvent.VK_S);
         menuItem.getAccessibleContext().setAccessibleDescription("Load Simulated Task");
-        menu.add(menuItem);
         menuItem.addActionListener(e -> loadTasksim());
+        menu.add(menuItem);
+
+        //Build the Requests Managers menu.
+        menu = new JMenu("Policy");
+        menu.setMnemonic(KeyEvent.VK_P);
+        menu.getAccessibleContext().setAccessibleDescription("Policy");
+        menubar.add(menu);
+
+        //a group of JMenuItems
+        menuItem = new JMenuItem("Agent per Destiny per Order with Dynamic Programming", KeyEvent.VK_O);
+        menuItem.getAccessibleContext().setAccessibleDescription("Agent per Destiny per Order with Dynamic Programming");
+        menu.add(menuItem);
+        menuItem.addActionListener(e -> setRequestManagerDPAgentPerDestinyPerOrder());
+
+        menuItem = new JMenuItem("Clusters per Destiny with Dynamin Programming", KeyEvent.VK_C);
+        menuItem.getAccessibleContext().setAccessibleDescription("Generate new graph of path nodes");
+        menuItem.addActionListener(e -> setRequestManagerDPWithClusters());
+        menu.add(menuItem);
+
 
         //Build the settings menu.
         menuItem = new JMenuItem("Settings");
-        menuItem.setMnemonic(KeyEvent.VK_D);
+        menuItem.setMnemonic(KeyEvent.VK_S);
         menuItem.getAccessibleContext().setAccessibleDescription("Settings");
         menubar.add(menuItem);
         menuItem.addActionListener(e -> openSettings());
+
         this.setJMenuBar(menubar);
+
     }
 
     private void autoGraph() {
@@ -232,7 +271,7 @@ public class PathPlanner extends JFrame {
         repaint();
     }
 
-    private void updateDados() {
+    private void updateData() {
         numTasks.setText(requestsManager.getNumberOfPendingOrders().toString());
         numOps.setText(requestsManager.getNumberOfAvailableAgents().toString());
         repaint();
@@ -243,15 +282,53 @@ public class PathPlanner extends JFrame {
         repaint();
     }
 
+    private void setRequestManagerDPAgentPerDestinyPerOrder() {
+        requestsManager = new RequestsManagerDPAgentPerDestinyPerOrder();
+        requestsManager.setWarehouse(warehouse);
+        requestsManager.setGraph(arwgraph);
+        requestsManager.setMinNumAgents(minNumberAgents);
+        requestsManager.setMinAveragePicksPerTask(minAveragePicksPerTask);
+        requestsManager.setMaxAveragePicksPerTask(maxAveragePicksPerTask);
+    }
+
+    private void setRequestManagerDPWithClusters() {
+        requestsManager = new RequestsManagerDPWithClusters();
+        requestsManager.setWarehouse(warehouse);
+        requestsManager.setGraph(arwgraph);
+        requestsManager.setMinNumAgents(minNumberAgents);
+        requestsManager.setMinAveragePicksPerTask(minAveragePicksPerTask);
+        requestsManager.setMaxAveragePicksPerTask(maxAveragePicksPerTask);
+    }
+
     public void openSettings() {
         System.out.println("Aviso de diálogo de settings");
-        SettingsDialog settingsDialog = new SettingsDialog(CHECK_ERP_PERIOD, corridorWidth, CLIENT_ID);
+        SettingsDialog settingsDialog = new SettingsDialog(
+                this,
+                erpCheckPeriod,
+                corridorWidth,
+                CLIENT_ID,
+                minNumberAgents,
+                minAveragePicksPerTask,
+                maxAveragePicksPerTask);
 
-        CHECK_ERP_PERIOD = settingsDialog.CHECK_ERP_PERIOD;
-        corridorWidth = settingsDialog.corridorwidth;
-        CLIENT_ID = settingsDialog.CLIENT_ID;
-        //time.cancel();
-        time.schedule(new CheckERP(), 0, TimeUnit.MINUTES.toMillis(CHECK_ERP_PERIOD));
+        if(erpCheckPeriod != settingsDialog.erpCheckPeriod){
+            erpCheckPeriod = settingsDialog.erpCheckPeriod;
+            //time.cancel();
+            time.schedule(new CheckERP(), 0, TimeUnit.MINUTES.toMillis(erpCheckPeriod));
+        }
+
+        corridorWidth = settingsDialog.corridorWidth;
+        CLIENT_ID = settingsDialog.clientID;
+        checkERPTasksAutomatically = settingsDialog.toggleButton.isSelected();
+
+        this.minNumberAgents = settingsDialog.minNumberAgents;
+        this.minAveragePicksPerTask = settingsDialog.minAveragePicksPerTask;
+        this.maxAveragePicksPerTask = settingsDialog.maxAveragePicksPerTask;
+
+        requestsManager.setMinNumAgents(minNumberAgents);
+        requestsManager.setMinAveragePicksPerTask(minAveragePicksPerTask);
+        requestsManager.setMinAveragePicksPerTask(maxAveragePicksPerTask);
+
         repaint();
     }
 
@@ -338,35 +415,35 @@ public class PathPlanner extends JFrame {
         time = new Timer(); // Instantiate Timer Object
 
         //Faz um pedido ao ERP a cada 5 minutos - VER SE SERÁ O TEMPO ADEQUADO
-        time.schedule(new CheckERP(), 0, TimeUnit.MINUTES.toMillis(CHECK_ERP_PERIOD));
+        time.schedule(new CheckERP(), 0, TimeUnit.MINUTES.toMillis(erpCheckPeriod));
     }
 
-    public void PedeTarefa() {
+    public void askERPTask() {
         if (arwgraph.getNumberOfNodes() > 0) {
-            this.Consola.append("Pedida tarefa" + '\n');
+            this.consola.append("Pedida tarefa" + '\n');
             this.cm.SendMessageAsync(Util.GenerateId(), "request", TOPIC_GETTASK, ERP_ID, "PlainText", "Dá-me uma tarefa!", "1");
         }
     }
 
-    public void EnviaTarefa(String agentid, String xmlstring) {
+    public void sendTask(String agentID, String xmlString) {
         try {
-            playPacman(agentid, xmlstring);
+            playPacman(agentID, xmlString);
         } catch (IOException | SAXException e) {
             e.printStackTrace();
         }
-        this.Consola.append("A enviar tarefa para " + agentid + "\n");
-        cm.SendMessageAsync(Util.GenerateId(), "request", TOPIC_NEWTASK, agentid, "application/xml", xmlstring, "1");
+        this.consola.append("A enviar tarefa para " + agentID + "\n");
+        cm.SendMessageAsync(Util.GenerateId(), "request", TOPIC_NEWTASK, agentID, "application/xml", xmlString, "1");
 
     }
 
-    public void ConcluiTarefa(String xmlstring) {
-        this.Consola.append("Enviada a conclusão de tarefa\n");
-        cm.SendMessageAsync(Util.GenerateId(), "response", TOPIC_CONCLUDETASK, ERP_ID, "application/xml", xmlstring, "1");
+    public void finishTask(String xmlString) {
+        this.consola.append("Enviada a conclusão de tarefa\n");
+        cm.SendMessageAsync(Util.GenerateId(), "response", TOPIC_CONCLUDETASK, ERP_ID, "application/xml", xmlString, "1");
     }
 
     public void handleMessages(BusMessage busMessage) {
 
-        String xml_str;
+        String xmlStr;
         Float[] position = {(float) 0.0, (float) 0.0};
 
         switch (busMessage.getMessageType()) {
@@ -378,14 +455,14 @@ public class PathPlanner extends JFrame {
                 switch (identificador) {
 
                     case TOPIC_OPAVAIL:
-                        xml_str = busMessage.getContent();
-                        System.out.println(xml_str);//Provisoriamente para teste
-                        Consola.setText(xml_str + "\n");
+                        xmlStr = busMessage.getContent();
+                        System.out.println(xmlStr);//Provisoriamente para teste
+                        consola.setText(xmlStr + "\n");
                         String[] split = busMessage.getFromTopic().split("Topic");
                         //Identifica o agente
                         String agentID = split[0];
 
-                        JSONObject obj = new JSONObject(xml_str);
+                        JSONObject obj = new JSONObject(xmlStr);
 
                         //Vai buscar a posição do agente
                         if (obj.has("posicaox"))
@@ -422,21 +499,22 @@ public class PathPlanner extends JFrame {
 
                         if (tasks != null) {
                             for (Agent agent : tasks.keySet()) {
-                                System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-                                System.out.println(tasks.get(agent));
-                                System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-                                EnviaTarefa(agent.getId(), tasks.get(agent));
+                                sendTask(agent.getId(), tasks.get(agent));
                             }
-                        } else
-                            PedeTarefa();
+                        } else{
+                            if(checkERPTasksAutomatically){
+                                askERPTask();
+                            }
+                        }
+
 
                         break;
 
                     case TOPIC_NEWOP:
 
-                        xml_str = busMessage.getContent();
-                        System.out.println(xml_str);//Provisoriamente para teste
-                        Consola.setText(xml_str + "\n");
+                        xmlStr = busMessage.getContent();
+                        System.out.println(xmlStr);//Provisoriamente para teste
+                        consola.setText(xmlStr + "\n");
                         split = busMessage.getFromTopic().split("Topic");
                         agentID = split[0];
 
@@ -464,19 +542,19 @@ public class PathPlanner extends JFrame {
                         break;
 
                     case TOPIC_ENDTASK:
-                        xml_str = busMessage.getContent();
-                        System.out.println(xml_str);//Provisoriamente para teste
-                        Consola.setText("Operador concluiu tarefa\n");
+                        xmlStr = busMessage.getContent();
+                        System.out.println(xmlStr);//Provisoriamente para teste
+                        consola.setText("Operador concluiu tarefa\n");
                         split = busMessage.getFromTopic().split("Topic");
                         //Identifica o agente
                         agentID = split[0];
                         try {
-                            List<Pick> solvedPicks = Task.parseXMLConcludedTask(xml_str);
+                            List<Pick> solvedPicks = Task.parseXMLConcludedTask(xmlStr);
                             Request request = requestsManager.closeTask(agentID, solvedPicks);
-                            if(request != null){
-                                xml_str = request.concludedPicksToXML();
-                                write_xml_to_file("tarefa_concluida.xml", xml_str);
-                                ConcluiTarefa(xml_str);
+                            if (request != null) {
+                                xmlStr = request.concludedPicksToXML();
+                                write_xml_to_file("tarefa_concluida.xml", xmlStr);
+                                finishTask(xmlStr);
                             }
 
                             System.out.println("Succesfully saved concluded task");
@@ -525,7 +603,7 @@ public class PathPlanner extends JFrame {
                                     "application/json",
                                     xmlanswer,
                                     "1");
-                            Consola.append("Erro com a receção de XML");
+                            consola.append("Erro com a receção de XML");
                             System.out.println("Houve Erro com a receção de XML!");
                         }
                         timeXML.cancel();
@@ -564,9 +642,9 @@ public class PathPlanner extends JFrame {
                 System.out.println("STREAM message ready to be processed.");
                 switch (busMessage.getInfoIdentifier()) {
                     case TOPIC_UPDATEXML:
-                        xml_str = busMessage.getContent();
-                        JSONObject coderollsJSONObject = new JSONObject(xml_str);
-                        System.out.println(xml_str);//Provisoriamente para teste
+                        xmlStr = busMessage.getContent();
+                        JSONObject coderollsJSONObject = new JSONObject(xmlStr);
+                        System.out.println(xmlStr);//Provisoriamente para teste
                         String id;
                         if (coderollsJSONObject.get("id") != null)
                             id = coderollsJSONObject.get("id").toString();
@@ -585,37 +663,37 @@ public class PathPlanner extends JFrame {
                 }
                 break;
         }
-        updateDados();
+        updateData();
 
     }
 
-    Hashtable<Integer, String> xmlparts;
-    String lastid;
+    Hashtable<Integer, String> xmlParts;
+    String lastID;
 
     public void completeXML(String id, int npart, int totalparts, String part) {
-        if (xmlparts == null) {
-            xmlparts = new Hashtable<>();
-            lastid = id;
+        if (xmlParts == null) {
+            xmlParts = new Hashtable<>();
+            lastID = id;
         }
         idXML = id;
-        if ((!xmlparts.containsKey(npart)) && id.equals(lastid)) {
-            xmlparts.put(npart, part);
-            if (xmlparts.size() == totalparts) {
+        if ((!xmlParts.containsKey(npart)) && id.equals(lastID)) {
+            xmlParts.put(npart, part);
+            if (xmlParts.size() == totalparts) {
                 String xmlmessage = "";
-                Set<Integer> keys = new TreeSet<>(xmlparts.keySet());
+                Set<Integer> keys = new TreeSet<>(xmlParts.keySet());
 
                 for (Integer i : keys) {
-                    xmlmessage = xmlmessage + xmlparts.get(i);
+                    xmlmessage = xmlmessage + xmlParts.get(i);
                     System.out.println("Adicionou");
                 }
-                Consola.setText("Recebeu XML\n");
+                consola.setText("Recebeu XML\n");
 
                 xmlReceived = true;
 
                 timeXML = new Timer();
                 timeXML.schedule(new CheckXML(), 0, TimeUnit.MINUTES.toMillis(1));
-                xmlparts = null;
-                lastid = "";
+                xmlParts = null;
+                lastID = "";
                 try {
                     write_xml_to_file("warehouse_recebido.xml", xmlmessage);
                     avisaNovoXML();
@@ -625,22 +703,22 @@ public class PathPlanner extends JFrame {
                     System.out.println(e.getMessage());
                 }
             } else {
-                System.out.println("Waiting for the remaining " + (totalparts - xmlparts.size()) + " parts of the warehouse model.");
+                System.out.println("Waiting for the remaining " + (totalparts - xmlParts.size()) + " parts of the warehouse model.");
             }
         } else {
-            String xmlanswer = new JSONObject()
+            String xmlAnswer = new JSONObject()
                     .put("id", id)
                     .put("ack", "ERROR").toString();
-            System.out.println(xmlanswer);
+            System.out.println(xmlAnswer);
             cm.SendMessageAsync(
                     Util.GenerateId(),
                     "response",
                     "mod_updateXMLstatus",
                     MODELADOR_ID,
                     "application/json",
-                    xmlanswer,
+                    xmlAnswer,
                     "1");
-            xmlparts = null;
+            xmlParts = null;
         }
     }
 
@@ -657,22 +735,23 @@ public class PathPlanner extends JFrame {
     //Grilo: Método que é chamado para que se guarde um request do ERP
     public void handleTask(String xmlString) throws IOException {
         String agentid = "ra1";//Serve para ter um nome mas será substituido em HandleTasks.
-
         requestsManager.addRequest(xmlString);
         write_xml_to_file("tarefa.xml", xmlString);
         Map<Agent, String> tasksAssignment = requestsManager.handlePendingTasks();
         if (tasksAssignment != null) {
             for (Agent agent : tasksAssignment.keySet()) {
-                EnviaTarefa(agent.getId(), tasksAssignment.get(agent));
+                sendTask(agent.getId(), tasksAssignment.get(agent));
             }
         }
-        updateDados();
+        updateData();
     }
 
     public class CheckERP extends TimerTask {
         public void run() {
             try {
-                PedeTarefa();
+                if(checkERPTasksAutomatically) {
+                    askERPTask();
+                }
             } catch (Exception ex) {
                 System.out.println("error running thread " + ex.getMessage());
             }
@@ -770,5 +849,9 @@ public class PathPlanner extends JFrame {
             }
         }
         new PathPlanner().setVisible(true);
+    }
+
+    public RequestsManager getRequestsManager() {
+        return requestsManager;
     }
 }

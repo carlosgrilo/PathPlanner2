@@ -2,11 +2,11 @@ package arwdatastruct;
 
 import orderpicking.Request;
 
-public class OneAgentOneDestinyTask extends Task{
+public class TaskOneAgentOneDestiny extends Task{
 
     private String destiny;
 
-    public OneAgentOneDestinyTask(Request request, String destiny) {
+    public TaskOneAgentOneDestiny(Request request, String destiny) {
         super(request);
         this.destiny = destiny;
     }

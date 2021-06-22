@@ -1,5 +1,8 @@
 package pathfinder;
 
+import orderpicking.Pick;
+
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -7,6 +10,7 @@ import java.util.stream.Collectors;
 public class Graph<T extends GraphNode> {
     private final Set<T> nodes;
     private final Map<String, Set<String>> connections;
+    private Map<Integer, ArrayList<Pick>> picksAtNode;
 
     public Graph(Set<T> nodes, Map<String, Set<String>> connections) {
         this.nodes = nodes;
@@ -24,5 +28,13 @@ public class Graph<T extends GraphNode> {
         return connections.get(node.getId()).stream()
                 .map(this::getNode)
                 .collect(Collectors.toSet());
+    }
+
+    public Map<Integer, ArrayList<Pick>> getPicksAtNode() {
+        return picksAtNode;
+    }
+
+    public void setPicksAtNode(Map<Integer, ArrayList<Pick>> picksAtNode) {
+        this.picksAtNode = picksAtNode;
     }
 }

@@ -33,6 +33,7 @@ public class GuiARWCommTB extends JFrame {
     private JButton ExitButton;
     private JMenuBar menuBar;
 
+    public static final String PLANNER_NAME = "planeador2";
     public static final String CLIENT_ID_PREFIX = "ra";
     public static final String ERP_ID = "ERP";
     public static final String RA_ID = "ra";
@@ -100,7 +101,7 @@ public class GuiARWCommTB extends JFrame {
                 // delegate to event handler method
                 String message = new JSONObject()
                         .put("request","xml").toString();
-                cm.SendMessageAsync(Util.GenerateId(), "request", "newOperator", "planeador", "application/json", message, "1");
+                cm.SendMessageAsync(Util.GenerateId(), "request", "newOperator", PLANNER_NAME, "application/json", message, "1");
             }
         });
 
@@ -120,7 +121,7 @@ public class GuiARWCommTB extends JFrame {
                         .put("available","yes")
                         .put("posicaox",0.800)
                         .put("posicaoy",2.000).toString();
-                cm.SendMessageAsync(Util.GenerateId(), "request", "available", "planeador", "application/json", message, "1");
+                cm.SendMessageAsync(Util.GenerateId(), "request", "available", PLANNER_NAME, "application/json", message, "1");
 
             }
         });
@@ -128,7 +129,7 @@ public class GuiARWCommTB extends JFrame {
         oper_concluded.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                cm.SendMessageAsync(Util.GenerateId(), "request", "endTask", "planeador", "application/xml", taskReceivedXML, "1");
+                cm.SendMessageAsync(Util.GenerateId(), "request", "endTask", PLANNER_NAME, "application/xml", taskReceivedXML, "1");
             }
         });
 
