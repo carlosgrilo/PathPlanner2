@@ -6,12 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="NPathPlanner" />
+        <module name="PathPlanner2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CommTestBed" target="8" />
-      <module name="NPathPlanner" target="1.8" />
+      <module name="PathPlanner2" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

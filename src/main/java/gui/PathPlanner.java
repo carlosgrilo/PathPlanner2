@@ -20,16 +20,18 @@ import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
-import arwdatastruct.*;
+import arwstate.*;
 
+import exceptions.WarehouseConfigurationException;
+import exceptions.WrongOperationException;
 import newWarehouse.Warehouse;
 
 import gui.utils.*;
 import net.sf.jni4net.Bridge;
 
 
-import orderpicking.Pick;
-import orderpicking.Request;
+import arwstate.Pick;
+import arwstate.Request;
 import org.json.JSONObject;
 
 import classlib.BusMessage;
@@ -43,9 +45,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import requestmanagers.RequestsManager;
-import requestmanagers.RequestsManagerDPAgentPerDestinyPerOrder;
-import requestmanagers.RequestsManagerDPWithClusters;
+import requestmanagers.*;
+import solvers.Solver;
+import solvers.SolverDynamicProgramming;
 import whgraph.ARWGraph;
 
 import static xmlutils.XMLfuncs.read_xml_from_file;
@@ -55,7 +57,7 @@ import static xmlutils.XMLfuncs.write_xml_to_file;
 public class PathPlanner extends JFrame {
 
     public static PrintStream printOut;
-    public static String CLIENT_ID = "planeador2";
+    public static String CLIENT_ID = "planeador";
     public static final int DEFAULT_MIN_NUM_AGENTS = 2;
     public static final int DEFAULT_MIN_AVERAGE_PICKS_PER_TASK = 2;
     public static final int DEFAULT_MAX_AVERAGE_PICKS_PER_TASK = 10;
@@ -91,11 +93,9 @@ public class PathPlanner extends JFrame {
     CommunicationManager cm;
     esb_callbacks Checkbus;
     String lastTask;
+    private WarehouseState warehouseState;
     private RequestsManager requestsManager;
-
-    public int minNumberAgents = DEFAULT_MIN_NUM_AGENTS;
-    public int minAveragePicksPerTask = DEFAULT_MIN_AVERAGE_PICKS_PER_TASK;
-    public int maxAveragePicksPerTask = DEFAULT_MAX_AVERAGE_PICKS_PER_TASK;
+    private Solver solver;
 
     public int erpCheckPeriod = 5; //MINUTOS
     private boolean checkERPTasksAutomatically;
@@ -125,12 +125,15 @@ public class PathPlanner extends JFrame {
         //VERIFICAR COMO TESTAR PARA ERRO
         arwgraph.readGraphFile(file);
 
-        requestsManager = new RequestsManagerDPAgentPerDestinyPerOrder();
-        requestsManager.setWarehouse(warehouse);
-        requestsManager.setGraph(arwgraph);
-        requestsManager.setMinNumAgents(DEFAULT_MIN_NUM_AGENTS);
-        requestsManager.setMinAveragePicksPerTask(DEFAULT_MIN_AVERAGE_PICKS_PER_TASK);
-        requestsManager.setMaxAveragePicksPerTask(DEFAULT_MAX_AVERAGE_PICKS_PER_TASK);
+        warehouseState = new WarehouseState(
+                warehouse,
+                arwgraph,
+                DEFAULT_MIN_NUM_AGENTS,
+                DEFAULT_MIN_AVERAGE_PICKS_PER_TASK,
+                DEFAULT_MAX_AVERAGE_PICKS_PER_TASK);
+
+        requestsManager = new RequestsManagerAgentPerDestinyPerOrder(warehouseState);
+        solver = new SolverDynamicProgramming(warehouseState);
 
         graphsurface = new GraphSurface(arwgraph, warehouse, 5);
         pacmanSurface = new PacManSurface(background, 15);
@@ -238,21 +241,44 @@ public class PathPlanner extends JFrame {
         menu.add(menuItem);
 
         //Build the Requests Managers menu.
-        menu = new JMenu("Policy");
-        menu.setMnemonic(KeyEvent.VK_P);
-        menu.getAccessibleContext().setAccessibleDescription("Policy");
+        menu = new JMenu("Requests Managers");
+        menu.setMnemonic(KeyEvent.VK_R);
+        menu.getAccessibleContext().setAccessibleDescription("Requests Managers");
         menubar.add(menu);
 
         //a group of JMenuItems
-        menuItem = new JMenuItem("Agent per Destiny per Order with Dynamic Programming", KeyEvent.VK_O);
-        menuItem.getAccessibleContext().setAccessibleDescription("Agent per Destiny per Order with Dynamic Programming");
+        menuItem = new JMenuItem("Agent per Destiny", KeyEvent.VK_D);
+        menuItem.getAccessibleContext().setAccessibleDescription("Agent per Destiny");
         menu.add(menuItem);
-        menuItem.addActionListener(e -> setRequestManagerDPAgentPerDestinyPerOrder());
+        menuItem.addActionListener(e -> setRequestManagerAgentPerDestiny());
 
-        menuItem = new JMenuItem("Clusters per Destiny with Dynamin Programming", KeyEvent.VK_C);
-        menuItem.getAccessibleContext().setAccessibleDescription("Generate new graph of path nodes");
-        menuItem.addActionListener(e -> setRequestManagerDPWithClusters());
+        menuItem = new JMenuItem("Agent per Destiny per Order", KeyEvent.VK_O);
+        menuItem.getAccessibleContext().setAccessibleDescription("Agent per Destiny per Order");
         menu.add(menuItem);
+        menuItem.addActionListener(e -> setRequestManagerAgentPerDestinyPerOrder());
+
+        menuItem = new JMenuItem("Agent per Cluster per Destiny", KeyEvent.VK_C);
+        menuItem.getAccessibleContext().setAccessibleDescription("Agent per Cluster per Destiny");
+        menuItem.addActionListener(e -> setRequestManagerAgentPerClustersPerDestiny());
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("One Task per Request", KeyEvent.VK_R);
+        menuItem.getAccessibleContext().setAccessibleDescription("One Task per Request");
+        menuItem.addActionListener(e -> setRequestManagerOneTaskPerRequest());
+        menu.add(menuItem);
+
+
+        //Build the Solvers menu.
+        menu = new JMenu("Solvers");
+        menu.setMnemonic(KeyEvent.VK_S);
+        menu.getAccessibleContext().setAccessibleDescription("Solvers");
+        menubar.add(menu);
+
+        //a group of JMenuItems
+        menuItem = new JMenuItem("Dynamic Programming", KeyEvent.VK_D);
+        menuItem.getAccessibleContext().setAccessibleDescription("Dynamic Programming");
+        menu.add(menuItem);
+        menuItem.addActionListener(e -> setSolverDynamicProgramming());
 
 
         //Build the settings menu.
@@ -272,8 +298,8 @@ public class PathPlanner extends JFrame {
     }
 
     private void updateData() {
-        numTasks.setText(requestsManager.getNumberOfPendingOrders().toString());
-        numOps.setText(requestsManager.getNumberOfAvailableAgents().toString());
+        numTasks.setText(warehouseState.getNumberOfPendingTasks().toString());
+        numOps.setText(warehouseState.getNumberOfAvailableAgents().toString());
         repaint();
     }
 
@@ -282,22 +308,24 @@ public class PathPlanner extends JFrame {
         repaint();
     }
 
-    private void setRequestManagerDPAgentPerDestinyPerOrder() {
-        requestsManager = new RequestsManagerDPAgentPerDestinyPerOrder();
-        requestsManager.setWarehouse(warehouse);
-        requestsManager.setGraph(arwgraph);
-        requestsManager.setMinNumAgents(minNumberAgents);
-        requestsManager.setMinAveragePicksPerTask(minAveragePicksPerTask);
-        requestsManager.setMaxAveragePicksPerTask(maxAveragePicksPerTask);
+    private void setRequestManagerAgentPerDestiny() {
+        requestsManager = new RequestsManagerAgentPerDestiny(warehouseState);
     }
 
-    private void setRequestManagerDPWithClusters() {
-        requestsManager = new RequestsManagerDPWithClusters();
-        requestsManager.setWarehouse(warehouse);
-        requestsManager.setGraph(arwgraph);
-        requestsManager.setMinNumAgents(minNumberAgents);
-        requestsManager.setMinAveragePicksPerTask(minAveragePicksPerTask);
-        requestsManager.setMaxAveragePicksPerTask(maxAveragePicksPerTask);
+    private void setRequestManagerAgentPerDestinyPerOrder() {
+        requestsManager = new RequestsManagerAgentPerDestinyPerOrder(warehouseState);
+    }
+
+    private void setRequestManagerAgentPerClustersPerDestiny() {
+        requestsManager = new RequestsManagerAgentPerClustersPerDestiny(warehouseState);
+    }
+
+    private void setRequestManagerOneTaskPerRequest() {
+        requestsManager = new RequestsManagerOneTaskPerRequest(warehouseState);
+    }
+
+    private void setSolverDynamicProgramming() {
+        solver = new SolverDynamicProgramming(warehouseState);
     }
 
     public void openSettings() {
@@ -307,9 +335,9 @@ public class PathPlanner extends JFrame {
                 erpCheckPeriod,
                 corridorWidth,
                 CLIENT_ID,
-                minNumberAgents,
-                minAveragePicksPerTask,
-                maxAveragePicksPerTask);
+                warehouseState.getMinNumAgents(),
+                warehouseState.getMinAveragePicksPerTask(),
+                warehouseState.getMaxAveragePicksPerTask());
 
         if(erpCheckPeriod != settingsDialog.erpCheckPeriod){
             erpCheckPeriod = settingsDialog.erpCheckPeriod;
@@ -321,13 +349,9 @@ public class PathPlanner extends JFrame {
         CLIENT_ID = settingsDialog.clientID;
         checkERPTasksAutomatically = settingsDialog.toggleButton.isSelected();
 
-        this.minNumberAgents = settingsDialog.minNumberAgents;
-        this.minAveragePicksPerTask = settingsDialog.minAveragePicksPerTask;
-        this.maxAveragePicksPerTask = settingsDialog.maxAveragePicksPerTask;
-
-        requestsManager.setMinNumAgents(minNumberAgents);
-        requestsManager.setMinAveragePicksPerTask(minAveragePicksPerTask);
-        requestsManager.setMinAveragePicksPerTask(maxAveragePicksPerTask);
+        warehouseState.setMinNumAgents(settingsDialog.minNumberAgents);
+        warehouseState.setMinAveragePicksPerTask(settingsDialog.minAveragePicksPerTask);
+        warehouseState.setMinAveragePicksPerTask(settingsDialog.maxAveragePicksPerTask);
 
         repaint();
     }
@@ -480,10 +504,10 @@ public class PathPlanner extends JFrame {
                             //return?? Como houve problemas, devia saltar fora...
                         }
 
-                        if (requestsManager.checkOccupiedAgent(agentID)) {
-                            requestsManager.releaseAgent(agentID, position[0], position[1]);
+                        if (warehouseState.checkOccupiedAgent(agentID)) {
+                            warehouseState.releaseAgent(agentID, position[0], position[1]);
                         } else {
-                            requestsManager.addAvailableAgent(new Agent(agentID, position[0], position[1]));
+                            warehouseState.addAvailableAgent(new Agent(agentID, position[0], position[1]));
                         }
 
                         cm.SendMessageAsync(
@@ -495,7 +519,7 @@ public class PathPlanner extends JFrame {
                                 "{'response':'ACK'}",
                                 "1");
 
-                        Map<Agent, String> tasks = requestsManager.handlePendingTasks();
+                        Map<Agent, String> tasks = solver.solve();
 
                         if (tasks != null) {
                             for (Agent agent : tasks.keySet()) {
@@ -506,7 +530,6 @@ public class PathPlanner extends JFrame {
                                 askERPTask();
                             }
                         }
-
 
                         break;
 
@@ -559,19 +582,25 @@ public class PathPlanner extends JFrame {
 
                             System.out.println("Succesfully saved concluded task");
 
+                            cm.SendMessageAsync(
+                                    (Integer.parseInt(busMessage.getId()) + 1) + "",
+                                    "response",
+                                    busMessage.getInfoIdentifier(),
+                                    split[0],
+                                    "application/json",
+                                    "{'response':'ACK'}",
+                                    "1");
+                            System.out.println("Enviou Ack!");
+
                         } catch (IOException e) {
                             System.out.println("Error while saving concluded task");
                             System.out.println(e.getMessage());
+                        } catch(WrongOperationException e){
+                            e.printStackTrace();
                         }
-                        cm.SendMessageAsync(
-                                (Integer.parseInt(busMessage.getId()) + 1) + "",
-                                "response",
-                                busMessage.getInfoIdentifier(),
-                                split[0],
-                                "application/json",
-                                "{'response':'ACK'}",
-                                "1");
-                        System.out.println("Enviou Ack!");
+
+                        //GRILO: QUE MENSAGEM ENVIAMOS EM CASO DE ERRO, EM PARTICULAR, SE O AGENTE DIZ QUE
+                        //TERMINOU A TAREFA DUAS VEZES SEGUIDAS?
 
                         break;
 
@@ -735,9 +764,14 @@ public class PathPlanner extends JFrame {
     //Grilo: Método que é chamado para que se guarde um request do ERP
     public void handleTask(String xmlString) throws IOException {
         String agentid = "ra1";//Serve para ter um nome mas será substituido em HandleTasks.
-        requestsManager.addRequest(xmlString);
+        try {
+            requestsManager.addRequest(xmlString);
+        } catch (WarehouseConfigurationException e) {
+            e.printStackTrace();
+            //GRILO: É PRECISO MAIS ALGUMA COISA?
+        }
         write_xml_to_file("tarefa.xml", xmlString);
-        Map<Agent, String> tasksAssignment = requestsManager.handlePendingTasks();
+        Map<Agent, String> tasksAssignment = solver.solve();
         if (tasksAssignment != null) {
             for (Agent agent : tasksAssignment.keySet()) {
                 sendTask(agent.getId(), tasksAssignment.get(agent));
@@ -851,7 +885,7 @@ public class PathPlanner extends JFrame {
         new PathPlanner().setVisible(true);
     }
 
-    public RequestsManager getRequestsManager() {
-        return requestsManager;
+    public WarehouseState getRequestsState() {
+        return warehouseState;
     }
 }

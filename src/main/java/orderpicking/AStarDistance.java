@@ -1,7 +1,5 @@
-package arwdatastruct;
+package orderpicking;
 
-import orderpicking.DistanceScorer;
-import orderpicking.GNode;
 import pathfinder.Graph;
 import pathfinder.Route;
 import pathfinder.RouteFinder;

@@ -1,6 +1,4 @@
-package orderpicking;
-
-import arwdatastruct.Order;
+package arwstate;
 
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
@@ -23,15 +21,33 @@ import java.io.StringWriter;
 import java.util.*;
 
 public class Request {
-    private Map<String, Order> orders;
+    private List<Pick> picks;
+    private Map<String, List<Pick>> solvedPicks; //Tem que ser um HashMap para no final o xml ficar organizado por orders
     private int numberOfUnfinishedTasks;
-    //Tem que ser um HashMap para no final o xml ficar organizado por orders
-    private Map<Order, List<Pick>> solvedPicks;
 
     public Request() {
-        orders = new HashMap<>();
+        picks = new LinkedList<>();
         solvedPicks = new HashMap<>();
         this.numberOfUnfinishedTasks = 0;
+    }
+
+    public List<Pick> getPicks() {
+        return picks;
+    }
+
+    public void addPick(Pick pick) {
+        picks.add(pick);
+    }
+
+    public void addSolvedPicks(List<Pick> newSolvedPicks){
+        for (Pick pick : newSolvedPicks) {
+            String orderID = pick.getOrderID();
+            if (!solvedPicks.containsKey(orderID)) {
+                solvedPicks.put(orderID, new LinkedList<Pick>());
+            }
+            List<Pick> orderPicks = solvedPicks.get(orderID);
+            orderPicks.add(pick);
+        }
     }
 
     public boolean isSolved(){
@@ -46,37 +62,8 @@ public class Request {
         numberOfUnfinishedTasks++;
     }
 
-    public void addPick(Pick pick) {
-        String orderID = pick.getOrderID();
-        Order order = orders.get(orderID);
-        if (order == null) {
-            order = new Order(orderID, this);
-            orders.put(orderID, order);
-        }
-        order.addPick(pick);
-    }
-
-    public List<Order> getOrders() {
-        return new ArrayList<>(orders.values());
-    }
-
-    public void addSolvedPicks(List<Pick> newSolvedPicks){
-        for (Pick pick : newSolvedPicks) {
-            Order order = orders.get(pick.getOrderID());
-            if (!solvedPicks.containsKey(order)) {
-                solvedPicks.put(order, new LinkedList<Pick>());
-            }
-            List<Pick> orderPicks = solvedPicks.get(order);
-            orderPicks.add(pick);
-        }
-    }
-
     public void parseXMLERPRequest(String content) {
         try {
-
-//            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-//            System.out.println(content);
-//            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
             DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             InputSource is = new InputSource(new StringReader(content));

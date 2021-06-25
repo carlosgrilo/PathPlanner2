@@ -1,6 +1,5 @@
-package orderpicking;
+package arwstate;
 
-import pathfinder.GraphNode;
 import whgraph.ARWGraphNode;
 
 public class Pick {

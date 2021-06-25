@@ -6,11 +6,11 @@ RA_ID: ra[MAC]
 LOC_APROX_ID: locaproximada
 MODELADOR_ID: modelador
 Subscribed to 'mod_updateXML' with modelador
-MESSAGE SENT WITH SUCCESS. ID: 762904.
+MESSAGE SENT WITH SUCCESS. ID: 573372.
 
 MESSAGE TO BE PROCESSED
 ------------------------------------------
-	Id: 762904
+	Id: 573372
 	Message type: response
 	Info identifier: getTarefa
 	To topic: planeador2Topic
@@ -20,72 +20,197 @@ MESSAGE TO BE PROCESSED
 	Content: <?xml version="1.0" encoding="utf-16"?>
 <ArrayOfTarefa xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
+    <Ordem>Encomenda 646905</Ordem>
     <LinhaOrdem>1</LinhaOrdem>
-    <Produto>760010100049</Produto>
-    <Quantidade>4</Quantidade>
-    <Origem>13.A.0.07</Origem>
-    <Destino>13.S.0.0</Destino>
-  </Tarefa>
-  <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>2</LinhaOrdem>
-    <Produto>501020101001229</Produto>
-    <Quantidade>7</Quantidade>
-    <Origem>13.A.0.08</Origem>
-    <Destino>13.S.0.0</Destino>
-  </Tarefa>
-  <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>3</LinhaOrdem>
-    <Produto>760010100061</Produto>
-    <Quantidade>8</Quantidade>
-    <Origem>13.A.1.07</Origem>
-    <Destino>13.S.0.0</Destino>
-  </Tarefa>
-  <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>4</LinhaOrdem>
     <Produto>760010100050</Produto>
-    <Quantidade>9</Quantidade>
+    <Quantidade>11</Quantidade>
     <Origem>13.A.2.08</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>5</LinhaOrdem>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>2</LinhaOrdem>
     <Produto>500020101000398</Produto>
-    <Quantidade>15</Quantidade>
+    <Quantidade>19</Quantidade>
     <Origem>13.A.3.08</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>6</LinhaOrdem>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>3</LinhaOrdem>
     <Produto>500020201000570</Produto>
-    <Quantidade>23</Quantidade>
+    <Quantidade>20</Quantidade>
     <Origem>13.A.2.07</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>7</LinhaOrdem>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>4</LinhaOrdem>
     <Produto>500020201000363</Produto>
-    <Quantidade>28</Quantidade>
+    <Quantidade>29</Quantidade>
     <Origem>13.A.2.06</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>8</LinhaOrdem>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>5</LinhaOrdem>
     <Produto>500020101001244</Produto>
-    <Quantidade>31</Quantidade>
+    <Quantidade>38</Quantidade>
     <Origem>13.A.0.07</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>6</LinhaOrdem>
+    <Produto>500020202001365</Produto>
+    <Quantidade>44</Quantidade>
+    <Origem>13.A.1.06</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+</ArrayOfTarefa>
+------------------------------------------
+RESPONSE message ready to be processed.
+<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfTarefa xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Tarefa>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>1</LinhaOrdem>
+    <Produto>760010100050</Produto>
+    <Quantidade>11</Quantidade>
+    <Origem>13.A.2.08</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>2</LinhaOrdem>
+    <Produto>500020101000398</Produto>
+    <Quantidade>19</Quantidade>
+    <Origem>13.A.3.08</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>3</LinhaOrdem>
+    <Produto>500020201000570</Produto>
+    <Quantidade>20</Quantidade>
+    <Origem>13.A.2.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>4</LinhaOrdem>
+    <Produto>500020201000363</Produto>
+    <Quantidade>29</Quantidade>
+    <Origem>13.A.2.06</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>5</LinhaOrdem>
+    <Produto>500020101001244</Produto>
+    <Quantidade>38</Quantidade>
+    <Origem>13.A.0.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 646905</Ordem>
+    <LinhaOrdem>6</LinhaOrdem>
+    <Produto>500020202001365</Produto>
+    <Quantidade>44</Quantidade>
+    <Origem>13.A.1.06</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+</ArrayOfTarefa>
+Received 6 products from ERP
+Succesfully saved tarefa.xml
+MESSAGE SENT WITH SUCCESS. ID: 167629.
+
+MESSAGE TO BE PROCESSED
+------------------------------------------
+	Id: 167629
+	Message type: response
+	Info identifier: getTarefa
+	To topic: planeador2Topic
+	From topic: ERPTopic
+	Data format: application/xml
+	Priority: 1
+	Content: <?xml version="1.0" encoding="utf-16"?>
+<ArrayOfTarefa xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>1</LinhaOrdem>
+    <Produto>501020101001242</Produto>
+    <Quantidade>4</Quantidade>
+    <Origem>13.A.3.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>2</LinhaOrdem>
+    <Produto>760010100049</Produto>
+    <Quantidade>6</Quantidade>
+    <Origem>13.A.0.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>3</LinhaOrdem>
+    <Produto>500020201000418</Produto>
+    <Quantidade>7</Quantidade>
+    <Origem>13.A.0.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>4</LinhaOrdem>
+    <Produto>501020101001229</Produto>
+    <Quantidade>8</Quantidade>
+    <Origem>13.A.0.08</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>5</LinhaOrdem>
+    <Produto>760010100050</Produto>
+    <Quantidade>11</Quantidade>
+    <Origem>13.A.2.08</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>6</LinhaOrdem>
+    <Produto>500020101000398</Produto>
+    <Quantidade>16</Quantidade>
+    <Origem>13.A.3.08</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>7</LinhaOrdem>
+    <Produto>500020201000570</Produto>
+    <Quantidade>21</Quantidade>
+    <Origem>13.A.2.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>8</LinhaOrdem>
+    <Produto>500020201000363</Produto>
+    <Quantidade>23</Quantidade>
+    <Origem>13.A.2.06</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
     <LinhaOrdem>9</LinhaOrdem>
+    <Produto>500020101001244</Produto>
+    <Quantidade>32</Quantidade>
+    <Origem>13.A.0.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>10</LinhaOrdem>
     <Produto>500020202001365</Produto>
     <Quantidade>33</Quantidade>
     <Origem>13.A.1.06</Origem>
@@ -97,77 +222,220 @@ RESPONSE message ready to be processed.
 <?xml version="1.0" encoding="utf-16"?>
 <ArrayOfTarefa xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
+    <Ordem>Encomenda 31807</Ordem>
     <LinhaOrdem>1</LinhaOrdem>
-    <Produto>760010100049</Produto>
+    <Produto>501020101001242</Produto>
     <Quantidade>4</Quantidade>
+    <Origem>13.A.3.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>2</LinhaOrdem>
+    <Produto>760010100049</Produto>
+    <Quantidade>6</Quantidade>
     <Origem>13.A.0.07</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>2</LinhaOrdem>
-    <Produto>501020101001229</Produto>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>3</LinhaOrdem>
+    <Produto>500020201000418</Produto>
     <Quantidade>7</Quantidade>
+    <Origem>13.A.0.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>4</LinhaOrdem>
+    <Produto>501020101001229</Produto>
+    <Quantidade>8</Quantidade>
     <Origem>13.A.0.08</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>3</LinhaOrdem>
-    <Produto>760010100061</Produto>
-    <Quantidade>8</Quantidade>
-    <Origem>13.A.1.07</Origem>
-    <Destino>13.S.0.0</Destino>
-  </Tarefa>
-  <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>4</LinhaOrdem>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>5</LinhaOrdem>
     <Produto>760010100050</Produto>
-    <Quantidade>9</Quantidade>
+    <Quantidade>11</Quantidade>
     <Origem>13.A.2.08</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>5</LinhaOrdem>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>6</LinhaOrdem>
     <Produto>500020101000398</Produto>
-    <Quantidade>15</Quantidade>
+    <Quantidade>16</Quantidade>
     <Origem>13.A.3.08</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>6</LinhaOrdem>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>7</LinhaOrdem>
     <Produto>500020201000570</Produto>
-    <Quantidade>23</Quantidade>
+    <Quantidade>21</Quantidade>
     <Origem>13.A.2.07</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>7</LinhaOrdem>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>8</LinhaOrdem>
     <Produto>500020201000363</Produto>
-    <Quantidade>28</Quantidade>
+    <Quantidade>23</Quantidade>
     <Origem>13.A.2.06</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>8</LinhaOrdem>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>9</LinhaOrdem>
     <Produto>500020101001244</Produto>
-    <Quantidade>31</Quantidade>
+    <Quantidade>32</Quantidade>
     <Origem>13.A.0.07</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
   <Tarefa>
-    <Ordem>Encomenda 659844</Ordem>
-    <LinhaOrdem>9</LinhaOrdem>
+    <Ordem>Encomenda 31807</Ordem>
+    <LinhaOrdem>10</LinhaOrdem>
     <Produto>500020202001365</Produto>
     <Quantidade>33</Quantidade>
     <Origem>13.A.1.06</Origem>
     <Destino>13.S.0.0</Destino>
   </Tarefa>
 </ArrayOfTarefa>
-Received 9 products from ERP
+Received 10 products from ERP
 Succesfully saved tarefa.xml
+MESSAGE SENT WITH SUCCESS. ID: 120691.
+
+MESSAGE TO BE PROCESSED
+------------------------------------------
+	Id: 120691
+	Message type: response
+	Info identifier: getTarefa
+	To topic: planeador2Topic
+	From topic: ERPTopic
+	Data format: application/xml
+	Priority: 1
+	Content: <?xml version="1.0" encoding="utf-16"?>
+<ArrayOfTarefa xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>1</LinhaOrdem>
+    <Produto>500020201000870</Produto>
+    <Quantidade>7</Quantidade>
+    <Origem>13.A.0.06</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>2</LinhaOrdem>
+    <Produto>760010100050</Produto>
+    <Quantidade>14</Quantidade>
+    <Origem>13.A.2.08</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>3</LinhaOrdem>
+    <Produto>500020101000398</Produto>
+    <Quantidade>15</Quantidade>
+    <Origem>13.A.3.08</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>4</LinhaOrdem>
+    <Produto>500020201000570</Produto>
+    <Quantidade>19</Quantidade>
+    <Origem>13.A.2.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>5</LinhaOrdem>
+    <Produto>500020201000363</Produto>
+    <Quantidade>22</Quantidade>
+    <Origem>13.A.2.06</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>6</LinhaOrdem>
+    <Produto>500020101001244</Produto>
+    <Quantidade>24</Quantidade>
+    <Origem>13.A.0.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>7</LinhaOrdem>
+    <Produto>500020202001365</Produto>
+    <Quantidade>31</Quantidade>
+    <Origem>13.A.1.06</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+</ArrayOfTarefa>
+------------------------------------------
+RESPONSE message ready to be processed.
+<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfTarefa xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>1</LinhaOrdem>
+    <Produto>500020201000870</Produto>
+    <Quantidade>7</Quantidade>
+    <Origem>13.A.0.06</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>2</LinhaOrdem>
+    <Produto>760010100050</Produto>
+    <Quantidade>14</Quantidade>
+    <Origem>13.A.2.08</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>3</LinhaOrdem>
+    <Produto>500020101000398</Produto>
+    <Quantidade>15</Quantidade>
+    <Origem>13.A.3.08</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>4</LinhaOrdem>
+    <Produto>500020201000570</Produto>
+    <Quantidade>19</Quantidade>
+    <Origem>13.A.2.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>5</LinhaOrdem>
+    <Produto>500020201000363</Produto>
+    <Quantidade>22</Quantidade>
+    <Origem>13.A.2.06</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>6</LinhaOrdem>
+    <Produto>500020101001244</Produto>
+    <Quantidade>24</Quantidade>
+    <Origem>13.A.0.07</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>Encomenda 796343</Ordem>
+    <LinhaOrdem>7</LinhaOrdem>
+    <Produto>500020202001365</Produto>
+    <Quantidade>31</Quantidade>
+    <Origem>13.A.1.06</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+</ArrayOfTarefa>
+Received 7 products from ERP
+Succesfully saved tarefa.xml
+Aviso de diálogo de settings
+MESSAGE SENT WITH SUCCESS. ID: 714947.

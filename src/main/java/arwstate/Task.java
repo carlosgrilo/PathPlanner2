@@ -1,9 +1,7 @@
 
-package arwdatastruct;
+package arwstate;
 
 import orderpicking.GNode;
-import orderpicking.Pick;
-import orderpicking.Request;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

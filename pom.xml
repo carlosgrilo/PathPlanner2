@@ -9,7 +9,7 @@ mvn install:install-file -Dfile=./lib/jackson-core-asl-1.9.0.jar -DgroupId=jacks
 mvn install:install-file -Dfile=ClassLib.j4n.jar -DgroupId=ClassLib -DartifactId=ClassLib.j4n -Dversion=1.0 -Dpackaging=jar
  -->
     <groupId>arware</groupId>
-    <artifactId>NPathPlanner</artifactId>
+    <artifactId>PathPlanner2</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

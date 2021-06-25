@@ -1,16 +1,91 @@
-package algorithms;
+package solvers;
 
-import arwdatastruct.Agent;
-import arwdatastruct.TaskOneAgentOneDestiny;
+import arwstate.Agent;
+import arwstate.WarehouseState;
+import arwstate.Task;
+import arwstate.TaskOneAgentOneDestiny;
+import newWarehouse.Warehouse;
 import orderpicking.DistanceScorer;
-import pathfinder.*;
+import pathfinder.GraphNode;
+import pathfinder.Route;
+import pathfinder.RouteFinder;
 import tsp.TspDynamicProgrammingIterative;
+import whgraph.ARWGraph;
 
 import java.util.*;
 
-public class SingleOrderDyn extends Algorithm<TaskOneAgentOneDestiny>{
+/**
+ * - Tasks are assigned to agents based on distance to cluster mass center;
+ * - Each task is solved using Dynamic Programming;
+ */
+public class SolverDynamicProgramming extends Solver{
 
-    public Solution solve(TaskOneAgentOneDestiny task){
+    public SolverDynamicProgramming(WarehouseState warehouseState) {
+        super(warehouseState);
+    }
+
+    /**
+     * Solves pending tasks
+     */
+    @Override
+    public Map<Agent, String> solve(){
+
+        Warehouse warehouse = warehouseState.getWarehouse();
+        ARWGraph arwGraph = warehouseState.getArwGraph();
+        List<Agent> availableAgents = warehouseState.getAvailableAgents();
+        List<Task> pendingTasks = warehouseState.getPendingTasks();
+
+        if (warehouse == null || arwGraph == null || arwGraph.getNumberOfNodes() == 0) {
+            System.out.println("Armazem ou grafo não definido!");
+            return null; //TODO Lançar exceção apropriada
+        }
+
+        if (availableAgents.size() == 0 || pendingTasks.size() == 0) {
+            return null; //TODO Lançar exceção apropriada
+        }
+
+        int numberOfTasksToProcess = Math.min(availableAgents.size(), pendingTasks.size());
+        List<Agent> auxAgents = availableAgents.subList(0, numberOfTasksToProcess);
+        List<Agent> agents = new LinkedList<>(auxAgents);
+
+        List<TaskOneAgentOneDestiny> tasksToBeProcessed = new LinkedList<>();
+        for (int i = 0; i < numberOfTasksToProcess; i++) {
+            tasksToBeProcessed.add((TaskOneAgentOneDestiny) pendingTasks.remove(0));
+        }
+
+        assignTasksToAgents(tasksToBeProcessed, agents);
+
+        Map<Agent, String> tasksAssignment = solveTasks(tasksToBeProcessed);
+
+        return tasksAssignment;
+
+    }
+
+    /**
+     * Computes the route for each task to be processed
+     * @param tasksToBeProcessed
+     * @return
+     */
+    protected Map<Agent, String> solveTasks(List<TaskOneAgentOneDestiny> tasksToBeProcessed){
+
+        List<Agent> availableAgents = warehouseState.getAvailableAgents();
+        Map<String, Agent> occupiedAgents = warehouseState.getOccupiedAgents();
+
+        Map<Agent, String> tasksAssignment = new HashMap<>();
+
+        for (TaskOneAgentOneDestiny task : tasksToBeProcessed) {
+            Solution solution = solveTask(task);
+            Agent agent = task.getAgent();
+            task.setRoute(solution.getRoute(agent));
+            tasksAssignment.put(agent, task.XMLPath());
+            occupiedAgents.put(agent.getId(), agent);
+            availableAgents.remove(agent);
+        }
+
+        return tasksAssignment;
+    }
+
+    public Solution solveTask(TaskOneAgentOneDestiny task){
 
         RouteFinder routeFinder = new RouteFinder<>(task.getGraph(), new DistanceScorer(), new DistanceScorer());
         //Constroi matriz de distâncias com m x m, m = nnosproduto + entrada+saída
@@ -90,4 +165,6 @@ public class SingleOrderDyn extends Algorithm<TaskOneAgentOneDestiny>{
 
         return solution;
     }
+
+
 }

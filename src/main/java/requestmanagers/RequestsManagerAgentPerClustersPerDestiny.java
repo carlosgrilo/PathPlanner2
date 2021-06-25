@@ -1,11 +1,9 @@
 package requestmanagers;
 
-import arwdatastruct.AStarDistance;
-import arwdatastruct.Order;
-import arwdatastruct.TaskOneAgentOneDestiny;
+import arwstate.*;
+import exceptions.WarehouseConfigurationException;
+import orderpicking.AStarDistance;
 import orderpicking.GNode;
-import orderpicking.Pick;
-import orderpicking.Request;
 import pathfinder.Graph;
 import weka.clusterers.SimpleKMeans;
 import weka.core.*;
@@ -13,60 +11,56 @@ import weka.core.*;
 import java.util.*;
 
 /**
- *  Policy:
- *  - Picks are first split according to destinies;
- *  - Picks with the same destiny are then split in clusters;
- *  - Each cluster becomes a task;
- *  - Tasks are assigned to agents based on distance to cluster mass center;
- *  - Each task is solved using Dynamic Programming;
-  */
-public class RequestsManagerDPWithClusters extends RequestsManagerDP {
+ * Policy:
+ * - Picks are first split according to destinies;
+ * - Picks with the same destiny are then split into clusters;
+ * - Each cluster becomes a task;
+ */
+public class RequestsManagerAgentPerClustersPerDestiny extends RequestsManager {
+
+    public RequestsManagerAgentPerClustersPerDestiny(WarehouseState warehouseState) {
+        super(warehouseState);
+    }
 
     /**
      * Loads the request received from the ERP in XML format
-     *
      * @param xmlERPRequest
      * @return
      */
-    //Para já, o método devolve false se houver algum destino não definido no armazém, e true em caso contrário...
     @Override
-    public boolean addRequest(String xmlERPRequest) {
+    public void addRequest(String xmlERPRequest) throws WarehouseConfigurationException {
         Request request = new Request();
         request.parseXMLERPRequest(xmlERPRequest);
 
         HashMap<String, List<Pick>> picksPerDestiny = new HashMap<>();
-        for (Order order : request.getOrders()) {
-            for (Pick pick : order.getPicks()) {
-                if (!warehouse.checkWms(pick.getDestiny()))
-                    return false; //TODO Lançar exceção apropriada
+        for (Pick pick : request.getPicks()) {
+            if (!warehouseState.getWarehouse().checkWms(pick.getDestiny()))
+                throw new WarehouseConfigurationException("Destiny doesn't exist in warehouse xml!");
 
-                if (!picksPerDestiny.containsKey(pick.getDestiny())) {
-                    picksPerDestiny.put(pick.getDestiny(), new LinkedList());
-                }
-                picksPerDestiny.get(pick.getDestiny()).add(pick);
+            if (!picksPerDestiny.containsKey(pick.getDestiny())) {
+                picksPerDestiny.put(pick.getDestiny(), new LinkedList());
             }
+            picksPerDestiny.get(pick.getDestiny()).add(pick);
         }
 
         for (String destiny : picksPerDestiny.keySet()) {
             buildTasksPerClusterPerDestiny(request, picksPerDestiny.get(destiny));
         }
-
-        return true;
     }
 
     private void buildTasksPerClusterPerDestiny(Request request, List<Pick> picks) {
         //We are assuming that all picks have the same destiny
         String destiny = picks.get(0).getDestiny();
 
-        Graph<GNode> allPicksGraph = buildGraph(picks);
+        Graph<GNode> allPicksGraph = warehouseState.buildGraph(picks);
 
-        int numClusters = Math.min(picks.size(), minNumAgents);
+        int numClusters = Math.min(picks.size(), warehouseState.getMinNumAgents());
 
-        while(picks.size() / numClusters < minAveragePicksPerTask){
+        while (picks.size() / numClusters < warehouseState.getMinAveragePicksPerTask()) {
             numClusters--;
         }
 
-        while(picks.size() / numClusters > maxAveragePicksPerTask){
+        while (picks.size() / numClusters > warehouseState.getMaxAveragePicksPerTask()) {
             numClusters++;
         }
 
@@ -76,7 +70,7 @@ public class RequestsManagerDPWithClusters extends RequestsManagerDP {
             TaskOneAgentOneDestiny task = new TaskOneAgentOneDestiny(request, destiny);
             task.setPicks(clusters.get(clusterID));
             request.incNumberOfUnfinishedTasks();
-            pendingTasks.add(task);
+            warehouseState.getPendingTasks().add(task);
         }
     }
 
@@ -131,10 +125,3 @@ public class RequestsManagerDPWithClusters extends RequestsManagerDP {
     }
 
 }
-
-//            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-//                    System.out.println("Task :" + clusterID);
-//                    for (Pick pick : clusters.get(clusterID)) {
-//                    System.out.println(pick.getOrigin());
-//                    }
-//            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");

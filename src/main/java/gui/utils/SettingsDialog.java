@@ -105,19 +105,19 @@ public class SettingsDialog extends JDialog implements ItemListener {
 
         gbc.gridx = 1;
         gbc.gridy = 3;
-        SpinnerModel model3 = new SpinnerNumberModel(frame.minNumberAgents,1, MAX_NUM_AGENTS,1);
+        SpinnerModel model3 = new SpinnerNumberModel(frame.getRequestsState().getMinNumAgents(), 1, MAX_NUM_AGENTS,1);
         minNumberAgentsJSpinner = new JSpinner(model3);
         add(minNumberAgentsJSpinner, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 4;
-        SpinnerModel model4 = new SpinnerNumberModel(frame.minAveragePicksPerTask, MIN_AVERAGE_PICKS_PER_TASK, MAX_AVERAGE_PICKS_PER_TASK,1);
+        SpinnerModel model4 = new SpinnerNumberModel(frame.getRequestsState().getMinAveragePicksPerTask(), MIN_AVERAGE_PICKS_PER_TASK, MAX_AVERAGE_PICKS_PER_TASK,1);
         minAveragePicksPerTaskJSpinner = new JSpinner(model4);
         add(minAveragePicksPerTaskJSpinner, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 5;
-        SpinnerModel model5 = new SpinnerNumberModel(frame.maxAveragePicksPerTask, MIN_AVERAGE_PICKS_PER_TASK, MAX_AVERAGE_PICKS_PER_TASK,1);
+        SpinnerModel model5 = new SpinnerNumberModel(frame.getRequestsState().getMaxAveragePicksPerTask(), MIN_AVERAGE_PICKS_PER_TASK, MAX_AVERAGE_PICKS_PER_TASK,1);
         maxAveragePicksPerTaskJSpinner = new JSpinner(model5);
         add(maxAveragePicksPerTaskJSpinner, gbc);
 

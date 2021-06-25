@@ -1,6 +1,6 @@
-package algorithms;
+package solvers;
 
-import arwdatastruct.Agent;
+import arwstate.Agent;
 import pathfinder.Route;
 
 import java.util.HashMap;
