@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Graph>
+<Nodes>
+<Node contains_product="false" id="0" loc="22.28,1.85,0" type="SIMPLE"/>
+<Node contains_product="false" id="1" loc="21.88,1.55,0" type="SIMPLE"/>
+<Node contains_product="false" id="3" loc="5.35,4.38,0" type="SIMPLE"/>
+<Node contains_product="false" id="4" loc="18.74,0.9,0" type="SIMPLE"/>
+<Node contains_product="false" id="5" loc="19.050001,1.35,0" type="SIMPLE"/>
+<Node contains_product="false" id="6" loc="5.35,6.58,0" type="SIMPLE"/>
+<Node contains_product="false" id="8" loc="5.95,4.23,0" type="SIMPLE"/>
+<Node contains_product="false" id="9" loc="1.1,3.46,0" type="SIMPLE"/>
+<Node contains_product="false" id="10" loc="1.1,4.08,0" type="SIMPLE"/>
+<Node contains_product="false" id="13" loc="13.16,3.8599997,0" type="SIMPLE"/>
+<Node contains_product="false" id="14" loc="13.78,3.8600001,0" type="SIMPLE"/>
+<Node contains_product="false" id="15" loc="22.28,1.06,0" type="SIMPLE"/>
+<Node contains_product="false" id="16" loc="11.95,4.05,0" type="SIMPLE"/>
+<Node contains_product="false" id="17" loc="12.5,4.38,0" type="SIMPLE"/>
+<Node contains_product="false" id="18" loc="5.3,5.025,0" type="SIMPLE"/>
+<Node contains_product="false" id="19" loc="19.535,0.9,0" type="SIMPLE"/>
+<Node contains_product="false" id="20" loc="5.3,7.45,0" type="SIMPLE"/>
+<Node contains_product="false" id="22" loc="16.92625,1.125,0" type="SIMPLE"/>
+<Node contains_product="false" id="23" loc="16.27,0.9,0" type="SIMPLE"/>
+<Node contains_product="false" id="24" loc="14.17,1.05,0" type="SIMPLE"/>
+<Node contains_product="false" id="25" loc="13.78,1.6600001,0" type="SIMPLE"/>
+<Node contains_product="false" id="26" loc="19.88,1.55,0" type="SIMPLE"/>
+<Node contains_product="false" id="27" loc="21.5,0.9,0" type="SIMPLE"/>
+<Node contains_product="false" id="28" loc="13.16,1.2,0" type="SIMPLE"/>
+<Node contains_product="false" id="29" loc="15.98,1.6600001,0" type="SIMPLE"/>
+<Node contains_product="false" id="30" loc="17.74,0.97999996,0" type="SIMPLE"/>
+<Node contains_product="false" id="31" loc="19.050001,3.5500002,0" type="SIMPLE"/>
+<Node contains_product="false" id="32" loc="19.88,3.55,0" type="SIMPLE"/>
+<Node contains_product="false" id="33" loc="20.51875,1.02,0" type="SIMPLE"/>
+<Node contains_product="false" id="34" loc="15.7699995,7.65,0" type="SIMPLE"/>
+<Node contains_product="false" id="35" loc="16.62,7.65,0" type="SIMPLE"/>
+<Node contains_product="false" id="36" loc="19.02,6.75,0" type="SIMPLE"/>
+<Node contains_product="false" id="37" loc="19.88,6.75,0" type="SIMPLE"/>
+<Node contains_product="false" id="38" loc="23.18,1.85,0" type="SIMPLE"/>
+<Node contains_product="false" id="39" loc="15.98,3.8600001,0" type="SIMPLE"/>
+<Node contains_product="false" id="40" loc="16.85,3.5500002,0" type="SIMPLE"/>
+<Node contains_product="false" id="41" loc="11.95,7.65,0" type="SIMPLE"/>
+<Node contains_product="false" id="42" loc="12.9,7.65,0" type="SIMPLE"/>
+<Node contains_product="false" id="43" loc="2.9,3.8599997,0" type="SIMPLE"/>
+<Node contains_product="false" id="44" loc="3.1,4.8,0" type="SIMPLE"/>
+<Node contains_product="false" id="45" loc="14.4,4.6000004,0" type="SIMPLE"/>
+<Node contains_product="false" id="46" loc="19.02,5.73,0" type="SIMPLE"/>
+<Node contains_product="false" id="47" loc="19.88,5.28,0" type="SIMPLE"/>
+<Node contains_product="false" id="48" loc="15.264999,0.9,0" type="SIMPLE"/>
+<Node contains_product="false" id="49" loc="15.775,6.28,0" type="SIMPLE"/>
+<Node contains_product="false" id="50" loc="16.62,5.73,0" type="SIMPLE"/>
+<Node contains_product="false" id="51" loc="15.775,5.05,0" type="SIMPLE"/>
+<Node contains_product="false" id="52" loc="22.08,3.6750002,0" type="SIMPLE"/>
+<Node contains_product="false" id="53" loc="23.18,3.8000002,0" type="SIMPLE"/>
+<Node contains_product="false" id="54" loc="1.1,5.25,0" type="SIMPLE"/>
+<Node contains_product="false" id="55" loc="12.7,6.28,0" type="SIMPLE"/>
+<Node contains_product="false" id="56" loc="22.28,5.28,0" type="SIMPLE"/>
+<Node contains_product="false" id="57" loc="1.05,0.0,0" type="SIMPLE"/>
+<Node contains_product="false" id="58" loc="2.7,0.0,0" type="SIMPLE"/>
+<Node contains_product="false" id="61" loc="8.889999,4.065,0" type="SIMPLE"/>
+<Node contains_product="false" id="62" loc="8.889999,7.65,0" type="SIMPLE"/>
+</Nodes>
+<Edges>
+<Edge end="1" product_line="false" start="0"/>
+<Edge end="5" product_line="false" start="4"/>
+<Edge end="8" product_line="false" start="3"/>
+<Edge end="10" product_line="false" start="9"/>
+<Edge end="14" product_line="false" start="13"/>
+<Edge end="1" product_line="false" start="15"/>
+<Edge end="17" product_line="false" start="16"/>
+<Edge end="3" product_line="false" start="18"/>
+<Edge end="5" product_line="false" start="19"/>
+<Edge end="23" product_line="false" start="22"/>
+<Edge end="25" product_line="false" start="24"/>
+<Edge end="26" product_line="false" start="19"/>
+<Edge end="1" product_line="false" start="27"/>
+<Edge end="25" product_line="false" start="28"/>
+<Edge end="0" product_line="false" start="15"/>
+<Edge end="4" product_line="false" start="19"/>
+<Edge end="15" product_line="false" start="27"/>
+<Edge end="29" product_line="false" start="23"/>
+<Edge end="30" product_line="false" start="22"/>
+<Edge end="32" product_line="false" start="31"/>
+<Edge end="26" product_line="false" start="33"/>
+<Edge end="17" product_line="false" start="13"/>
+<Edge end="35" product_line="false" start="34"/>
+<Edge end="26" product_line="false" start="5"/>
+<Edge end="37" product_line="false" start="36"/>
+<Edge end="6" product_line="false" start="20"/>
+<Edge end="38" product_line="false" start="0"/>
+<Edge end="40" product_line="false" start="39"/>
+<Edge end="42" product_line="false" start="41"/>
+<Edge end="44" product_line="false" start="43"/>
+<Edge end="45" product_line="false" start="14"/>
+<Edge end="47" product_line="false" start="46"/>
+<Edge end="33" product_line="false" start="27"/>
+<Edge end="33" product_line="false" start="19"/>
+<Edge end="30" product_line="false" start="4"/>
+<Edge end="23" product_line="false" start="48"/>
+<Edge end="50" product_line="false" start="49"/>
+<Edge end="46" product_line="false" start="36"/>
+<Edge end="24" product_line="false" start="28"/>
+<Edge end="29" product_line="false" start="48"/>
+<Edge end="50" product_line="false" start="51"/>
+<Edge end="29" product_line="false" start="22"/>
+<Edge end="24" product_line="false" start="48"/>
+<Edge end="53" product_line="false" start="52"/>
+<Edge end="54" product_line="false" start="10"/>
+<Edge end="51" product_line="false" start="39"/>
+<Edge end="16" product_line="false" start="13"/>
+<Edge end="49" product_line="false" start="51"/>
+<Edge end="46" product_line="false" start="37"/>
+<Edge end="5" product_line="false" start="30"/>
+<Edge end="34" product_line="false" start="49"/>
+<Edge end="17" product_line="false" start="14"/>
+<Edge end="42" product_line="false" start="55"/>
+<Edge end="51" product_line="false" start="45"/>
+<Edge end="1" product_line="false" start="33"/>
+<Edge end="47" product_line="false" start="37"/>
+<Edge end="23" product_line="false" start="30"/>
+<Edge end="6" product_line="false" start="18"/>
+<Edge end="55" product_line="false" start="41"/>
+<Edge end="35" product_line="false" start="49"/>
+<Edge end="56" product_line="false" start="52"/>
+<Edge end="58" product_line="false" start="57"/>
+<Edge end="25" product_line="false" start="48"/>
+<Edge end="47" product_line="false" start="32"/>
+<Edge end="45" product_line="false" start="39"/>
+<Edge end="43" product_line="false" start="10"/>
+<Edge end="52" product_line="false" start="0"/>
+<Edge end="43" product_line="false" start="9"/>
+<Edge end="40" product_line="false" start="51"/>
+<Edge end="55" product_line="false" start="17"/>
+<Edge end="45" product_line="false" start="17"/>
+<Edge end="47" product_line="false" start="31"/>
+<Edge end="35" product_line="false" start="50"/>
+<Edge end="53" product_line="false" start="38"/>
+<Edge end="32" product_line="false" start="26"/>
+<Edge end="1" product_line="false" start="26"/>
+<Edge end="44" product_line="false" start="54"/>
+<Edge end="40" product_line="false" start="29"/>
+<Edge end="44" product_line="false" start="10"/>
+<Edge end="52" product_line="false" start="38"/>
+<Edge end="52" product_line="false" start="1"/>
+<Edge end="26" product_line="false" start="31"/>
+<Edge end="46" product_line="false" start="31"/>
+<Edge end="50" product_line="false" start="40"/>
+<Edge end="29" product_line="false" start="25"/>
+<Edge end="39" product_line="false" start="14"/>
+<Edge end="14" product_line="false" start="25"/>
+<Edge end="39" product_line="false" start="29"/>
+<Edge end="31" product_line="false" start="5"/>
+<Edge end="31" product_line="false" start="40"/>
+<Edge end="52" product_line="false" start="32"/>
+<Edge end="18" product_line="false" start="44"/>
+<Edge end="25" product_line="false" start="13"/>
+<Edge end="55" product_line="false" start="16"/>
+<Edge end="46" product_line="false" start="50"/>
+<Edge end="47" product_line="false" start="56"/>
+<Edge end="40" product_line="false" start="22"/>
+<Edge end="28" product_line="false" start="13"/>
+<Edge end="47" product_line="false" start="52"/>
+<Edge end="61" product_line="false" start="8"/>
+<Edge end="16" product_line="false" start="61"/>
+<Edge end="46" product_line="false" start="40"/>
+<Edge end="9" product_line="false" start="57"/>
+<Edge end="62" product_line="false" start="61"/>
+<Edge end="41" product_line="false" start="16"/>
+<Edge end="58" product_line="false" start="9"/>
+<Edge end="58" product_line="false" start="43"/>
+</Edges>
+</Graph>

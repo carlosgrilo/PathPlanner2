@@ -17,20 +17,20 @@ public class GraphSurface extends LayerUI<JPanel> {
     Point startDrag, endDrag;
     public float AMPLIFY;
     public Warehouse warehouse;
-    boolean editavel;
+    boolean editable;
 
 
     public GraphSurface(ARWGraph graph, Warehouse warehouse, int node_size) {
         this.arwgraph = graph;
         this.SENSIBILITY = 0.01;
-        this.NODE_SIZE=node_size;
-        this.warehouse =warehouse;
-        editavel=false;
-        AMPLIFY=1;
+        this.NODE_SIZE = node_size;
+        this.warehouse = warehouse;
+        editable = false;
+        AMPLIFY = 1;
     }
 
     public GraphSurface(){
-     NODE_SIZE=5;
+     NODE_SIZE = 5;
     }
 
     public void setArwgraph(ARWGraph arwgraph) {
@@ -45,12 +45,12 @@ public class GraphSurface extends LayerUI<JPanel> {
     @Override
     public void paint(Graphics g, JComponent c) {
             Graphics2D g2 = (Graphics2D) g.create();
-            if (warehouse !=null)
+            if (warehouse != null)
                 AMPLIFY = Math.min(((float) c.getSize().width) / warehouse.getWidth(), ((float) c.getSize().height) / warehouse.getDepth());
             else
-                AMPLIFY=1;
+                AMPLIFY = 1;
 
-            float dot[]={2f,4f};
+            float dot[] = {2f, 4f};
             BasicStroke solido = new BasicStroke(4f);
             BasicStroke dotted = new BasicStroke(1.0f,
                     BasicStroke.CAP_BUTT,
@@ -69,13 +69,14 @@ public class GraphSurface extends LayerUI<JPanel> {
 
                     g2.drawOval(c.getWidth()-scale( node.getLocation().getX()) - (NODE_SIZE / 2),
                             scale(node.getLocation().getY()) - (NODE_SIZE / 2), NODE_SIZE, NODE_SIZE);
-                    g2.drawString(node.printName(), c.getWidth()-scale(node.getLocation().getX()) + (NODE_SIZE),
+                    g2.drawString(node.printName(), c.getWidth() - scale(node.getLocation().getX()) + (NODE_SIZE),
                             scale(node.getLocation().getY()) - (NODE_SIZE));
                 }
                 for (Edge e : arwgraph.getEdges()) {
-                    Shape r = makeLine(c.getWidth()-scale( e.getStart().getLocation().getX()), scale(e.getStart().getLocation().getY()),
-                            c.getWidth()-scale(e.getEnd().getLocation().getX()), scale(e.getEnd().getLocation().getY()));
-                    if (!editavel)
+                    Shape r = makeLine(
+                            c.getWidth() - scale( e.getStart().getLocation().getX()), scale(e.getStart().getLocation().getY()),
+                            c.getWidth() - scale(e.getEnd().getLocation().getX()), scale(e.getEnd().getLocation().getY()));
+                    if (!editable)
                         g2.setStroke(dotted);
 
                     g2.draw(r);
@@ -104,15 +105,12 @@ public class GraphSurface extends LayerUI<JPanel> {
         return Math.abs(y1 - y2) < scale(SENSIBILITY);
     }
 
-
     public int scale(double measure){
-        return (int) ((measure)*AMPLIFY);
+        return (int) (measure * AMPLIFY);
     }
-
 
     public float descale(int measure){
-        return (float) measure/AMPLIFY;
+        return (float) measure / AMPLIFY;
     }
-
 
 }

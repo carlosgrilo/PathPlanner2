@@ -103,12 +103,11 @@ public class ARWGraph {
     }
 
     public int getMaxIdNodes(){
-        int maxid=0;
+        int maxid = 0;
         for (ARWGraphNode node: nodes) {
-            int id=node.getGraphNodeId();
-            if (id>maxid)
-                maxid=id;
-
+            int id = node.getGraphNodeId();
+            if (id > maxid)
+                maxid = id;
         }
         return maxid;
     }
@@ -126,7 +125,6 @@ public class ARWGraph {
         }
     }
 
-
     public ARWGraphNode findNode(int node_id) {
         for (int i = 0; i < this.getGraphNodes().size(); i++) {
             if (this.getGraphNodes().get(i).getGraphNodeId() == node_id) {
@@ -135,7 +133,6 @@ public class ARWGraph {
         }
         return null;
     }
-
 
     public List<ARWGraphNode> getProducts() {
         List<ARWGraphNode> products = new ArrayList<>();
@@ -195,9 +192,7 @@ public class ARWGraph {
             return nodes.get(nodes.size() - 1);
         }
         return null;
-
     }
-
 
     public void makeNeighbors(ARWGraphNode start_node, ARWGraphNode end_node, boolean product_line) {
         try {
@@ -232,29 +227,29 @@ public class ARWGraph {
         edges.clear();
     }
     public double distancetoNeighborEdge(float x, float y){
-        double distance=1e6;
-        double nx,ny,m;
+        double distance = 1e6;
+        double nx, ny, m;
         double size;
 
         for (Edge edge : edges) {
-            double x1=edge.getStart().getLocation().getX();
-            double y1=edge.getStart().getLocation().getY();
-            double x2=edge.getEnd().getLocation().getX();
-            double y2=edge.getEnd().getLocation().getY();
-            if (Math.abs(x2-x1)>1e-3) {
+            double x1 = edge.getStart().getLocation().getX();
+            double y1 = edge.getStart().getLocation().getY();
+            double x2 = edge.getEnd().getLocation().getX();
+            double y2 = edge.getEnd().getLocation().getY();
+            if (Math.abs(x2 - x1) > 1e-3) {
                 m = (y2 - y1) / (x2 - x1);
                 nx = (2 * x - m * (y1 - y)) / (m * m + 2);
-                ny=y1+m*nx;
+                ny = y1 + m * nx;
             }
             else {
-                nx=x2;
-                ny=y;
+                nx = x2;
+                ny = y;
             }
-            nx=Math.max(Math.min(nx,Math.max(x1,x2)),Math.min(x1,x2));
-            ny=Math.max(Math.min(ny,Math.max(y1,y2)),Math.min(y1,y2));
-            size=Math.sqrt(Math.pow(nx-x,2)+Math.pow(ny-y,2));
-            if (size<distance){
-                distance=size;
+            nx = Math.max(Math.min(nx, Math.max(x1, x2)), Math.min(x1, x2));
+            ny = Math.max(Math.min(ny, Math.max(y1, y2)), Math.min(y1, y2));
+            size = Math.sqrt(Math.pow(nx - x, 2) + Math.pow(ny - y, 2));
+            if (size < distance){
+                distance = size;
             }
         }
         return distance;
@@ -267,29 +262,28 @@ public class ARWGraph {
         double size;
         Edge closestedge = null;
         for (Edge edge : edges) {
-            double x1=edge.getStart().getLocation().getX();
-            double y1=edge.getStart().getLocation().getY();
-            double x2=edge.getEnd().getLocation().getX();
-            double y2=edge.getEnd().getLocation().getY();
-            if (Math.abs(x2-x1)>1e-3) {
+            double x1 = edge.getStart().getLocation().getX();
+            double y1 = edge.getStart().getLocation().getY();
+            double x2 = edge.getEnd().getLocation().getX();
+            double y2 = edge.getEnd().getLocation().getY();
+            if (Math.abs(x2 - x1) > 1e-3) {
                 m = (y2 - y1) / (x2 - x1);
                 nx = (2 * node.getX() - m * (y1 - node.getY())) / (m * m + 2);
-                ny=y1+m*nx;
-            }
-            else {
-                nx=x2;
-                ny=node.getY();
+                ny = y1 + m * nx;
+            } else {
+                nx = x2;
+                ny = node.getY();
             }
 
-            nx=Math.max(Math.min(nx,Math.max(x1,x2)),Math.min(x1,x2));
-            ny=Math.max(Math.min(ny,Math.max(y1,y2)),Math.min(y1,y2));
-            size=Math.sqrt(Math.pow(nx-node.getX(),2)+Math.pow(ny-node.getY(),2));
+            nx = Math.max(Math.min(nx, Math.max(x1, x2)),Math.min(x1, x2));
+            ny = Math.max(Math.min(ny, Math.max(y1, y2)),Math.min(y1, y2));
+            size = Math.sqrt(Math.pow(nx - node.getX(), 2) + Math.pow(ny - node.getY(), 2));
 
-            if (size<distance){
-                distance=size;
-                closestedge=edge;
-                bestx=nx;
-                besty=ny;
+            if (size < distance){
+                distance = size;
+                closestedge = edge;
+                bestx = nx;
+                besty = ny;
             }
         }
         if (closestedge != null) {
@@ -304,15 +298,13 @@ public class ARWGraph {
                 novo1 = new Edge(node,closestedge.getEnd(), 0, 1);
                 createEdge(novo1);
                 edges.remove(closestedge);
-            }
-            else
+            } else
                 return existente;
         }
         return node;
     }
 
     public Graph getPathGraph(){
-
 
         Set<GNode> nos = new HashSet<>();
         Map<String, Set<String>> arestas = new HashMap<>();

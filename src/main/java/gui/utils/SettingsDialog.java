@@ -30,6 +30,7 @@ public class SettingsDialog extends JDialog implements ItemListener {
     public JSpinner minAveragePicksPerTaskJSpinner;
     public JSpinner maxAveragePicksPerTaskJSpinner;
     public JToggleButton toggleButton;
+    public boolean cancel;
 
     public SettingsDialog(
             PathPlanner frame,
@@ -39,6 +40,9 @@ public class SettingsDialog extends JDialog implements ItemListener {
             int minNumberAgents,
             int minAveragePicksPerTask,
             int maxAveragePicksPerTask) {
+
+        cancel = false;
+
         this.frame = frame;
         this.erpCheckPeriod = erpCheckPeriod;
         this.corridorWidth = corridorWidth;
@@ -123,8 +127,8 @@ public class SettingsDialog extends JDialog implements ItemListener {
 
         gbc.gridx = 1;
         gbc.gridy = 6;
-        toggleButton = new JToggleButton("On");
-        toggleButton.setSelected(true);
+        toggleButton = new JToggleButton(frame.isCheckERPTasksAutomatically()? "On" : "Off");
+        toggleButton.setSelected(frame.isCheckERPTasksAutomatically());
         toggleButton.addItemListener(this);
         add(toggleButton, gbc);
 
@@ -147,11 +151,11 @@ public class SettingsDialog extends JDialog implements ItemListener {
         cancel_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                cancel = true;
                 dispose();
             }
         });
         pack();
-        //setSize(950, 500);
         this.setVisible(true);
     }
 
@@ -169,9 +173,6 @@ public class SettingsDialog extends JDialog implements ItemListener {
     }
 
     public void itemStateChanged(ItemEvent eve) {
-        if (toggleButton.isSelected())
-            toggleButton.setText("On");
-        else
-            toggleButton.setText("Off");
+        toggleButton.setText(toggleButton.isSelected()? "On" : "Off");
     }
 }

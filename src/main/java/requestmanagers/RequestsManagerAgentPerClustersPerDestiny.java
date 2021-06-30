@@ -49,7 +49,7 @@ public class RequestsManagerAgentPerClustersPerDestiny extends RequestsManager {
     }
 
     private void buildTasksPerClusterPerDestiny(Request request, List<Pick> picks) {
-        //We are assuming that all picks have the same destiny
+        //We assume that all picks have the same destiny
         String destiny = picks.get(0).getDestiny();
 
         Graph<GNode> allPicksGraph = warehouseState.buildGraph(picks);

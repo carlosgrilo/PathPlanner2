@@ -63,11 +63,11 @@ public class PathPlanner extends JFrame {
     public static final int DEFAULT_MAX_AVERAGE_PICKS_PER_TASK = 10;
     private static float corridorWidth = 1f;
     public static final String ERP_ID = "ERP";
-    public static final String RA_ID = "ra";
+    public static final String RA_ID = "ra1";
     public static final String LOC_APROX_ID = "locaproximada";
     public static final String MODELADOR_ID = "modelador";
     public static final String WAREHOUSE_FILE = "warehouse_model.xml";
-    public static final String GRAPH_FILE = "graph2.xml";
+    public static final String GRAPH_FILE = "graph_mat_ceramica_2021_06_30.xml";
     public static final String TOPIC_UPDATEXML = "mod_updateXML";
     public static final String TOPIC_ACKXML = "mod_updateXMLstatus";
     public static final String TOPIC_OPAVAIL = "available";
@@ -86,7 +86,7 @@ public class PathPlanner extends JFrame {
     private final JLabel alertaNovoXML;
     private final Warehouse warehouse;
     private final ARWGraph arwgraph;
-    Timer time, timeXML;
+    Timer timer, timeXML;
     String idXML = "";
     Boolean xmlReceived;
     PacManSurface pacmanSurface;
@@ -99,12 +99,13 @@ public class PathPlanner extends JFrame {
 
     public int erpCheckPeriod = 5; //MINUTOS
     private boolean checkERPTasksAutomatically;
+    CheckERP erpRequestTask;
 
     public PathPlanner() {
         super("ARWARE Path Planner v1");
 
         checkERPTasksAutomatically = true;
-
+        erpRequestTask = new CheckERP();
         setLayout(new BorderLayout());
 
         setupMenuBar();
@@ -137,17 +138,17 @@ public class PathPlanner extends JFrame {
 
         graphsurface = new GraphSurface(arwgraph, warehouse, 5);
         pacmanSurface = new PacManSurface(background, 15);
-        JLayer<JPanel> jlayer = new JLayer<>(background, graphsurface);
+        JLayer<JPanel> jLayer = new JLayer<>(background, graphsurface);
 
         JPanel pane = new JPanel();
         pane.setLayout(new BorderLayout());
         pane.add(pacmanSurface, BorderLayout.CENTER);
 
-        jlayer.setGlassPane(pane);
+        jLayer.setGlassPane(pane);
         pane.setOpaque(false);
         pane.setVisible(true);
 
-        consola = new JTextArea(2, 40);
+        consola = new JTextArea(5, 40);
         JScrollPane scrollpane = new JScrollPane(consola);
 
         JLabel et_tasks = new JLabel("Tarefas pendentes");
@@ -169,7 +170,7 @@ public class PathPlanner extends JFrame {
 
         add(panel, BorderLayout.NORTH);
         //add(pacmansurface,BorderLayout.CENTER);
-        add(jlayer, BorderLayout.CENTER);
+        add(jLayer, BorderLayout.CENTER);
 
         add(scrollpane, BorderLayout.PAGE_END);
 
@@ -267,7 +268,6 @@ public class PathPlanner extends JFrame {
         menuItem.addActionListener(e -> setRequestManagerOneTaskPerRequest());
         menu.add(menuItem);
 
-
         //Build the Solvers menu.
         menu = new JMenu("Solvers");
         menu.setMnemonic(KeyEvent.VK_S);
@@ -280,7 +280,6 @@ public class PathPlanner extends JFrame {
         menu.add(menuItem);
         menuItem.addActionListener(e -> setSolverDynamicProgramming());
 
-
         //Build the settings menu.
         menuItem = new JMenuItem("Settings");
         menuItem.setMnemonic(KeyEvent.VK_S);
@@ -289,7 +288,6 @@ public class PathPlanner extends JFrame {
         menuItem.addActionListener(e -> openSettings());
 
         this.setJMenuBar(menubar);
-
     }
 
     private void autoGraph() {
@@ -339,10 +337,17 @@ public class PathPlanner extends JFrame {
                 warehouseState.getMinAveragePicksPerTask(),
                 warehouseState.getMaxAveragePicksPerTask());
 
-        if(erpCheckPeriod != settingsDialog.erpCheckPeriod){
-            erpCheckPeriod = settingsDialog.erpCheckPeriod;
-            //time.cancel();
-            time.schedule(new CheckERP(), 0, TimeUnit.MINUTES.toMillis(erpCheckPeriod));
+        if(!settingsDialog.cancel) {
+            if (settingsDialog.toggleButton.isSelected() && checkERPTasksAutomatically == false ||
+                    erpCheckPeriod != settingsDialog.erpCheckPeriod && settingsDialog.toggleButton.isSelected()) {
+                checkERPTasksAutomatically = true;
+                erpCheckPeriod = settingsDialog.erpCheckPeriod;
+                erpRequestTask.cancel();
+                erpRequestTask = new CheckERP();
+                timer.schedule(erpRequestTask, 0, TimeUnit.MINUTES.toMillis(erpCheckPeriod));
+            } else if (!settingsDialog.toggleButton.isSelected() && checkERPTasksAutomatically == true) {
+                checkERPTasksAutomatically = false;
+            }
         }
 
         corridorWidth = settingsDialog.corridorWidth;
@@ -351,7 +356,7 @@ public class PathPlanner extends JFrame {
 
         warehouseState.setMinNumAgents(settingsDialog.minNumberAgents);
         warehouseState.setMinAveragePicksPerTask(settingsDialog.minAveragePicksPerTask);
-        warehouseState.setMinAveragePicksPerTask(settingsDialog.maxAveragePicksPerTask);
+        warehouseState.setMaxAveragePicksPerTask(settingsDialog.maxAveragePicksPerTask);
 
         repaint();
     }
@@ -361,14 +366,13 @@ public class PathPlanner extends JFrame {
         String xmlstring;
         try {
             xmlstring = read_xml_from_file("tarefa.xml");
-            handleTask(xmlstring);
+            handleRequest(xmlstring);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
     }
 
     private void loadWarehouse() {
-
         JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
         fc.setSelectedFile(new File(WAREHOUSE_FILE));
         FileNameExtensionFilter filter = new FileNameExtensionFilter(WAREHOUSE_FILE, "xml");
@@ -394,7 +398,6 @@ public class PathPlanner extends JFrame {
     }
 
     private void loadGraph() {
-
         JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
         fc.setSelectedFile(new File(GRAPH_FILE));
         FileNameExtensionFilter filter = new FileNameExtensionFilter(GRAPH_FILE, "xml");
@@ -436,10 +439,8 @@ public class PathPlanner extends JFrame {
         System.out.println("LOC_APROX_ID: " + LOC_APROX_ID);
         System.out.println("MODELADOR_ID: " + MODELADOR_ID);
 
-        time = new Timer(); // Instantiate Timer Object
-
-        //Faz um pedido ao ERP a cada 5 minutos - VER SE SERÁ O TEMPO ADEQUADO
-        time.schedule(new CheckERP(), 0, TimeUnit.MINUTES.toMillis(erpCheckPeriod));
+        timer = new Timer(); // Instantiate Timer Object
+        timer.schedule(erpRequestTask, 0, TimeUnit.MINUTES.toMillis(erpCheckPeriod));
     }
 
     public void askERPTask() {
@@ -462,7 +463,14 @@ public class PathPlanner extends JFrame {
 
     public void finishTask(String xmlString) {
         this.consola.append("Enviada a conclusão de tarefa\n");
-        cm.SendMessageAsync(Util.GenerateId(), "response", TOPIC_CONCLUDETASK, ERP_ID, "application/xml", xmlString, "1");
+        cm.SendMessageAsync(
+                Util.GenerateId(),
+                "response",
+                TOPIC_CONCLUDETASK,
+                ERP_ID,
+                "application/xml",
+                xmlString,
+                "1");
     }
 
     public void handleMessages(BusMessage busMessage) {
@@ -481,7 +489,7 @@ public class PathPlanner extends JFrame {
                     case TOPIC_OPAVAIL:
                         xmlStr = busMessage.getContent();
                         System.out.println(xmlStr);//Provisoriamente para teste
-                        consola.setText(xmlStr + "\n");
+                        consola.append(xmlStr + "\n");
                         String[] split = busMessage.getFromTopic().split("Topic");
                         //Identifica o agente
                         String agentID = split[0];
@@ -505,9 +513,49 @@ public class PathPlanner extends JFrame {
                         }
 
                         if (warehouseState.checkOccupiedAgent(agentID)) {
-                            warehouseState.releaseAgent(agentID, position[0], position[1]);
+                            Agent agent = warehouseState.getOccupiedAgents().get(agentID);
+                            if(agent.getTask() == null){
+                                warehouseState.releaseAgent(agentID, position[0], position[1]);
+                            }else{
+                                try{
+                                    xmlStr = requestsManager.closeCancelledTask(agentID);
+                                    warehouseState.releaseAgent(agentID, position[0], position[1]);
+
+                                    if (xmlStr != null) {
+                                        write_xml_to_file("tarefa_concluida.xml", xmlStr);
+                                        finishTask(xmlStr);
+                                    }
+
+                                    System.out.println("Concluded cancelled task");
+
+                                    cm.SendMessageAsync(
+                                            (Integer.parseInt(busMessage.getId()) + 1) + "",
+                                            "response",
+                                            busMessage.getInfoIdentifier(),
+                                            split[0],
+                                            "application/json",
+                                            "{'response':'ACK'}",
+                                            "1");
+                                    System.out.println("Enviou Ack!");
+
+                                    //NOTA: Este código pode ter que mudar para uma outra nova opção do switch
+                                    //porque uma possibilidade para tratar este caso é o planner pedir uma
+                                    //confirmação ao agente e, depois, quando ele confirma (nova opção do switch)
+                                    // nós fechamos a tarefa que foi cancelada.
+
+                                }catch (WrongOperationException e){
+                                    e.printStackTrace();
+                                }catch (IOException e){
+                                    e.printStackTrace();
+                                }
+                            }
+
                         } else {
-                            warehouseState.addAvailableAgent(new Agent(agentID, position[0], position[1]));
+                            try {
+                                warehouseState.addAvailableAgent(new Agent(agentID, position[0], position[1]));
+                            } catch (WrongOperationException e){
+                                e.printStackTrace();
+                            }
                         }
 
                         cm.SendMessageAsync(
@@ -541,26 +589,30 @@ public class PathPlanner extends JFrame {
                         split = busMessage.getFromTopic().split("Topic");
                         agentID = split[0];
 
-                        try { //Falta o processo de envio em bocados
-                            String xml_armazem = read_xml_from_file(WAREHOUSE_FILE);
+//                        try {
+                            //VER COMO RESPONDER NESTE CASO. A SOLUÇÃO ATUAL É TEMPORÁRIA
+                            //String xml_armazem = read_xml_from_file(WAREHOUSE_FILE);
+                            String jsonAnswer = new JSONObject()
+                                    .put("id", idXML)
+                                    .put("ack", "OK").toString();
                             cm.SendMessageAsync(
                                     (Integer.parseInt(busMessage.getId()) + 1) + "",
                                     "response",
                                     busMessage.getInfoIdentifier(),
                                     agentID,
                                     "application/xml",
-                                    xml_armazem,
+                                    jsonAnswer,
                                     "1");
-                        } catch (IOException e) {
-                            cm.SendMessageAsync(
-                                    (Integer.parseInt(busMessage.getId()) + 1) + "",
-                                    "response",
-                                    busMessage.getInfoIdentifier(),
-                                    agentID,
-                                    "application/json",
-                                    "{'response':'ACK'}",
-                                    "1");
-                        }
+//                        } catch (IOException e) {
+//                            cm.SendMessageAsync(
+//                                    (Integer.parseInt(busMessage.getId()) + 1) + "",
+//                                    "response",
+//                                    busMessage.getInfoIdentifier(),
+//                                    agentID,
+//                                    "application/json",
+//                                    "{'response':'ACK'}",
+//                                    "1");
+//                        }
 
                         break;
 
@@ -573,14 +625,30 @@ public class PathPlanner extends JFrame {
                         agentID = split[0];
                         try {
                             List<Pick> solvedPicks = Task.parseXMLConcludedTask(xmlStr);
-                            Request request = requestsManager.closeTask(agentID, solvedPicks);
-                            if (request != null) {
-                                xmlStr = request.concludedPicksToXML();
-                                write_xml_to_file("tarefa_concluida.xml", xmlStr);
-                                finishTask(xmlStr);
+
+                            if (warehouseState.checkOccupiedAgent(agentID)) {
+                                Agent agent = warehouseState.getOccupiedAgents().get(agentID);
+                                if (agent.getTask() == null) {
+                                    cm.SendMessageAsync(
+                                            (Integer.parseInt(busMessage.getId()) + 1) + "",
+                                            "response",
+                                            busMessage.getInfoIdentifier(),
+                                            split[0],
+                                            "application/json",
+                                            "{'response':'ACK'}",
+                                            "1");
+                                    System.out.println("Enviou Ack!");
+                                    break;
+                                }
                             }
 
-                            System.out.println("Succesfully saved concluded task");
+                            xmlStr = requestsManager.closeTask(agentID, solvedPicks);
+
+                            if (xmlStr != null) {
+                                write_xml_to_file("tarefa_concluida.xml", xmlStr);
+                                finishTask(xmlStr);
+                                System.out.println("Succesfully saved concluded task");
+                            }
 
                             cm.SendMessageAsync(
                                     (Integer.parseInt(busMessage.getId()) + 1) + "",
@@ -607,7 +675,7 @@ public class PathPlanner extends JFrame {
                     case TOPIC_ACKXML:
                         split = busMessage.getFromTopic().split("Topic");
                         if (xmlReceived) {
-                            String xmlanswer = new JSONObject()
+                            String jsonAnswer1 = new JSONObject()
                                     .put("id", idXML)
                                     .put("ack", "OK").toString();
 
@@ -617,11 +685,11 @@ public class PathPlanner extends JFrame {
                                     busMessage.getInfoIdentifier(),
                                     split[0],
                                     "application/json",
-                                    xmlanswer,
+                                    jsonAnswer1,
                                     "1");
                             xmlReceived = false;
                         } else {
-                            String xmlanswer = new JSONObject()
+                            String jsonAnswer2 = new JSONObject()
                                     .put("id", idXML)
                                     .put("ack", "ERROR").toString();
                             cm.SendMessageAsync(
@@ -630,7 +698,7 @@ public class PathPlanner extends JFrame {
                                     TOPIC_ACKXML,
                                     MODELADOR_ID,
                                     "application/json",
-                                    xmlanswer,
+                                    jsonAnswer2,
                                     "1");
                             consola.append("Erro com a receção de XML");
                             System.out.println("Houve Erro com a receção de XML!");
@@ -647,7 +715,7 @@ public class PathPlanner extends JFrame {
                     System.out.println(lastTask);
                     //this.Consola.setText(Last_tarefa);
                     try {
-                        handleTask(lastTask);
+                        handleRequest(lastTask);
                         System.out.println("Succesfully saved tarefa.xml");
                     } catch (IOException e) {
                         System.out.println("Error while saving tarefa.xml");
@@ -762,13 +830,12 @@ public class PathPlanner extends JFrame {
     }
 
     //Grilo: Método que é chamado para que se guarde um request do ERP
-    public void handleTask(String xmlString) throws IOException {
-        String agentid = "ra1";//Serve para ter um nome mas será substituido em HandleTasks.
+    public void handleRequest(String xmlString) throws IOException {
         try {
             requestsManager.addRequest(xmlString);
         } catch (WarehouseConfigurationException e) {
             e.printStackTrace();
-            //GRILO: É PRECISO MAIS ALGUMA COISA?
+            //TODO: É PRECISO MAIS ALGUMA COISA?
         }
         write_xml_to_file("tarefa.xml", xmlString);
         Map<Agent, String> tasksAssignment = solver.solve();
@@ -887,5 +954,9 @@ public class PathPlanner extends JFrame {
 
     public WarehouseState getRequestsState() {
         return warehouseState;
+    }
+
+    public boolean isCheckERPTasksAutomatically() {
+        return checkERPTasksAutomatically;
     }
 }

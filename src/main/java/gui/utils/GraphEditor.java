@@ -36,12 +36,12 @@ public class GraphEditor extends JDialog {
 
     public GraphEditor(Warehouse warehouse, ARWGraph arwgraph, float corridorwidth) throws HeadlessException {
 
-       this.arwgraph=arwgraph;
+        this.arwgraph = arwgraph;
 
         this.setTitle("Graph Editor");
-        this.SENSIBILITY=0.25;
-        this.corridorwidth=corridorwidth;
-        this.warehouse=warehouse;
+        this.SENSIBILITY = 0.25;
+        this.corridorwidth = corridorwidth;
+        this.warehouse = warehouse;
         this.setModal(true);
         background = new BackgroundSurface(warehouse, true, 1100);
         LayerUI<JPanel> graphsurface = new GraphSurfaceEd(arwgraph, warehouse, SENSIBILITY, NODE_SIZE);
@@ -51,7 +51,7 @@ public class GraphEditor extends JDialog {
 
         setupMenuBar(arwgraph);
 
-        setSize(1000, (int) (1300*warehouse.getDepth()/warehouse.getWidth()));
+        setSize(1000, (int) (1300 * warehouse.getDepth() / warehouse.getWidth()));
 
 
         JPanel panelButtonsNorth = new JPanel(new GridBagLayout());
@@ -73,9 +73,7 @@ public class GraphEditor extends JDialog {
         JButton button_remove = new JButton("Remove");
         panelButtonsNorth.add(button_remove, gbc);
 
-
         gbc.gridwidth = 2;
-
 
         button_draw.addActionListener(e -> node_action = Node_Action.DRAW);
         button_remove.addActionListener(e -> node_action = Node_Action.REMOVE);
@@ -109,31 +107,30 @@ public class GraphEditor extends JDialog {
 
         });
 
-
     }
 
     private void setupMenuBar(ARWGraph arwgraph) {
         menuBar = new JMenuBar();
 
-//Build the first menu.
+        //Build the first menu.
         menu = new JMenu("Graph");
         menu.setMnemonic(KeyEvent.VK_A);
         menu.getAccessibleContext().setAccessibleDescription(
                 "File options");
         menuBar.add(menu);
 
-//a group of JMenuItems
+        //a group of JMenuItems
         menuItem = new JMenuItem("New",
                 KeyEvent.VK_N);
         menuItem.getAccessibleContext().setAccessibleDescription(
                 "New graph");
-        menuItem.addActionListener(e->newGraph());
+        menuItem.addActionListener(e -> newGraph());
         menu.add(menuItem);
         menuItem = new JMenuItem("Automatic",
                 KeyEvent.VK_A);
         menuItem.getAccessibleContext().setAccessibleDescription(
                 "Generate graph automatically");
-        menuItem.addActionListener(e->autoGraph());
+        menuItem.addActionListener(e -> autoGraph());
         menu.add(menuItem);
         menuItem = new JMenuItem("Export",
                 KeyEvent.VK_T);
@@ -142,7 +139,7 @@ public class GraphEditor extends JDialog {
         menuItem.getAccessibleContext().setAccessibleDescription(
                 "Export graph");
         menu.add(menuItem);
-        menuItem.addActionListener(e->exportGraph(arwgraph));
+        menuItem.addActionListener(e -> exportGraph(arwgraph));
 
         menuItem = new JMenuItem("Import",
                 KeyEvent.VK_T);
@@ -150,7 +147,7 @@ public class GraphEditor extends JDialog {
                 KeyEvent.VK_2, InputEvent.ALT_MASK));
         menuItem.getAccessibleContext().setAccessibleDescription(
                 "Import graph");
-        menuItem.addActionListener(e->LoadGraph());
+        menuItem.addActionListener(e -> LoadGraph());
         menu.add(menuItem);
         this.setJMenuBar(menuBar);
     }
@@ -159,16 +156,15 @@ public class GraphEditor extends JDialog {
         return arwgraph;
     }
 
-    private void newGraph(){
+    private void newGraph() {
         arwgraph.clear();
         repaint();
     }
 
-    private void autoGraph(){
-        arwgraph.createGraph(warehouse,corridorwidth);
+    private void autoGraph() {
+        arwgraph.createGraph(warehouse, corridorwidth);
         repaint();
     }
-
 
     private void LoadGraph() {
 
@@ -212,10 +208,9 @@ public class GraphEditor extends JDialog {
         public GraphSurfaceEd(ARWGraph ARWGraph, Warehouse warehouse, double sensibility, int node_size) {
             arwgraph = ARWGraph;
             SENSIBILITY = sensibility;
-            NODE_SIZE=node_size;
-            this.warehouse=warehouse;
-            this.editavel=true;
-
+            NODE_SIZE = node_size;
+            this.warehouse = warehouse;
+            this.editable = true;
         }
 
         @Override
@@ -223,8 +218,8 @@ public class GraphEditor extends JDialog {
             super.installUI(c);
             JLayer jlayer = (JLayer) c;
             jlayer.setLayerEventMask(
-                        AWTEvent.MOUSE_EVENT_MASK |
-                                AWTEvent.MOUSE_MOTION_EVENT_MASK
+                    AWTEvent.MOUSE_EVENT_MASK |
+                            AWTEvent.MOUSE_MOTION_EVENT_MASK
             );
         }
 
@@ -234,7 +229,6 @@ public class GraphEditor extends JDialog {
             jlayer.setLayerEventMask(0);
             super.uninstallUI(c);
         }
-
         @Override
         protected void processMouseEvent(MouseEvent e, JLayer l) {
             if (e.getID() == MouseEvent.MOUSE_PRESSED) {
@@ -319,23 +313,25 @@ public class GraphEditor extends JDialog {
         @Override
         public void paint(Graphics g, JComponent c) {
 
-            AMPLIFY=Math.min(((float)c.getSize().width)/warehouse.getWidth(),((float)c.getSize().height)/warehouse.getDepth());
+            int width = c.getWidth();
+
+            AMPLIFY = Math.min(((float) c.getSize().width) / warehouse.getWidth(), ((float) c.getSize().height) / warehouse.getDepth());
             Graphics2D g2 = (Graphics2D) g.create();
 
             super.paint(g2, c);
-            if (arwgraph!=null) {
+            if (arwgraph != null) {
                 for (ARWGraphNode node : arwgraph.getGraphNodes()) {
                     g2.setPaint(Color.BLACK);
                     if (node.contains_product())
                         g2.setPaint(Color.BLUE);
-                    g2.drawOval(scale(warehouse.getWidth() - node.getLocation().getX()) - (NODE_SIZE / 2),
+                    g2.drawOval(width - scale(node.getLocation().getX()) - (NODE_SIZE / 2),
                             scale(node.getLocation().getY()) - (NODE_SIZE / 2), NODE_SIZE, NODE_SIZE);
-                    g2.drawString(node.printName(), scale(warehouse.getWidth() - node.getLocation().getX()) + (NODE_SIZE),
+                    g2.drawString(node.printName(), width - scale(node.getLocation().getX()) + (NODE_SIZE),
                             scale(node.getLocation().getY()) - (NODE_SIZE));
                 }
                 for (Edge e : arwgraph.getEdges()) {
-                    Shape r = makeLine(scale(warehouse.getWidth() - e.getStart().getLocation().getX()), scale(e.getStart().getLocation().getY()),
-                            scale(warehouse.getWidth() - e.getEnd().getLocation().getX()), scale(e.getEnd().getLocation().getY()));
+                    Shape r = makeLine(width - scale(e.getStart().getLocation().getX()), scale(e.getStart().getLocation().getY()),
+                            width - scale(e.getEnd().getLocation().getX()), scale(e.getEnd().getLocation().getY()));
                     g2.setPaint(Color.DARK_GRAY);
                     g2.draw(r);
                 }
@@ -348,8 +344,135 @@ public class GraphEditor extends JDialog {
             }
         }
 
-
     }
 
-
 }
+
+//    public void paint(Graphics g, JComponent c) {
+//
+//        AMPLIFY=Math.min(((float)c.getSize().width)/warehouse.getWidth(),((float)c.getSize().height)/warehouse.getDepth());
+//        Graphics2D g2 = (Graphics2D) g.create();
+//
+//        super.paint(g2, c);
+//        if (arwgraph!=null) {
+//            for (ARWGraphNode node : arwgraph.getGraphNodes()) {
+//                g2.setPaint(Color.BLACK);
+//                if (node.contains_product())
+//                    g2.setPaint(Color.BLUE);
+//                g2.drawOval(scale(warehouse.getWidth() - node.getLocation().getX()) - (NODE_SIZE / 2),
+//                        scale(node.getLocation().getY()) - (NODE_SIZE / 2), NODE_SIZE, NODE_SIZE);
+//                g2.drawString(node.printName(), scale(warehouse.getWidth() - node.getLocation().getX()) + (NODE_SIZE),
+//                        scale(node.getLocation().getY()) - (NODE_SIZE));
+//            }
+//            for (Edge e : arwgraph.getEdges()) {
+//                Shape r = makeLine(scale(warehouse.getWidth() - e.getStart().getLocation().getX()), scale(e.getStart().getLocation().getY()),
+//                        scale(warehouse.getWidth() - e.getEnd().getLocation().getX()), scale(e.getEnd().getLocation().getY()));
+//                g2.setPaint(Color.DARK_GRAY);
+//                g2.draw(r);
+//            }
+//
+//            if (startDrag != null && endDrag != null) {
+//                g2.setPaint(Color.DARK_GRAY);
+//                Shape r = makeLine(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
+//                g2.draw(r);
+//            }
+//        }
+//    }
+
+//    protected void processMouseEvent(MouseEvent e, JLayer l) {
+//
+//        int width = l.getWidth();
+//        int x = e.getX();
+//
+//        System.out.println("Width: " + width);
+//        System.out.println("X: " + x);
+//
+//        if (e.getID() == MouseEvent.MOUSE_PRESSED) {
+//            startDrag = new Point(width - e.getX(), e.getY());
+//            endDrag = startDrag;
+//            if (node_action == Node_Action.REMOVE) {
+//                ARWGraphNode node = arwgraph.findClosestNode(warehouse.getWidth() - descale(e.getX()),
+//                        descale(e.getY()), (float) SENSIBILITY);
+//                if (node != null) {
+//                    arwgraph.removeNode(node);
+//                }
+//            }
+//            l.repaint();
+//
+//        }
+//
+//        if (e.getID() == MouseEvent.MOUSE_RELEASED) {
+//            if (!(startDrag.x == width - e.getX() && startDrag.y == e.getY() || node_action == Node_Action.REMOVE)) {
+//
+//                if (arwgraph.distancetoNeighborEdge((warehouse.getWidth() - descale(startDrag.x)),
+//                        descale(startDrag.y)) < SENSIBILITY) {
+//
+//                    //Insere um nó, se for necessário, na aresta mais próxima, se dentro da sensibilidade
+//                    //Dado que não é garantido que o nó seja o último, o id serve paar identificar o nó
+//                    //de início.
+//                    start_node = arwgraph.insertNode(
+//                            new ARWGraphNode(
+//                                    arwgraph.getMaxIdNodes() + 1,
+//                                    warehouse.getWidth() - descale(startDrag.x),
+//                                    descale(startDrag.y),
+//                                    GraphNodeType.SIMPLE));
+//                    startDrag = new Point(
+//                            width - scale(start_node.getLocation().getX()),
+//                            scale(start_node.getLocation().getY()));
+//                } else {
+//                    arwgraph.createGraphNode(
+//                            warehouse.getWidth() - descale(startDrag.x),
+//                            descale(startDrag.y),
+//                            GraphNodeType.SIMPLE);
+//                    start_node = arwgraph.getLastNode();
+//                }
+//
+//                int x1 = startDrag.x;
+//                int y1 = startDrag.y;
+//                int x2 = width - e.getX();
+//                int y2 = e.getY();
+//                if (Math.abs(startDrag.x - width - e.getX()) < scale(SENSIBILITY)) {
+//                    x2 = x1;
+//                }
+//                if (Math.abs(y1 - y2) < scale(SENSIBILITY)) {
+//                    y2 = y1;
+//                }
+//                endDrag.x = x2;
+//                endDrag.y = y2;
+//                if (arwgraph.distancetoNeighborEdge((warehouse.getWidth() - descale(endDrag.x)),
+//                        descale(endDrag.y)) < SENSIBILITY) {
+//
+//                    //Insere um nó, se for necessário, na aresta mais próxima, se dentro da sensibilidade
+//                    //Dado que não é garantido que o nó seja o último, o id serve paar identificar o nó
+//                    //de início.
+//                    end_node = arwgraph.insertNode(
+//                            new ARWGraphNode(
+//                                    arwgraph.getMaxIdNodes() + 1,
+//                                    warehouse.getWidth() - descale(endDrag.x),
+//                                    descale(endDrag.y),
+//                                    GraphNodeType.SIMPLE));
+//
+//                    endDrag = new Point(
+//                            width - scale(end_node.getLocation().getX()),
+//                            scale(end_node.getLocation().getY()));
+//                } else {
+//                    arwgraph.createGraphNode(
+//                            warehouse.getWidth() - descale(endDrag.x),
+//                            descale(endDrag.y),
+//                            GraphNodeType.SIMPLE);
+//                    end_node = arwgraph.getLastNode();
+//                }
+//
+//                arwgraph.makeNeighbors(start_node, end_node, false);
+//
+//                startDrag = null;
+//                endDrag = null;
+//                l.repaint();
+//            }
+//        }
+//        if (e.getID() == MouseEvent.MOUSE_DRAGGED) {
+//            endDrag = new Point(width - e.getX(), e.getY());
+//            l.repaint();
+//        }
+//
+//    }

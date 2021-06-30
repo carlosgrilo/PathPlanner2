@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Task xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" agent-id="ra303836896" id="[209]">
+<Path>
+<Node id="27">
+<Position>
+<x>20,40</x>
+<y>57,70</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="313">
+<Position>
+<x>19,00</x>
+<y>57,70</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="310">
+<Position>
+<x>17,00</x>
+<y>57,70</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="22">
+<Position>
+<x>15,60</x>
+<y>57,70</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="23">
+<Position>
+<x>14,90</x>
+<y>57,70</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="309">
+<Position>
+<x>13,50</x>
+<y>57,70</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="234">
+<Position>
+<x>13,50</x>
+<y>54,90</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="235">
+<Position>
+<x>13,50</x>
+<y>53,90</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="210">
+<Position>
+<x>11,50</x>
+<y>52,10</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="211">
+<Position>
+<x>11,50</x>
+<y>51,10</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="208">
+<Position>
+<x>11,50</x>
+<y>49,30</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="209">
+<Position>
+<x>11,50</x>
+<y>48,30</y>
+<z>0.0</z>
+</Position>
+<Tarefa>
+<Ordem>Encomenda 220804</Ordem>
+<LinhaOrdem>1</LinhaOrdem>
+<Produto>500020101000163</Produto>
+<Quantidade>8</Quantidade>
+<Origem>13.D.0.17</Origem>
+<Destino>13.S.0.0</Destino>
+</Tarefa>
+<Tarefa>
+<Ordem>Encomenda 220804</Ordem>
+<LinhaOrdem>2</LinhaOrdem>
+<Produto>500020101001143</Produto>
+<Quantidade>17</Quantidade>
+<Origem>13.D.0.17</Origem>
+<Destino>13.S.0.0</Destino>
+</Tarefa>
+<Tarefa>
+<Ordem>Encomenda 220804</Ordem>
+<LinhaOrdem>3</LinhaOrdem>
+<Produto>50002020100822A</Produto>
+<Quantidade>21</Quantidade>
+<Origem>13.D.0.17</Origem>
+<Destino>13.S.0.0</Destino>
+</Tarefa>
+<Tarefa>
+<Ordem>Encomenda 220804</Ordem>
+<LinhaOrdem>4</LinhaOrdem>
+<Produto>503020105001345</Produto>
+<Quantidade>28</Quantidade>
+<Origem>13.D.0.17</Origem>
+<Destino>13.S.0.0</Destino>
+</Tarefa>
+<Tarefa>
+<Ordem>Encomenda 220804</Ordem>
+<LinhaOrdem>5</LinhaOrdem>
+<Produto>500010101000364</Produto>
+<Quantidade>30</Quantidade>
+<Origem>13.D.0.17</Origem>
+<Destino>13.S.0.0</Destino>
+</Tarefa>
+<Tarefa>
+<Ordem>Encomenda 220804</Ordem>
+<LinhaOrdem>6</LinhaOrdem>
+<Produto>503020105001283</Produto>
+<Quantidade>38</Quantidade>
+<Origem>13.D.0.17</Origem>
+<Destino>13.S.0.0</Destino>
+</Tarefa>
+<Tarefa>
+<Ordem>Encomenda 220804</Ordem>
+<LinhaOrdem>7</LinhaOrdem>
+<Produto>503020205001354</Produto>
+<Quantidade>42</Quantidade>
+<Origem>13.D.0.17</Origem>
+<Destino>13.S.0.0</Destino>
+</Tarefa>
+<Tarefa>
+<Ordem>Encomenda 220804</Ordem>
+<LinhaOrdem>8</LinhaOrdem>
+<Produto>500020202001366</Produto>
+<Quantidade>45</Quantidade>
+<Origem>13.D.0.17</Origem>
+<Destino>13.S.0.0</Destino>
+</Tarefa>
+<Tarefa>
+<Ordem>Encomenda 220804</Ordem>
+<LinhaOrdem>9</LinhaOrdem>
+<Produto>500020101001106</Produto>
+<Quantidade>48</Quantidade>
+<Origem>13.D.0.17</Origem>
+<Destino>13.S.0.0</Destino>
+</Tarefa>
+<Tarefa>
+<Ordem>Encomenda 220804</Ordem>
+<LinhaOrdem>10</LinhaOrdem>
+<Produto>503020105001277</Produto>
+<Quantidade>57</Quantidade>
+<Origem>13.D.0.17</Origem>
+<Destino>13.S.0.0</Destino>
+</Tarefa>
+</Node>
+<Node id="208">
+<Position>
+<x>11,50</x>
+<y>49,30</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="211">
+<Position>
+<x>11,50</x>
+<y>51,10</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="210">
+<Position>
+<x>11,50</x>
+<y>52,10</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="43">
+<Position>
+<x>11,50</x>
+<y>53,90</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="42">
+<Position>
+<x>11,50</x>
+<y>54,90</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="212">
+<Position>
+<x>11,50</x>
+<y>57,70</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="213">
+<Position>
+<x>10,50</x>
+<y>57,70</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="327">
+<Position>
+<x>8,15</x>
+<y>57,62</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="328">
+<Position>
+<x>5,84</x>
+<y>57,69</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="329">
+<Position>
+<x>2,55</x>
+<y>57,55</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="330">
+<Position>
+<x>0,03</x>
+<y>57,69</y>
+<z>0.0</z>
+</Position>
+</Node>
+<Node id="333">
+<Position>
+<x>0,03</x>
+<y>57,69</y>
+<z>0.0</z>
+</Position>
+</Node>
+</Path>
+</Task>

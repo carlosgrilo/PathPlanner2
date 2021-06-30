@@ -33,16 +33,35 @@ public abstract class RequestsManager {
      * @param picks
      * @return
      */
-    public Request closeTask(String agentID, List<Pick> picks) throws WrongOperationException {
+    public String closeTask(String agentID, List<Pick> picks) throws WrongOperationException {
         if(!warehouseState.getOccupiedAgents().containsKey(agentID)){
-            throw new WrongOperationException("ERROR: Agent was not occupied!");
+            return null; // throw new WrongOperationException("ERROR: Agent was not occupied!");
         }
         Agent agent = warehouseState.getOccupiedAgents().get(agentID);
         Request request = agent.getTask().getRequest();
         request.decNumberTasksUnfinished();
         request.addSolvedPicks(picks);
         agent.setTask(null);
-        return request.isSolved()? request : null;
+        return request.isSolved()? request.concludedPicksToXML() : null;
     }
+
+    /**
+     * If it is the last class from a request, returns the request
+     * If not, returns null;
+     * The agent is "released" at TOPIC_OPAVAIL in PathPlanner using method releaseAgent()
+     * @param agentID
+     * @return
+     */
+    public String closeCancelledTask(String agentID) throws WrongOperationException {
+        if(!warehouseState.getOccupiedAgents().containsKey(agentID)){
+            return null; // throw new WrongOperationException("ERROR: Agent was not occupied!");
+        }
+        Agent agent = warehouseState.getOccupiedAgents().get(agentID);
+        Request request = agent.getTask().getRequest();
+        request.decNumberTasksUnfinished();
+        agent.setTask(null);
+        return request.isSolved()? request.concludedPicksToXML() : null;
+    }
+
 
 }

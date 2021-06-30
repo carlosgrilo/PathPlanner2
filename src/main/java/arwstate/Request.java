@@ -139,7 +139,6 @@ public class Request {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             transformerFactory.setAttribute("indent-number", 2);
-            DOMSource domSource = new DOMSource(document);
             StringWriter writer = new StringWriter();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.transform(new DOMSource(document), new StreamResult(writer));
@@ -155,80 +154,3 @@ public class Request {
     }
 
 }
-
-//    public String toXML(){
-//        try {
-//            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
-//            Document document = documentBuilder.newDocument();
-//
-//            // root element
-//            Element root = document.createElement("ArrayofTarefa");
-//
-//            root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xsd", "http://www.w3.org/2001/XMLSchema");
-//            root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-//            document.appendChild(root);
-//
-//            for (Order order: orders.values()){
-//                Iterator<String> itr = order.getPicks().keySet().iterator();
-//                while (itr.hasNext()) {
-//                    Pick pick = order.getPicks().get(itr.next());
-//                    Element product = document.createElement("Tarefa");
-//                    Element lineProd = document.createElement("Ordem");
-//                    lineProd.appendChild(document.createTextNode(pick.getOrderID()));
-//                    product.appendChild(lineProd);
-//                    lineProd = document.createElement("Linhaordem");
-//                    lineProd.appendChild(document.createTextNode(pick.getOrderLine()));
-//                    product.appendChild(lineProd);
-//                    lineProd = document.createElement("Produto");
-//                    lineProd.appendChild(document.createTextNode(pick.getId()));
-//                    product.appendChild(lineProd);
-//                    lineProd = document.createElement("Quantidade");
-//                    lineProd.appendChild(document.createTextNode(pick.getQuantity()));
-//                    product.appendChild(lineProd);
-//                    lineProd = document.createElement("Origem");
-//                    lineProd.appendChild(document.createTextNode(pick.getOrigin()));
-//                    product.appendChild(lineProd);
-//                    lineProd = document.createElement("Destino");
-//                    lineProd.appendChild(document.createTextNode(pick.getDestiny()));
-//                    product.appendChild(lineProd);
-//                    root.appendChild(product);
-//                }
-//            }
-//
-//            //file ou String?
-//            // create the xml file
-//            //transform the DOM Object to an XML File
-//            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//            Transformer transformer = transformerFactory.newTransformer();
-//            transformerFactory.setAttribute("indent-number", 2);
-//            DOMSource domSource = new DOMSource(document);
-//            StringWriter writer = new StringWriter();
-//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//            transformer.transform(new DOMSource(document), new StreamResult(writer));
-//
-//            String xmlString = writer.getBuffer().toString();
-//            return xmlString;
-//        } catch (ParserConfigurationException pce) {
-//            pce.printStackTrace();
-//        } catch (TransformerException tfe) {
-//            tfe.printStackTrace();
-//        }
-//        return "";
-//    }
-//
-//    public String toString(String orderId){
-//        HashMap<String, Pick> picks = orders.get(orderId).getPicks();
-//        Set<String> pickKeys = picks.keySet();
-//        String xmlString = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n" +
-//                "<ArrayOfTarefa xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
-//        for (String pickKey : pickKeys) {
-//            Pick pick = picks.get(pickKey);
-//            xmlString = xmlString + "<Tarefa>\n\t<Ordem>" + orderId+"</Ordem>";
-//            xmlString = xmlString + "\t<LinhaOrdem>" + pickKey + "</LinhaOrdem>\n";
-//            xmlString = xmlString + pick.toString();
-//            xmlString = xmlString + "<Tarefa>\n";
-//        }
-//        xmlString = xmlString + "</ArrayOfTarefa>";
-//        return xmlString;
-//    }

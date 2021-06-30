@@ -25,34 +25,32 @@ public class BackgroundSurface extends JPanel {
 
     public BackgroundSurface(Warehouse warehouse, boolean grid, int largura) {
 
-        this.warehouse =warehouse;
+        this.warehouse = warehouse;
 
         shapes = generateShapes();
-        this.grid=grid;
-        super.setSize(largura,Math.round(largura*warehouse.getDepth()/warehouse.getWidth()));
+        this.grid = grid;
+        super.setSize(largura, Math.round(largura * warehouse.getDepth() / warehouse.getWidth()));
+        //super.setSize(largura, Math.round(largura * warehouse.getDepth() / warehouse.getWidth()));
 
     }
 
     public BackgroundSurface() {
         this.shapes = new HashMap<>();
-        this.AMPLIFY=1;
-        this.warehouse =null;
-
+        this.AMPLIFY = 1;
+        this.warehouse = null;
     }
 
     public void setPrefabs(Warehouse warehouse){
         this.warehouse = warehouse;
-
-        shapes=generateShapes();
-
+        shapes = generateShapes();
         repaint();
     }
 
     private void paintBackground(Graphics2D g2) {
 
         g2.setPaint(Color.LIGHT_GRAY);
-        if (grid) {
 
+        if (grid) {
             for (int i = 0; i < getSize().width; i += 10) {
                 Shape line = new Line2D.Float(i, 0, i, getSize().height);
                 g2.draw(line);
@@ -78,10 +76,9 @@ public class BackgroundSurface extends JPanel {
             shapes = generateShapes();
             LinkedList<Shape> drawables = new LinkedList<>();
 
-            Shape r = new Rectangle2D.Float(0f, 0f, warehouse.getArea().x,
-                    warehouse.getArea().y);
+            Shape r = new Rectangle2D.Float(0f, 0f, warehouse.getArea().x, warehouse.getArea().y);
 
-            r= tx.createTransformedShape(r);
+            r = tx.createTransformedShape(r);
             drawables.add(r);
 
             Graphics2D g2 = (Graphics2D) g;
@@ -108,7 +105,6 @@ public class BackgroundSurface extends JPanel {
 
             for (Shape s : drawables) {
                 g2.setPaint(Color.BLACK);
-
                 g2.draw(s);
                 //g2.fill(s);
             }
@@ -136,14 +132,12 @@ public class BackgroundSurface extends JPanel {
         return Math.abs(y1 - y2) < scale(SENSIBILITY);
     }
 
-
     public int scale(double measure){
-        return (int) ((measure)*AMPLIFY);
+        return (int) ((measure) * AMPLIFY);
     }
 
-
     public float descale(int measure){
-        return (float) measure/AMPLIFY;
+        return (float) measure / AMPLIFY;
     }
 
 
@@ -156,17 +150,17 @@ public class BackgroundSurface extends JPanel {
 
         for (Prefab prefab : warehouse.getPrefabList()) {
 
-            Rectangle2D rec =(Rectangle2D) prefab.area.clone();
+            Rectangle2D rec = (Rectangle2D) prefab.area.clone();
 
             tx.setToScale(AMPLIFY,AMPLIFY);
-            if (prefab.rotation!=0)
-                tx.rotate(Math.toRadians(-prefab.rotation),prefab.area.x,prefab.area.y);
+            if (prefab.rotation != 0)
+                tx.rotate(Math.toRadians(-prefab.rotation), prefab.area.x, prefab.area.y);
 
             Shape newShape = tx.createTransformedShape(rec);
-            if (prefab.type== Prefabtype.RACK) {
+            if (prefab.type == Prefabtype.RACK) {
                 racks.add(newShape);
             }
-            if (prefab.type==Prefabtype.STRUCTURE) {
+            if (prefab.type == Prefabtype.STRUCTURE) {
                 structures.add(newShape);
             }
 
@@ -175,21 +169,22 @@ public class BackgroundSurface extends JPanel {
         shapes.put(PREFAB_STRUCTURE, structures);
         return shapes;
     }
+
     public double posx(Prefab prefab){
         //Inverte a origem das coordenadas se no modelo for o canto superior direito
-        return warehouse.getArea().x-prefab.area.x;
+        return warehouse.getArea().x - prefab.area.x;
         //return prefab.getPosition().getX()
     }
 
     public double posx(Point ponto){
         //Inverte a origem das coordenadas se no modelo for o canto superior direito
-        return warehouse.getArea().x-ponto.getX();
+        return warehouse.getArea().x - ponto.getX();
         //return prefab.getPosition().getX()
     }
 
     public double posx(double pontox){
         //Inverte a origem das coordenadas se no modelo for o canto superior direito
-        return (warehouse.getArea().x-pontox);
+        return (warehouse.getArea().x - pontox);
         //return prefab.getPosition().getX()
     }
 }

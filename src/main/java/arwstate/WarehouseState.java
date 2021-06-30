@@ -1,5 +1,6 @@
 package arwstate;
 
+import exceptions.WrongOperationException;
 import newWarehouse.Warehouse;
 import orderpicking.GNode;
 import pathfinder.Graph;
@@ -53,18 +54,18 @@ public class WarehouseState {
     }
 
     //Adiciona um novo agente disponível
-    public void addAvailableAgent(Agent agent) {
-        availableAgents.add(agent);
-    }
-
-//    public void addAvailableAgent(Agent agent) throws WrongOperationException {
-//        for (Agent availableAgent : availableAgents) {
-//            if(agent.getId().equals(availableAgent.getId())){
-//                throw new WrongOperationException("ERROR: Agent already available!");
-//            }
-//        }
+//    public void addAvailableAgent(Agent agent) {
 //        availableAgents.add(agent);
 //    }
+
+    public void addAvailableAgent(Agent agent) throws WrongOperationException {
+        for (Agent availableAgent : availableAgents) {
+            if(agent.getId().equals(availableAgent.getId())){
+                throw new WrongOperationException("ERROR: Agent already available!");
+            }
+        }
+        availableAgents.add(agent);
+    }
 
 
     //Retira um agente caso os óculos sejam desligados
