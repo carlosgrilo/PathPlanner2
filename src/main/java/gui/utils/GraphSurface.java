@@ -58,7 +58,7 @@ public class GraphSurface extends LayerUI<JPanel> {
                     10.0f, dot, 0.0f);
 
             super.paint(g2, c);
-            g2.setPaint(Color.DARK_GRAY);
+            g2.setPaint(Color.GRAY);
             g2.setStroke(solido);
             if (arwgraph != null) {
                 for (ARWGraphNode node : arwgraph.getGraphNodes()) {
