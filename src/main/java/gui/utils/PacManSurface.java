@@ -66,41 +66,16 @@ public class PacManSurface extends JComponent  {
 
         for (String productid: products.keySet()){
             Point2D.Float pos = products.get(productid);
+            g2.setPaint(Color.BLACK);
+            g2.drawOval(
+                    width-background.scale(pos.getX())-3*nodeSize/8,
+                    background.scale(pos.getY())-3*nodeSize/8, 3 * nodeSize / 4, 3 * nodeSize / 4);
+
             g2.setPaint(Color.GREEN);
             g2.fillOval(
-                    width-background.scale(pos.getX()),
-                    background.scale(pos.getY()), 3 * nodeSize / 4, 3 * nodeSize / 4);
+                    width-background.scale(pos.getX())-3*nodeSize/8,
+                    background.scale(pos.getY())-3*nodeSize/8, 3 * nodeSize / 4, 3 * nodeSize / 4);
         }
     }
-
-//    public void paintComponent(Graphics g){
-//        super.paintComponent(g);
-//        Graphics2D g2 = (Graphics2D) g.create();
-//
-//        int width = this.getWidth();
-//
-//        //super.paint(g2, c);
-//        g2.setPaint(Color.BLUE);
-//
-//        //Displaying Key and value pairs
-//        for(String agentid: operators.keySet()){
-//
-//            Point2D.Float pos = operators.get(agentid);
-//            g2.drawString(
-//                    agentid.substring(0, 3),
-//                    background.scale(background.posx(pos.getX())),
-//                    background.scale(pos.getY()));
-//            g2.fillOval(
-//                    background.scale(background.posx(pos.getX())) - node_size / 2,
-//                    background.scale(pos.getY()) - node_size / 2, node_size, node_size);
-//        }
-//
-//        for (String productid: products.keySet()){
-//            Point2D.Float pos= products.get(productid);
-//            g2.setPaint(Color.GREEN);
-//            g2.fillOval(background.scale(background.posx(pos.getX())),
-//                    background.scale(pos.getY()), 3 * node_size / 4, 3 * node_size / 4);
-//        }
-//    }
 
 }

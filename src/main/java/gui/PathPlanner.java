@@ -102,7 +102,7 @@ public class PathPlanner extends JFrame {
     CheckERP erpRequestTask;
 
     public PathPlanner() {
-        super("ARWARE Path Planner v1");
+        super("ARWARE Path Planner v2beta");
 
         checkERPTasksAutomatically = true;
         erpRequestTask = new CheckERP();
@@ -119,8 +119,15 @@ public class PathPlanner extends JFrame {
         }
 
         arwgraph = new ARWGraph();
+        int depth=Toolkit.getDefaultToolkit().getScreenSize().height*90/100;
+        int width=depth;
+        if (warehouse.getWidth()>warehouse.getDepth())
+            depth= Math.round(width*warehouse.getDepth()/warehouse.getWidth());
+        else
+            width=Math.round( depth*warehouse.getWidth()/ warehouse.getDepth());
 
-        background = new BackgroundSurface(warehouse, false, 950);
+        //setSize(width+100, depth);
+        background = new BackgroundSurface(warehouse, false, width);
 
         File file = new File(GRAPH_FILE);
         //VERIFICAR COMO TESTAR PARA ERRO
@@ -183,7 +190,7 @@ public class PathPlanner extends JFrame {
             }
         });
         pack();
-        setSize(950, 500);
+        setSize(width+50, depth);
         initComponents();
         xmlReceived = false;
         setVisible(true);
