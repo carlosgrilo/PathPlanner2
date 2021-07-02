@@ -18,6 +18,7 @@ public class BackgroundSurface extends JPanel {
     private HashMap<Integer, LinkedList<Shape>> shapes;
     private static final Integer PREFAB_RACK = 0;
     private static final Integer PREFAB_STRUCTURE = 1;
+    private static final Integer PREFAB_FLOORAREA = 2;
     private final double SENSIBILITY = 0.5;//m
     private boolean grid;
     public float AMPLIFY;
@@ -86,7 +87,7 @@ public class BackgroundSurface extends JPanel {
             g2.scale(-1.0,1.0);
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             paintBackground(g2);
-            Color[] colors = {Color.CYAN, Color.LIGHT_GRAY};
+            Color[] colors = {Color.CYAN, Color.LIGHT_GRAY, Color.magenta};
 
             g2.setStroke(new BasicStroke(2));
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
@@ -145,6 +146,7 @@ public class BackgroundSurface extends JPanel {
         HashMap<Integer, LinkedList<Shape>> shapes = new HashMap<>();
         LinkedList<Shape> racks = new LinkedList<>();
         LinkedList<Shape> structures = new LinkedList<>();
+        LinkedList<Shape> floorareas = new LinkedList<>();
         AMPLIFY = Math.min(((float) getSize().width) / warehouse.getArea().x, ((float) getSize().height) / warehouse.getArea().y);
         AffineTransform tx = new AffineTransform();
 
@@ -163,10 +165,14 @@ public class BackgroundSurface extends JPanel {
             if (prefab.type == Prefabtype.STRUCTURE) {
                 structures.add(newShape);
             }
+            if (prefab.type==Prefabtype.FLOORAREA) {
+                floorareas.add(newShape);
+            }
 
         }
         shapes.put(PREFAB_RACK, racks);
         shapes.put(PREFAB_STRUCTURE, structures);
+        shapes.put(PREFAB_FLOORAREA, floorareas);
         return shapes;
     }
 
