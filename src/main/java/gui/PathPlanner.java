@@ -600,7 +600,6 @@ public class PathPlanner extends JFrame {
                             //VER COMO RESPONDER NESTE CASO. A SOLUÇÃO ATUAL É TEMPORÁRIA
                             //String xml_armazem = read_xml_from_file(WAREHOUSE_FILE);
                             String jsonAnswer = new JSONObject()
-                                    .put("id", idXML)
                                     .put("ack", "OK").toString();
                             cm.SendMessageAsync(
                                     (Integer.parseInt(busMessage.getId()) + 1) + "",

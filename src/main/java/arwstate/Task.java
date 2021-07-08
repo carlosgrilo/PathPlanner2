@@ -144,11 +144,11 @@ public class Task {
                 Element position = document.createElement("Position");
 
                 Element pos = document.createElement("x");
-                pos.appendChild(document.createTextNode(String.format("%.2f",graph.getNode(nodeId).getX())));
+                pos.appendChild(document.createTextNode(String.format(Locale.US, "%.2f",graph.getNode(nodeId).getX())));
                 position.appendChild(pos);
 
                 pos = document.createElement("y");
-                pos.appendChild(document.createTextNode(String.format("%.2f",graph.getNode(nodeId).getY())));
+                pos.appendChild(document.createTextNode(String.format(Locale.US,"%.2f",graph.getNode(nodeId).getY())));
                 position.appendChild(pos);
 
                 pos = document.createElement("z");
@@ -241,6 +241,7 @@ public class Task {
             }
             return picks;
         } catch(ParserConfigurationException e){
+            //return null;
             e.printStackTrace();
         } catch(IOException e){
             e.printStackTrace();
