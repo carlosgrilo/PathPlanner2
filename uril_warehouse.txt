@@ -1,0 +1,3 @@
+http://ils.dsi.uminho.pt/ar-ware/S07/warehouse_xml/matceramica20211019_162240_991360.xml
+
+http://ils.dsi.uminho.pt/ar-ware/S07/getWarehouseXML.php

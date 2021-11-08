@@ -1,11 +1,14 @@
 package gui;
 
+import javax.net.ssl.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -20,6 +23,9 @@ import classlib.Util;
 import communication.esb_callbacks;
 import net.sf.jni4net.Bridge;
 import org.json.JSONObject;
+
+import static xmlutils.XMLfuncs.get_xml_from_server;
+import static xmlutils.XMLfuncs.write_xml_to_file;
 
 public class GuiARWCommTB extends JFrame {
     private JButton newoperator;
@@ -152,7 +158,7 @@ public class GuiARWCommTB extends JFrame {
             }
         });
 
-        //cm.SubscribeContentAsync("mod_updateXML",MODELADOR_ID);
+        cm.SubscribeContentAsync("updateXML",MODELADOR_ID);
 
         System.out.println("CLIENT_ID: " + clientID);
         System.out.println("ERP_ID: " + ERP_ID);
@@ -277,6 +283,83 @@ public class GuiARWCommTB extends JFrame {
                 break;
             case "response":
                 System.out.println("RESPONSE message ready to be processed.");
+                if (busMessage.getInfoIdentifier().equals("newOperator")) {
+                    JSONObject obj = new JSONObject(busMessage.getContent());
+                    if (obj.has("url")){
+
+                        HostnameVerifier hv = new HostnameVerifier()
+                        {
+                            public boolean verify(String urlHostName, SSLSession session)
+                            {
+                                System.out.println("Warning: URL Host: " + urlHostName + " vs. "
+                                        + session.getPeerHost());
+                                return true;
+                            }
+                        };
+
+                        HttpsURLConnection.setDefaultHostnameVerifier(hv);
+
+                        // Create a trust manager that does not validate certificate chains
+                        TrustManager[] trustAllCerts = new TrustManager[]{
+                                new X509TrustManager() {
+                                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                                        return null;
+                                    }
+                                    public void checkClientTrusted(
+                                            java.security.cert.X509Certificate[] certs, String authType) {
+                                    }
+                                    public void checkServerTrusted(
+                                            java.security.cert.X509Certificate[] certs, String authType) {
+                                    }
+                                }
+                        };
+
+                        // Install the all-trusting trust manager
+                        try {
+                            SSLContext sc = SSLContext.getInstance("SSL");
+                            sc.init(null, trustAllCerts, null);
+                            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+                        } catch (Exception e) {}
+
+
+                            String urlstring=obj.get("url").toString();
+                        URL u;
+                        InputStream is = null;
+                        BufferedOutputStream outStream = null;
+
+                        try
+                        {
+                            byte[] buf;
+                            int byteRead,byteWritten=0;
+
+                            u = new URL(urlstring);
+                            is = u.openStream();
+
+                            String filename = "modelo_recebido.xml";
+
+                            outStream = new BufferedOutputStream( new FileOutputStream( filename ) );
+
+                            buf = new byte[1024];
+
+                            while ((byteRead = is.read(buf)) != -1) {
+                                outStream.write(buf, 0, byteRead);
+                                byteWritten += byteRead;
+                            }
+
+                            System.out.println("Downloaded Successfully.\n");
+
+                            System.out.println("File name:\""+filename+ "\"\nNo of Bytes :" + byteWritten + "\n");
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
                 if (busMessage.getInfoIdentifier().equals("getTarefa") && busMessage.getDataFormat().equals("application/xml")) {
                     //GET ALL ORDERS FROM ERP
                     Last_tarefa = busMessage.getContent();
@@ -317,8 +400,11 @@ public class GuiARWCommTB extends JFrame {
             case "stream":
                 System.out.println("STREAM message ready to be processed.");
                 switch (busMessage.getInfoIdentifier()) {
-                    case "mod_updateXML":
-                        String xml_str = busMessage.getContent();
+                    case "updateXML":
+                        String serverUrl= busMessage.getContent();
+                        String xml_str = get_xml_from_server(serverUrl);
+
+                        /*
                         JSONObject coderollsJSONObject = new JSONObject(xml_str);
                         System.out.println(xml_str);//Provisoriamente para teste
                         String id = "";
@@ -331,8 +417,10 @@ public class GuiARWCommTB extends JFrame {
                         String content = coderollsJSONObject.get("xmlPart").toString();
                         System.out.println("n de partes: " + totalparts + " parte: " + npart);
                         completeXML(id, Integer.parseInt(npart), Integer.parseInt(totalparts), content);
-/*
-                        Consola.setText(xml_str);
+
+                         */
+
+                        Consola.setText(serverUrl+"\n"+xml_str);
                         try {
                             write_modelador_xml_to_file("warehouse_recebido.xml", xml_str);
 
@@ -341,7 +429,7 @@ public class GuiARWCommTB extends JFrame {
                             System.out.println("Error while saving warehouse_model.xml");
                             System.out.println(e.getMessage());
 
-                        }                    */
+                        }
                         break;
                     default:
                         //TODO: do nothing, isn't important. You can print a message for debug purposes.

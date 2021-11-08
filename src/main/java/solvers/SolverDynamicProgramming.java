@@ -100,14 +100,18 @@ public class SolverDynamicProgramming extends Solver{
             Arrays.fill(row, 100000);
 
         Agent agent = task.getAgent();
+        int stid= warehouseState.getArwGraph().findClosestNode(agent.getInitialX(), agent.getInitialY()).getGraphNodeId();
+
+        String startnodeid=new Integer(stid).toString();
 
         for (int i = 1; i < numNos - 1; i++){
 
             String nodeID1 = new Integer(task.getPicks().get(i - 1).getNode().getGraphNodeId()).toString();
 
+
             //Determina rota e custos entre o nó inicial e todos os nós de produto
             Route r = routeFinder.findRoute(
-                    task.getGraph().getNode(agent.getStartNode()),
+                    task.getGraph().getNode(startnodeid),
                     task.getGraph().getNode(nodeID1));
             distanceMatrix[0][i] = r.getCost();
             rotas[0][i] = r.getNodes();
