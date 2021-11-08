@@ -29,17 +29,37 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30f1fc5e-b7d1-491f-90d6-e044eea9e023" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+    <list default="true" id="30f1fc5e-b7d1-491f-90d6-e044eea9e023" name="Default" comment="Correcao de GraphEditor, BackgroundSurface e GraphSurface para acautelar diferentes racios largura/altura e corrigir bugs no editor.">
+      <change afterPath="$PROJECT_DIR$/PathPlanner.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/matceramica_mapa2_v4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/gui/utils/GraphSurface2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/PathPlanner.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uril_warehouse.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logPathPlanner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logPathPlanner.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/utils/BackgroundSurface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/utils/BackgroundSurface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/utils/GraphEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/utils/GraphEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/GuiARWCommTB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GuiARWCommTB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/PathPlanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/PathPlanner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/utils/GraphSurface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/utils/GraphSurface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/solvers/SolverDynamicProgramming.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/solvers/SolverDynamicProgramming.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xmlutils/XMLfuncs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xmlutils/XMLfuncs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tarefa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tarefa.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/BackgroundSurface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/BackgroundSurface.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/GraphEditor$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/GraphEditor$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/GraphEditor$GraphSurfaceEd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/GraphEditor$GraphSurfaceEd.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/GraphEditor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/GraphEditor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/PathPlanner$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/PathPlanner$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/PathPlanner$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/PathPlanner$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/PathPlanner$CheckERP.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/PathPlanner$CheckERP.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/PathPlanner$CheckXML.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/PathPlanner$CheckXML.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/PathPlanner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/PathPlanner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/GraphSurface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/GraphSurface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/PacManSurface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/PacManSurface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/xmlutils/XMLfuncs.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/xmlutils/XMLfuncs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warehouse_model.xml" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse_model.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warehouse_recebido.xml" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse_recebido.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +112,11 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="GithubProjectSettings">
+    <option name="CREATE_PULL_REQUEST_DEFAULT_BRANCH" value="Revisao_0" />
+    <option name="CREATE_PULL_REQUEST_DEFAULT_REPO_USER" value="carlosgrilo" />
+    <option name="CREATE_PULL_REQUEST_DEFAULT_REPO_NAME" value="PathPlanner2" />
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/warehouse_recebido.xml" root0="SKIP_INSPECTION" />
   </component>
@@ -122,7 +147,7 @@
     <property name="extract.method.default.visibility" value="private" />
     <property name="findjar.last.used.dir" value="$PROJECT_DIR$" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/CommTestBed/src/main/java" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../NPathPlanner" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Testes_ARW" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -135,13 +160,26 @@
     <property name="project.structure.side.proportion" value="0.23495466" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="inlay.hints.JAVA" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="gui" />
       <recent name="utils.warehouse" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Aulas\I&amp;D\ArwarePathFinder\src\main\resources\META-INF" />
+      <recent name="C:\Users\Nekki\Desktop\Aulas\PROJ FINAL\OneDrive_1_19-02-2019\GeneticAlgorithm_completo\src\" />
+      <recent name="C:\Users\Nekki\Desktop\Aulas\PROJ FINAL\OneDrive_1_19-02-2019\GeneticAlgorithm_completo" />
+      <recent name="C:\Users\Nekki\Desktop\Aulas\PROJ FINAL\OneDrive_1_19-02-2019\GeneticAlgorithm_completo\src\gui" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\luis.neves\IdeaProjects\NPathPlanner\src\main\java\gui\utils" />
+      <recent name="C:\Users\luis.neves\IdeaProjects\NPathPlanner\src\main\java\gui" />
+      <recent name="C:\Users\luis.neves\IdeaProjects\NPathPlanner\src\main\java\whgraph\Graphs" />
+      <recent name="C:\Users\luis.neves\IdeaProjects\NPathPlanner\src\main\java" />
+      <recent name="C:\Users\luis.neves\IdeaProjects\NPathPlanner\src\main\java\arwdatastruct" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="algorithms" />
@@ -150,25 +188,12 @@
       <recent name="utils.warehouse" />
       <recent name="ga.geneticOperators" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Aulas\I&amp;D\ArwarePathFinder\src\main\resources\META-INF" />
-      <recent name="C:\Users\Nekki\Desktop\Aulas\PROJ FINAL\OneDrive_1_19-02-2019\GeneticAlgorithm_completo\src\" />
-      <recent name="C:\Users\Nekki\Desktop\Aulas\PROJ FINAL\OneDrive_1_19-02-2019\GeneticAlgorithm_completo" />
-      <recent name="C:\Users\Nekki\Desktop\Aulas\PROJ FINAL\OneDrive_1_19-02-2019\GeneticAlgorithm_completo\src\gui" />
-    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="gui.utils" />
       <recent name="picking" />
       <recent name="ga" />
       <recent name="utils.warehouse" />
       <recent name="ga.geneticOperators" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\luis.neves\IdeaProjects\NPathPlanner\src\main\java\gui\utils" />
-      <recent name="C:\Users\luis.neves\IdeaProjects\NPathPlanner\src\main\java\gui" />
-      <recent name="C:\Users\luis.neves\IdeaProjects\NPathPlanner\src\main\java\whgraph\Graphs" />
-      <recent name="C:\Users\luis.neves\IdeaProjects\NPathPlanner\src\main\java" />
-      <recent name="C:\Users\luis.neves\IdeaProjects\NPathPlanner\src\main\java\arwdatastruct" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -202,7 +227,7 @@
       <command value="mvn install:install-file -Dfile=ClassLib.j4n.jar -DgroupId=ClassLib -DartifactId=ClassLib.j4n -Dversion=1.0 -Dpackaging=jar " />
     </option>
   </component>
-  <component name="RunManager" selected="Application.PathPlanner">
+  <component name="RunManager" selected="Application.GuiARWCommTB">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -304,10 +329,10 @@
     </configuration>
     <list>
       <item itemvalue="Application.PathPlanner" />
-      <item itemvalue="Application.GuiARWCommTB" />
-      <item itemvalue="Application.TestaGenerator" />
-      <item itemvalue="Application.TestNewWarehouse" />
       <item itemvalue="Application.GraphicsDemo3" />
+      <item itemvalue="Application.GuiARWCommTB" />
+      <item itemvalue="Application.TestNewWarehouse" />
+      <item itemvalue="Application.TestaGenerator" />
     </list>
     <recent_temporary>
       <list>
@@ -708,27 +733,6 @@
       <workItem from="1625040967507" duration="17491000" />
       <workItem from="1625081559895" duration="243000" />
     </task>
-    <task id="LOCAL-00004" summary="23/03/2020&#10;FixBuG Final">
-      <created>1584968883891</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1584968883891</updated>
-    </task>
-    <task id="LOCAL-00005" summary="30/03/2020&#10;Simulação colisões.&#10;Atribuição de peso aos picks 1/2.">
-      <created>1585576512972</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1585576512972</updated>
-    </task>
-    <task id="LOCAL-00006" summary="30/03/2020&#10;Simulação colisões 26-24&#10;Peso&#10;[BUGS]">
-      <created>1585655169102</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1585655169102</updated>
-    </task>
     <task id="LOCAL-00007" summary="30/03/2020&#10;Simulação colisões 26-24&#10;Peso v2&#10;[BUGS?]">
       <created>1585945528749</created>
       <option name="number" value="00007" />
@@ -1051,7 +1055,28 @@
       <option name="project" value="LOCAL" />
       <updated>1624629755600</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Correcao de GraphEditor, BackgroundSurface e GraphSurface para acautelar diferentes racios largura/altura e corrigir bugs no editor.">
+      <created>1625212823378</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1625212823378</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Correção ao dimensionamento inicial da aplicação&#10;Correção da representação dos nós de produto na simulação">
+      <created>1625226476033</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1625226476033</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Correção na criação do XML da tarefa para não depender do Locale.">
+      <created>1625760442824</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1625760442824</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1071,9 +1096,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="3/11/2020&#10;Artifact Working" />
-    <MESSAGE value="13/11/2020&#10;Import graph fix,&#10;Graph num fix,&#10;Find rack" />
-    <MESSAGE value="22/11/2020&#10;horizontal lines" />
     <MESSAGE value="24/11/2020&#10;horizontal lines&#10;product node" />
     <MESSAGE value="2/12/2020&#10;Happy path development" />
     <MESSAGE value="3/12/2020&#10;Pre-Documentação" />
@@ -1096,7 +1118,10 @@
     <MESSAGE value="Alteração do RequestManager de modo a termos uma lista de pendingTasks em vez de um lista de pendingOrders." />
     <MESSAGE value="- RequestsManager com Clusters&#10;- PathPlanner permite escolher o Request Manager&#10;- min e max average picks per task&#10;- Pedir tarefa ao ERP manualmente" />
     <MESSAGE value="WarehouseSate&#10;Hierarquia de RequestsManagers&#10;Hierarquia de Solvers" />
-    <option name="LAST_COMMIT_MESSAGE" value="WarehouseSate&#10;Hierarquia de RequestsManagers&#10;Hierarquia de Solvers" />
+    <MESSAGE value="Correcao de GraphEditor, BackgroundSurface e GraphSurface para acautelar diferentes racios largura/altura e corrigir bugs no editor." />
+    <MESSAGE value="Correção ao dimensionamento inicial da aplicação&#10;Correção da representação dos nós de produto na simulação" />
+    <MESSAGE value="Correção na criação do XML da tarefa para não depender do Locale." />
+    <option name="LAST_COMMIT_MESSAGE" value="Correção na criação do XML da tarefa para não depender do Locale." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1127,39 +1152,34 @@
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/xmlutils/XMLfuncs.java</url>
-          <line>184</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/xmlutils/XMLfuncs.java</url>
-          <line>516</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/xmlutils/XMLfuncs.java</url>
-          <line>568</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/xmlutils/XMLfuncs.java</url>
-          <line>621</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/xmlutils/XMLfuncs.java</url>
-          <line>510</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/whdatastruct/PrefabManager.java</url>
           <line>66</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/gui/GuiARWCommTB.java</url>
-          <line>172</line>
+          <line>178</line>
           <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/solvers/SolverDynamicProgramming.java</url>
+          <line>142</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/arwstate/Task.java</url>
+          <line>244</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/arwstate/Task.java</url>
+          <line>248</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/arwstate/Task.java</url>
+          <line>250</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

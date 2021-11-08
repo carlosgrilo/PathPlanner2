@@ -1,6 +1,7 @@
 package gui;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
@@ -50,14 +51,15 @@ import solvers.Solver;
 import solvers.SolverDynamicProgramming;
 import whgraph.ARWGraph;
 
-import static xmlutils.XMLfuncs.read_xml_from_file;
-import static xmlutils.XMLfuncs.write_xml_to_file;
+import static xmlutils.XMLfuncs.*;
 
 
 public class PathPlanner extends JFrame {
 
     public static PrintStream printOut;
     public static String CLIENT_ID = "planeador";
+    public static String URLmodelo = "http://ils.dsi.uminho.pt/ar-ware/S07/getWarehouseXML.php";
+    static String serverUrl = URLmodelo;
     public static final int DEFAULT_MIN_NUM_AGENTS = 2;
     public static final int DEFAULT_MIN_AVERAGE_PICKS_PER_TASK = 2;
     public static final int DEFAULT_MAX_AVERAGE_PICKS_PER_TASK = 10;
@@ -101,12 +103,17 @@ public class PathPlanner extends JFrame {
     private boolean checkERPTasksAutomatically;
     CheckERP erpRequestTask;
 
-    public PathPlanner() {
+    public PathPlanner() throws IOException {
         super("ARWARE Path Planner v2beta");
 
         checkERPTasksAutomatically = true;
         erpRequestTask = new CheckERP();
         setLayout(new BorderLayout());
+
+
+        Image icon = ImageIO.read(ClassLoader.getSystemResource("PathPlanner.png"));
+        setIconImage(icon);
+
 
         setupMenuBar();
 
@@ -155,6 +162,13 @@ public class PathPlanner extends JFrame {
         pane.setOpaque(false);
         pane.setVisible(true);
 
+        /*JLayeredPane bloco = new JLayeredPane();
+        bloco.setSize(width,depth);
+        //bloco.add(background, new Integer(0));
+        bloco.add(graphsurface, new Integer(0));
+        //bloco.add(pacmanSurface, new Integer(1),0);
+*/
+
         consola = new JTextArea(5, 40);
         JScrollPane scrollpane = new JScrollPane(consola);
 
@@ -176,8 +190,9 @@ public class PathPlanner extends JFrame {
         panel.add(alertaNovoXML);
 
         add(panel, BorderLayout.NORTH);
-        //add(pacmansurface,BorderLayout.CENTER);
+        add(pacmanSurface,BorderLayout.CENTER);
         add(jLayer, BorderLayout.CENTER);
+       // add(bloco, BorderLayout.CENTER);
 
         add(scrollpane, BorderLayout.PAGE_END);
 
@@ -388,6 +403,7 @@ public class PathPlanner extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String xmlcontent = read_xml_from_file(fc.getSelectedFile().getName());
+                URLmodelo=serverUrl;
                 warehouse.createFromXML(xmlcontent);
                 arwgraph.createGraph(warehouse, corridorWidth);
                 File source = new File(fc.getSelectedFile().getName());
@@ -600,7 +616,8 @@ public class PathPlanner extends JFrame {
                             //VER COMO RESPONDER NESTE CASO. A SOLUÇÃO ATUAL É TEMPORÁRIA
                             //String xml_armazem = read_xml_from_file(WAREHOUSE_FILE);
                             String jsonAnswer = new JSONObject()
-                                    .put("ack", "OK").toString();
+                                    .put("ack", "OK")
+                                    .put("url",URLmodelo).toString();
                             cm.SendMessageAsync(
                                     (Integer.parseInt(busMessage.getId()) + 1) + "",
                                     "response",
@@ -744,21 +761,23 @@ public class PathPlanner extends JFrame {
             case "stream":
                 System.out.println("STREAM message ready to be processed.");
                 switch (busMessage.getInfoIdentifier()) {
-                    case TOPIC_UPDATEXML:
-                        xmlStr = busMessage.getContent();
-                        JSONObject coderollsJSONObject = new JSONObject(xmlStr);
-                        System.out.println(xmlStr);//Provisoriamente para teste
-                        String id;
-                        if (coderollsJSONObject.get("id") != null)
-                            id = coderollsJSONObject.get("id").toString();
-                        else
-                            id = "model";
-                        String npart = coderollsJSONObject.get("nPart").toString();
-                        String totalparts = coderollsJSONObject.get("totalParts").toString();
-                        String content = coderollsJSONObject.get("xmlPart").toString();
-                        System.out.println("n de partes: " + totalparts + " parte: " + npart);
-                        completeXML(id, Integer.parseInt(npart), Integer.parseInt(totalparts), content);
+                    case "updateXML":
+                        serverUrl= busMessage.getContent();
+                        String xml_str = get_xml_from_server(serverUrl);
+
+
+                        System.out.println(serverUrl+"\n"+xml_str);
+                        try {
+                            write_xml_to_file("warehouse_recebido.xml", xml_str);
+
+                            System.out.println("Succesfully saved warehouse_model.xml");
+                        } catch (IOException e) {
+                            System.out.println("Error while saving warehouse_model.xml");
+                            System.out.println(e.getMessage());
+
+                        }
                         break;
+
                     default:
                         //TODO: do nothing, isn't important. You can print a message for debug purposes.
                         System.out.println("Saiu default");
@@ -927,7 +946,7 @@ public class PathPlanner extends JFrame {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         final String dir = System.getProperty("user.dir");
         //SERVICE BUS

@@ -3,8 +3,12 @@ package xmlutils;
 
 import org.json.JSONObject;
 
+import java.io.DataInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -57,5 +61,35 @@ public interface XMLfuncs {
 
 
         return contents;
+    }
+
+    static String get_xml_from_server(String serverUrl)
+    {
+        String s = "";
+        StringBuffer textoxml=new StringBuffer();
+        try
+        {
+            URL url;
+            URLConnection urlConn;
+            DataInputStream dis;
+
+            url = new URL(serverUrl);
+
+            urlConn = url.openConnection();
+            urlConn.setDoInput(true);
+            urlConn.setUseCaches(false);
+
+            dis= new DataInputStream(urlConn.getInputStream());
+            while((s=dis.readLine())!=null){
+                textoxml.append(s);
+            }
+            dis.close();
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return textoxml.toString();
     }
 }
