@@ -29,20 +29,139 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30f1fc5e-b7d1-491f-90d6-e044eea9e023" name="Default" comment="Correcao de GraphEditor, BackgroundSurface e GraphSurface para acautelar diferentes racios largura/altura e corrigir bugs no editor.">
-      <change afterPath="$PROJECT_DIR$/PathPlanner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/matceramica_mapa2_v4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/gui/utils/GraphSurface2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/PathPlanner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uril_warehouse.txt" afterDir="false" />
+    <list default="true" id="30f1fc5e-b7d1-491f-90d6-e044eea9e023" name="Default" comment="Inclusão do instante de rececao do ERP no log">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logPathPlanner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logPathPlanner.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/GuiARWCommTB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GuiARWCommTB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/PathPlanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/PathPlanner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/utils/GraphSurface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/utils/GraphSurface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/solvers/SolverDynamicProgramming.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/solvers/SolverDynamicProgramming.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xmlutils/XMLfuncs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xmlutils/XMLfuncs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tarefa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tarefa.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ClassLib.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ClassLib.j4n.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/FastInfoset-1.2.16.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.Azure.Amqp.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.Azure.NotificationHubs.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.Azure.ServiceBus.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.Azure.Services.AppAuthentication.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.Extensions.Caching.Abstractions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.Extensions.Caching.Memory.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.Extensions.DependencyInjection.Abstractions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.Extensions.Options.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.Extensions.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.IdentityModel.Clients.ActiveDirectory.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.IdentityModel.Logging.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Microsoft.Win32.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Newtonsoft.Json.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.AppContext.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Buffers.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Collections.Concurrent.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Collections.NonGeneric.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Collections.Specialized.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Collections.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.ComponentModel.EventBasedAsync.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.ComponentModel.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.ComponentModel.TypeConverter.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.ComponentModel.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Console.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Data.Common.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Diagnostics.Contracts.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Diagnostics.Debug.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Diagnostics.DiagnosticSource.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Diagnostics.FileVersionInfo.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Diagnostics.Process.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Diagnostics.StackTrace.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Diagnostics.TextWriterTraceListener.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Diagnostics.Tools.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Diagnostics.TraceSource.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Diagnostics.Tracing.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Drawing.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Dynamic.Runtime.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Globalization.Calendars.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Globalization.Extensions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Globalization.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.Compression.ZipFile.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.Compression.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.FileSystem.DriveInfo.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.FileSystem.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.FileSystem.Watcher.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.FileSystem.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.IsolatedStorage.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.MemoryMappedFiles.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.Pipes.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.UnmanagedMemoryStream.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IO.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.IdentityModel.Tokens.Jwt.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Linq.Expressions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Linq.Parallel.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Linq.Queryable.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Linq.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Memory.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.Http.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.NameResolution.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.NetworkInformation.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.Ping.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.Requests.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.Security.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.Sockets.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.WebHeaderCollection.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.WebSockets.Client.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Net.WebSockets.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Numerics.Vectors.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.ObjectModel.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Reflection.Extensions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Reflection.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Reflection.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Resources.Reader.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Resources.ResourceManager.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Resources.Writer.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.CompilerServices.Unsafe.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.CompilerServices.VisualC.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.Extensions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.Handles.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.InteropServices.RuntimeInformation.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.InteropServices.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.Numerics.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.Serialization.Formatters.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.Serialization.Json.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.Serialization.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.Serialization.Xml.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Runtime.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Security.Claims.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Security.Cryptography.Algorithms.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Security.Cryptography.Csp.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Security.Cryptography.Encoding.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Security.Cryptography.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Security.Cryptography.X509Certificates.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Security.Principal.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Security.SecureString.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Text.Encoding.Extensions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Text.Encoding.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Text.RegularExpressions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Threading.Overlapped.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Threading.Tasks.Parallel.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Threading.Tasks.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Threading.Thread.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Threading.ThreadPool.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Threading.Timer.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Threading.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.ValueTuple.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Xml.ReaderWriter.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Xml.XDocument.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Xml.XPath.XDocument.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Xml.XPath.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Xml.XmlDocument.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/System.Xml.XmlSerializer.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/all-1.1.2.pom" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/arpack_combined_all-0.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bounce-0.18.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/colt-1.2.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/concurrent-1.3.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/core-1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fastutil-6.6.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/graph-api-0.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/graphstore-0.4.7.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/GuiARWCommTB$3.class" afterDir="false" />
@@ -57,9 +176,64 @@
       <change beforePath="$PROJECT_DIR$/target/classes/gui/PathPlanner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/PathPlanner.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/GraphSurface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/GraphSurface.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/utils/PacManSurface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/utils/PacManSurface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/istack-commons-runtime-3.0.8.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jackson-core-asl-1.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jackson-jaxrs-1.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jackson-mapper-asl-1.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jakarta.activation-api-1.2.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jakarta.xml.bind-api-2.3.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/java-cup-11b-20160615.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/java-cup-runtime-11b-20160615.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/javax.annotation.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/javax.ejb.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/javax.jms.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/javax.persistence.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/javax.resource.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/javax.servlet.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/javax.servlet.jsp.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/javax.servlet.jsp.jstl.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/javax.transaction.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jaxb-runtime-2.3.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jclipboardhelper-0.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jcommon-1.0.16.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jfilechooser-bookmarks-0.1.6.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jfreechart-1.0.13.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jni4net.n-0.8.8.0.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jni4net.n.w32.v20-0.8.8.0.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jni4net.n.w32.v40-0.8.8.0.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jni4net.n.w64.v20-0.8.8.0.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jni4net.n.w64.v40-0.8.8.0.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jniloader-1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/joda-time-2.8.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mtj-1.0.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/native_ref-java-1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/native_system-java-1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/nessus-weka-api-1.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-java-1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_ref-linux-armhf-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_ref-linux-i686-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_ref-linux-x86_64-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_ref-osx-x86_64-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_ref-win-i686-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_ref-win-x86_64-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_system-linux-armhf-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_system-linux-i686-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_system-linux-x86_64-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_system-osx-x86_64-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_system-win-i686-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netlib-native_system-win-x86_64-1.1-natives.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/netstandard.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org-openide-filesystems-RELEASE81.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org-openide-util-RELEASE81.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org-openide-util-lookup-RELEASE81.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/project-api-0.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/slf4j-api-1.7.28.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/stax-ex-1.8.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tools-api-0.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/txw2-2.3.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/utils-longtask-0.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/weka-stable-3.8.4.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/xmlutils/XMLfuncs.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/xmlutils/XMLfuncs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse_model.xml" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse_model.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse_recebido.xml" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse_recebido.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +401,7 @@
       <command value="mvn install:install-file -Dfile=ClassLib.j4n.jar -DgroupId=ClassLib -DartifactId=ClassLib.j4n -Dversion=1.0 -Dpackaging=jar " />
     </option>
   </component>
-  <component name="RunManager" selected="Application.GuiARWCommTB">
+  <component name="RunManager" selected="Application.PathPlanner">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -328,9 +502,9 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.PathPlanner" />
       <item itemvalue="Application.GraphicsDemo3" />
       <item itemvalue="Application.GuiARWCommTB" />
+      <item itemvalue="Application.PathPlanner" />
       <item itemvalue="Application.TestNewWarehouse" />
       <item itemvalue="Application.TestaGenerator" />
     </list>
@@ -1096,7 +1270,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="24/11/2020&#10;horizontal lines&#10;product node" />
     <MESSAGE value="2/12/2020&#10;Happy path development" />
     <MESSAGE value="3/12/2020&#10;Pre-Documentação" />
     <MESSAGE value="20/12/2020&#10;Mid-Documentação" />
@@ -1121,7 +1294,8 @@
     <MESSAGE value="Correcao de GraphEditor, BackgroundSurface e GraphSurface para acautelar diferentes racios largura/altura e corrigir bugs no editor." />
     <MESSAGE value="Correção ao dimensionamento inicial da aplicação&#10;Correção da representação dos nós de produto na simulação" />
     <MESSAGE value="Correção na criação do XML da tarefa para não depender do Locale." />
-    <option name="LAST_COMMIT_MESSAGE" value="Correção na criação do XML da tarefa para não depender do Locale." />
+    <MESSAGE value="Inclusão do instante de rececao do ERP no log" />
+    <option name="LAST_COMMIT_MESSAGE" value="Inclusão do instante de rececao do ERP no log" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1180,6 +1354,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/arwstate/Task.java</url>
           <line>250</line>
           <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/gui/PathPlanner.java</url>
+          <line>738</line>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

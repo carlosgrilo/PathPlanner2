@@ -16,6 +16,8 @@ import java.io.*;
 import java.nio.file.Files;
 
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import java.util.Timer;
@@ -735,13 +737,16 @@ public class PathPlanner extends JFrame {
                 if (busMessage.getInfoIdentifier().equals(TOPIC_GETTASK) && busMessage.getDataFormat().equals("application/xml")) {
                     //GET ALL ORDERS FROM ERP
                     lastTask = busMessage.getContent();
+                    DateTimeFormatter dtf= DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now=LocalDateTime.now();
+                    System.out.println(dtf.format(now));
                     System.out.println(lastTask);
                     //this.Consola.setText(Last_tarefa);
                     try {
                         handleRequest(lastTask);
-                        System.out.println("Succesfully saved tarefa.xml");
+                        System.out.println("Succesfully handled tarefa.xml");
                     } catch (IOException e) {
-                        System.out.println("Error while saving tarefa.xml");
+                        System.out.println("Error while handling tarefa.xml");
                         System.out.println(e.getMessage());
                     }
 
