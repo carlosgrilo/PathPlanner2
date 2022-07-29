@@ -44,6 +44,10 @@ public class Warehouse {
         return wmscodes.containsKey(wmscode);
     }
 
+    public Hashtable<String, Point2D.Float> getWmscodes() {
+        return wmscodes;
+    }
+
     public void createFromXML(String content) {
         clear();
         Hashtable<String, Point2D.Float> prefabs = new Hashtable<>();

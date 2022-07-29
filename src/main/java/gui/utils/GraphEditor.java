@@ -45,7 +45,7 @@ public class GraphEditor extends JDialog {
 
         this.setTitle("Graph Editor");
         setSize(width, depth);
-        this.SENSIBILITY = 0.25;
+        this.SENSIBILITY = 0.5;
         this.corridorwidth = corridorwidth;
         this.warehouse = warehouse;
         this.setModal(true);

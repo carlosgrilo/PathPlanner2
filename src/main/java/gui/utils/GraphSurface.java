@@ -1,5 +1,6 @@
 package gui.utils;
 
+import arwstate.Obstacle;
 import newWarehouse.Warehouse;
 import whgraph.ARWGraph;
 import whgraph.ARWGraphNode;
@@ -9,6 +10,10 @@ import javax.swing.*;
 import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GraphSurface extends LayerUI<JPanel> {
     private ARWGraph arwgraph;
@@ -18,6 +23,7 @@ public class GraphSurface extends LayerUI<JPanel> {
     public float AMPLIFY;
     public Warehouse warehouse;
     boolean editable;
+    private Map<String,Obstacle> obstacles;
 
 
     public GraphSurface(ARWGraph graph, Warehouse warehouse, int node_size) {
@@ -25,9 +31,14 @@ public class GraphSurface extends LayerUI<JPanel> {
         this.SENSIBILITY = 0.01;
         this.NODE_SIZE = node_size;
         this.warehouse = warehouse;
+        this.obstacles=obstacles;
         editable = false;
         AMPLIFY = 1;
 
+    }
+
+    public void setObstacles(Map obstacles) {
+        this.obstacles = obstacles;
     }
 
     public GraphSurface(){
@@ -83,6 +94,18 @@ public class GraphSurface extends LayerUI<JPanel> {
                     g2.draw(r);
                 }
 
+            }
+            if (obstacles!=null){
+                for (Obstacle obstacle: obstacles.values()) {
+                    Rectangle2D r=obstacle.geraRect();
+                    g2.setPaint(Color.RED);
+                    g2.setStroke(solido);
+                    Shape s=new Rectangle2D.Float(c.getWidth()-scale(r.getX()), scale(r.getY()), scale(r.getWidth()), scale(r.getHeight()));
+                    g2.draw(s);
+                    g2.fill(s);
+                    //g2.drawRect(c.getWidth()-scale(r.getX()), scale(r.getY()), scale(r.getWidth()), scale(r.getHeight()));
+
+                }
             }
 
     }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfTarefa xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Tarefa>
+    <Ordem>PT22202PIC00000005</Ordem>
+    <LinhaOrdem>1000</LinhaOrdem>
+    <Produto>50002010100422A</Produto>
+    <Quantidade>300</Quantidade>
+    <Origem>13.D.0.17</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>PT22202PIC00000005</Ordem>
+    <LinhaOrdem>2000</LinhaOrdem>
+    <Produto>5020102010FG771</Produto>
+    <Quantidade>300</Quantidade>
+    <Origem>13.D.0.17</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>PT22202PIC00000005</Ordem>
+    <LinhaOrdem>3000</LinhaOrdem>
+    <Produto>5030201050A1282</Produto>
+    <Quantidade>300</Quantidade>
+    <Origem>13.D.0.17</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>PT22202PIC00000005</Ordem>
+    <LinhaOrdem>4000</LinhaOrdem>
+    <Produto>5010201010A1339</Produto>
+    <Quantidade>300</Quantidade>
+    <Origem>13.E.0.17</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+  <Tarefa>
+    <Ordem>PT22202PIC00000005</Ordem>
+    <LinhaOrdem>5000</LinhaOrdem>
+    <Produto>5010201010A1197</Produto>
+    <Quantidade>300</Quantidade>
+    <Origem>13.E.0.17</Origem>
+    <Destino>13.S.0.0</Destino>
+  </Tarefa>
+</ArrayOfTarefa>

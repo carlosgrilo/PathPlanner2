@@ -6,6 +6,7 @@ import orderpicking.GNode;
 import pathfinder.Graph;
 import whgraph.ARWGraph;
 import whgraph.ARWGraphNode;
+import whgraph.Edge;
 
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -20,7 +21,10 @@ public class WarehouseState {
     private ARWGraph arwGraph;
     private List<Agent> availableAgents;
     private Map<String, Agent> occupiedAgents;
+    private Map<String, String> tagsAgents;
     private List<Task> pendingTasks;
+    private Map<String,Obstacle> obstacles;
+    private double corridorwidth = 1;
 
     private int minNumAgents;
     private int minAveragePicksPerTask;
@@ -42,6 +46,8 @@ public class WarehouseState {
         this.minNumAgents = minNumAgents;
         this.minAveragePicksPerTask = minAveragePicksPerTask;
         this.maxAveragePicksPerTask = maxAveragePicksPerTask;
+        this.tagsAgents=new HashMap<>();
+        this.obstacles=new HashMap<>();
     }
 
     public void setWareHouseFromXMLFile(String filename) {
@@ -65,6 +71,7 @@ public class WarehouseState {
             }
         }
         availableAgents.add(agent);
+        addTag(agent.getTagid(),agent.getId());
     }
 
 
@@ -73,10 +80,24 @@ public class WarehouseState {
         for (Agent agent : availableAgents)
             if (agent.getId().equals(agentId)) {
                 availableAgents.remove(agent);
+                removetag(agent.getTagid());
                 break;
             }
     }
 
+    public void addTag(String tagid, String agendid){
+        tagsAgents.putIfAbsent(tagid,agendid);
+    }
+
+    public void removetag(String tagid){
+        tagsAgents.remove(tagid);
+    }
+    public boolean checkTagId(String tagid){
+        if (tagsAgents!=null)
+            return tagsAgents.containsKey(tagid);
+        else
+            return false;
+    }
     public Integer getNumberOfAvailableAgents() {
         return availableAgents.size();
     }
@@ -115,7 +136,7 @@ public class WarehouseState {
         //Colocar os nós dos picks no grafo
         for (Pick pick : picks) {
             Point2D.Float rack = warehouse.getWms(pick.getOrigin());
-            int numberOfNodes = problemGraph.getNumberOfNodes();
+            int numberOfNodes = problemGraph.getMaxIdNodes()+1;
             int graphNodeID = problemGraph.insertNode(
                     new ARWGraphNode(numberOfNodes, rack.x, rack.y, PRODUCT)).getGraphNodeId();
             if (!picksAtNode.containsKey(graphNodeID)){
@@ -144,7 +165,16 @@ public class WarehouseState {
     }
 
     public ARWGraph getArwGraph() {
-        return arwGraph;
+
+        //Remove graph edges and nodes affected by obstacles
+        ARWGraph workgraph=arwGraph.clone();
+        for(String tagid: obstacles.keySet()){
+            Obstacle obstacle=obstacles.get(tagid);
+            workgraph.removeIntersection(obstacle.posx,obstacle.posy,(float)corridorwidth);
+
+        }
+
+        return workgraph;
     }
 
     //Função para atribuição do grafo, lido de ficheiro ou criado/editado com editor
@@ -203,5 +233,24 @@ public class WarehouseState {
     public void setDefaultDestiny(String defaultDestiny) {
         this.defaultDestiny = defaultDestiny;
     }
+
+    public void addObstacle(Obstacle obstacle){
+
+
+        obstacles.put(obstacle.tagid,obstacle);
+    }
+
+    public Obstacle getObstacle(String tagid){
+        return obstacles.get(tagid);
+    };
+
+    public boolean hasObstacle(String tagid){
+        return obstacles.containsKey(tagid);
+    }
+
+    public Map getObstacles(){
+        return obstacles;
+    }
+
 
 }

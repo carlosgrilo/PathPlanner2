@@ -43,7 +43,7 @@ public class TspDynamicProgrammingIterative {
     public void solve() {
 
         if (ranSolver) return;
-
+        long tstart = System.currentTimeMillis();
         final int END_STATE = (1 << N) - 1;
         Double[][] memo = new Double[N][1 << N];
 
@@ -108,6 +108,10 @@ public class TspDynamicProgrammingIterative {
         Collections.reverse(tour);
 
         ranSolver = true;
+        long tend = System.currentTimeMillis();
+        System.out.println("Dynamic programming: " +
+                (tend - tstart) + "ms");
+        System.out.println("Solution: "+minTourCost);
     }
 
     private static boolean notIn(int elem, int subset) {

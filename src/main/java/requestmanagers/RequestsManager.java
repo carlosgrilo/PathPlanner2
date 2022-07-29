@@ -1,9 +1,6 @@
 package requestmanagers;
 
-import arwstate.Agent;
-import arwstate.WarehouseState;
-import arwstate.Pick;
-import arwstate.Request;
+import arwstate.*;
 import exceptions.WarehouseConfigurationException;
 import exceptions.WrongOperationException;
 
@@ -43,6 +40,20 @@ public abstract class RequestsManager {
         request.addSolvedPicks(picks);
         agent.setTask(null);
         return request.isSolved()? request.concludedPicksToXML() : null;
+    }
+
+    public Task handleIncompleteTask(String agentID, List<Pick> picks) throws WrongOperationException {
+        if(!warehouseState.getOccupiedAgents().containsKey(agentID)){
+            return null; // throw new WrongOperationException("ERROR: Agent was not occupied!");
+        }
+        Agent agent = warehouseState.getOccupiedAgents().get(agentID);
+        Task task=agent.getTask();
+        Request request = task.getRequest();
+        //request.decNumberTasksUnfinished();
+        request.addSolvedPicks(picks);
+        task.removePicks(picks);
+        agent.setTask(null);
+        return task;
     }
 
     /**

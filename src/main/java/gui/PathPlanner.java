@@ -10,8 +10,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+//import java.beans.PropertyChangeEvent;
+//import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.nio.file.Files;
 
@@ -34,7 +34,7 @@ import net.sf.jni4net.Bridge;
 
 
 import arwstate.Pick;
-import arwstate.Request;
+//import arwstate.Request;
 import org.json.JSONObject;
 
 import classlib.BusMessage;
@@ -59,27 +59,33 @@ import static xmlutils.XMLfuncs.*;
 public class PathPlanner extends JFrame {
 
     public static PrintStream printOut;
-    public static String CLIENT_ID = "planeador";
+    public static String CLIENT_ID = "planeadorLN";
     public static String URLmodelo = "http://ils.dsi.uminho.pt/ar-ware/S07/getWarehouseXML.php";
     static String serverUrl = URLmodelo;
     public static final int DEFAULT_MIN_NUM_AGENTS = 2;
     public static final int DEFAULT_MIN_AVERAGE_PICKS_PER_TASK = 2;
     public static final int DEFAULT_MAX_AVERAGE_PICKS_PER_TASK = 10;
-    private static float corridorWidth = 1f;
+    private static float corridorWidth = 2.5f;
+    private static int checkfrozentasks= 5; //minutos
     public static final String ERP_ID = "ERP";
     public static final String RA_ID = "ra1";
     public static final String LOC_APROX_ID = "locaproximada";
     public static final String MODELADOR_ID = "modelador";
     public static final String WAREHOUSE_FILE = "warehouse_model.xml";
-    public static final String GRAPH_FILE = "graph_mat_ceramica_2021_06_30.xml";
+    public static final String GRAPH_FILE = "graph.xml";
     public static final String TOPIC_UPDATEXML = "mod_updateXML";
     public static final String TOPIC_ACKXML = "mod_updateXMLstatus";
     public static final String TOPIC_OPAVAIL = "available";
     public static final String TOPIC_NEWOP = "newOperator";
+    public static final String TOPIC_ENDOP = "endOperator";
+    public static final String TOPIC_INCOMPTASK = "incompleteTaskbyObstacle";
+    public static final String TOPIC_LOCAPROX = "location";
+    public static final String TOPIC_REPLAN = "rePlanTask";
     public static final String TOPIC_GETTASK = "getTarefa";
     public static final String TOPIC_ENDTASK = "endTask";
     public static final String TOPIC_NEWTASK = "newTask";
     public static final String TOPIC_CONCLUDETASK = "setTarefaFinalizada";
+    public static final String TOPIC_STATUS = "taskStatus";
 
     private final BackgroundSurface background;
     private final GraphSurface graphsurface;
@@ -97,19 +103,22 @@ public class PathPlanner extends JFrame {
     CommunicationManager cm;
     esb_callbacks Checkbus;
     String lastTask;
-    private WarehouseState warehouseState;
+    private final WarehouseState warehouseState;
     private RequestsManager requestsManager;
     private Solver solver;
 
-    public int erpCheckPeriod = 5; //MINUTOS
+    public int erpCheckPeriod = 15; //MINUTOS
     private boolean checkERPTasksAutomatically;
     CheckERP erpRequestTask;
+    CheckFrozenTasks frozenTasks;
 
     public PathPlanner() throws IOException {
-        super("ARWARE Path Planner v2beta");
+        super("ARWARE Path Planner v4beta");
 
         checkERPTasksAutomatically = true;
         erpRequestTask = new CheckERP();
+        frozenTasks = new CheckFrozenTasks();
+
         setLayout(new BorderLayout());
 
 
@@ -153,6 +162,7 @@ public class PathPlanner extends JFrame {
         solver = new SolverDynamicProgramming(warehouseState);
 
         graphsurface = new GraphSurface(arwgraph, warehouse, 5);
+        graphsurface.setObstacles(warehouseState.getObstacles());
         pacmanSurface = new PacManSurface(background, 15);
         JLayer<JPanel> jLayer = new JLayer<>(background, graphsurface);
 
@@ -164,20 +174,14 @@ public class PathPlanner extends JFrame {
         pane.setOpaque(false);
         pane.setVisible(true);
 
-        /*JLayeredPane bloco = new JLayeredPane();
-        bloco.setSize(width,depth);
-        //bloco.add(background, new Integer(0));
-        bloco.add(graphsurface, new Integer(0));
-        //bloco.add(pacmanSurface, new Integer(1),0);
-*/
 
         consola = new JTextArea(5, 40);
         JScrollPane scrollpane = new JScrollPane(consola);
 
         JLabel et_tasks = new JLabel("Tarefas pendentes");
         JLabel et_ops = new JLabel("Operadores disponíveis");
-        numTasks = new JTextField("0");
-        numOps = new JTextField("0");
+        numTasks = new JTextField("000");
+        numOps = new JTextField(" 0");
         numTasks.setEditable(false);
         numOps.setEditable(false);
         alertaNovoXML = new JLabel("");
@@ -192,7 +196,6 @@ public class PathPlanner extends JFrame {
         panel.add(alertaNovoXML);
 
         add(panel, BorderLayout.NORTH);
-        add(pacmanSurface,BorderLayout.CENTER);
         add(jLayer, BorderLayout.CENTER);
        // add(bloco, BorderLayout.CENTER);
 
@@ -362,14 +365,14 @@ public class PathPlanner extends JFrame {
                 warehouseState.getMaxAveragePicksPerTask());
 
         if(!settingsDialog.cancel) {
-            if (settingsDialog.toggleButton.isSelected() && checkERPTasksAutomatically == false ||
+            if (settingsDialog.toggleButton.isSelected() && !checkERPTasksAutomatically ||
                     erpCheckPeriod != settingsDialog.erpCheckPeriod && settingsDialog.toggleButton.isSelected()) {
                 checkERPTasksAutomatically = true;
                 erpCheckPeriod = settingsDialog.erpCheckPeriod;
                 erpRequestTask.cancel();
                 erpRequestTask = new CheckERP();
                 timer.schedule(erpRequestTask, 0, TimeUnit.MINUTES.toMillis(erpCheckPeriod));
-            } else if (!settingsDialog.toggleButton.isSelected() && checkERPTasksAutomatically == true) {
+            } else if (!settingsDialog.toggleButton.isSelected() && checkERPTasksAutomatically) {
                 checkERPTasksAutomatically = false;
             }
         }
@@ -448,15 +451,11 @@ public class PathPlanner extends JFrame {
 
         cm = new CommunicationManager(CLIENT_ID, new TopicsConfiguration(), Checkbus);
         Checkbus.SetCommunicationManager(cm); // Está imbricado. Tentar ver se é possível alterar!
-        Checkbus.addPropertyChangeListener(new PropertyChangeListener() {
-                                               @Override
-                                               public void propertyChange(PropertyChangeEvent evt) {
-                                                   handleMessages((BusMessage) evt.getNewValue());
-                                               }
-                                           }
+        Checkbus.addPropertyChangeListener(evt -> handleMessages((BusMessage) evt.getNewValue())
         );
 
         cm.SubscribeContentAsync(TOPIC_UPDATEXML, MODELADOR_ID);
+        cm.SubscribeContentAsync(TOPIC_LOCAPROX,LOC_APROX_ID);
 
         System.out.println("CLIENT_ID: " + CLIENT_ID);
         System.out.println("ERP_ID: " + ERP_ID);
@@ -466,12 +465,23 @@ public class PathPlanner extends JFrame {
 
         timer = new Timer(); // Instantiate Timer Object
         timer.schedule(erpRequestTask, 0, TimeUnit.MINUTES.toMillis(erpCheckPeriod));
+        timer.schedule(frozenTasks, 0, TimeUnit.MINUTES.toMillis(checkfrozentasks));
     }
 
     public void askERPTask() {
         if (arwgraph.getNumberOfNodes() > 0) {
             this.consola.append("Pedida tarefa" + '\n');
             this.cm.SendMessageAsync(Util.GenerateId(), "request", TOPIC_GETTASK, ERP_ID, "PlainText", "Dá-me uma tarefa!", "1");
+        }
+    }
+
+    public void solvePendingtasks(){
+        Map<Agent, String> tasks = solver.solve();
+
+        if (tasks != null) {
+            for (Agent agent : tasks.keySet()) {
+                sendTask(agent.getId(), tasks.get(agent));
+            }
         }
     }
 
@@ -534,7 +544,7 @@ public class PathPlanner extends JFrame {
                             //Faz sentido a linha abaixo?
                             pacmanSurface.addAgent(agentID, new Point2D.Float(position[0], position[1]));
 
-                            //return?? Como houve problemas, devia saltar fora...
+                            //return? Como houve problemas, devia saltar fora...
                         }
 
                         if (warehouseState.checkOccupiedAgent(agentID)) {
@@ -568,9 +578,7 @@ public class PathPlanner extends JFrame {
                                     //confirmação ao agente e, depois, quando ele confirma (nova opção do switch)
                                     // nós fechamos a tarefa que foi cancelada.
 
-                                }catch (WrongOperationException e){
-                                    e.printStackTrace();
-                                }catch (IOException e){
+                                }catch (WrongOperationException | IOException e){
                                     e.printStackTrace();
                                 }
                             }
@@ -608,12 +616,15 @@ public class PathPlanner extends JFrame {
 
                     case TOPIC_NEWOP:
 
-                        xmlStr = busMessage.getContent();
-                        System.out.println(xmlStr);//Provisoriamente para teste
-                        consola.setText(xmlStr + "\n");
+                        String jsonStr = busMessage.getContent();
+                        System.out.println(jsonStr);//Provisoriamente para teste
+                        consola.setText(jsonStr + "\n");
+
                         split = busMessage.getFromTopic().split("Topic");
                         agentID = split[0];
-
+                        JSONObject jsonObject=new JSONObject(jsonStr);
+                        if (jsonObject.has("tagId"))
+                            warehouseState.addTag(jsonObject.getString("tagId"),agentID);
 //                        try {
                             //VER COMO RESPONDER NESTE CASO. A SOLUÇÃO ATUAL É TEMPORÁRIA
                             //String xml_armazem = read_xml_from_file(WAREHOUSE_FILE);
@@ -642,6 +653,8 @@ public class PathPlanner extends JFrame {
                         break;
 
                     case TOPIC_ENDTASK:
+                    case TOPIC_INCOMPTASK:
+
                         xmlStr = busMessage.getContent();
                         System.out.println(xmlStr);//Provisoriamente para teste
                         consola.setText("Operador concluiu tarefa\n");
@@ -667,23 +680,28 @@ public class PathPlanner extends JFrame {
                                 }
                             }
 
-                            xmlStr = requestsManager.closeTask(agentID, solvedPicks);
 
-                            if (xmlStr != null) {
-                                write_xml_to_file("tarefa_concluida.xml", xmlStr);
-                                finishTask(xmlStr);
-                                System.out.println("Succesfully saved concluded task");
+                            if (identificador==TOPIC_ENDTASK){
+                                xmlStr = requestsManager.closeTask(agentID, solvedPicks);
+
+                                if (xmlStr != null) {
+                                    write_xml_to_file("tarefa_concluida.xml", xmlStr);
+                                    finishTask(xmlStr);
+                                    System.out.println("Succesfully saved concluded task");
+                                }
+                            }
+                            else {
+                                Task task = requestsManager.handleIncompleteTask(agentID, solvedPicks);
+                                warehouseState.getPendingTasks().add(task);
+                                tasks = solver.solve();
+
+                                if (tasks != null) {
+                                    for (Agent agent : tasks.keySet()) {
+                                        sendTask(agent.getId(), tasks.get(agent));
+                                    }
+                                }
                             }
 
-                            cm.SendMessageAsync(
-                                    (Integer.parseInt(busMessage.getId()) + 1) + "",
-                                    "response",
-                                    busMessage.getInfoIdentifier(),
-                                    split[0],
-                                    "application/json",
-                                    "{'response':'ACK'}",
-                                    "1");
-                            System.out.println("Enviou Ack!");
 
                         } catch (IOException e) {
                             System.out.println("Error while saving concluded task");
@@ -696,7 +714,33 @@ public class PathPlanner extends JFrame {
                         //TERMINOU A TAREFA DUAS VEZES SEGUIDAS?
 
                         break;
+                    case TOPIC_REPLAN:
+                        xmlStr = busMessage.getContent();
+                        System.out.println(xmlStr);//Provisoriamente para teste
+                        consola.setText("Operador concluiu tarefa\n");
+                        split = busMessage.getFromTopic().split("Topic");
+                        //Identifica o agente
+                        agentID = split[0];
+                        //try {
+                            List<Pick> solvedPicks = Task.parseXMLConcludedTask(xmlStr);
+                        if (warehouseState.checkOccupiedAgent(agentID)) {
+                            Agent agent = warehouseState.getOccupiedAgents().get(agentID);
+                            if (agent.getTask() != null) {
+                                Task newtask=agent.getTask().copy();
+                                newtask.removePicks(solvedPicks);
+                                xmlStr=solver.solveOnetask(newtask);
+                                cm.SendMessageAsync(
+                                        (Integer.parseInt(busMessage.getId()) + 1) + "",
+                                        "response",
+                                        busMessage.getInfoIdentifier(),
+                                        split[0],
+                                        "application/xml",
+                                        xmlStr,
+                                        "1");
+                            }
+                        }
 
+                        break;
                     case TOPIC_ACKXML:
                         split = busMessage.getFromTopic().split("Topic");
                         if (xmlReceived) {
@@ -764,9 +808,38 @@ public class PathPlanner extends JFrame {
                 }
                 break;
             case "stream":
-                System.out.println("STREAM message ready to be processed.");
+                //System.out.println("STREAM message ready to be processed.");
                 switch (busMessage.getInfoIdentifier()) {
-                    case "updateXML":
+                    case TOPIC_STATUS:
+                    case TOPIC_LOCAPROX:
+                        String status= busMessage.getContent();
+                        DateTimeFormatter dtf= DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                        LocalDateTime now=LocalDateTime.now();
+                        JSONObject jsonObject=new JSONObject(status);
+
+                        if (jsonObject.has("tagID")){
+
+
+
+                                //Se nao for o tag de um agente, e' um obstaculo
+                                if (!warehouseState.checkTagId(jsonObject.get("tagID").toString())){
+
+                                    //Acrescenta o obstaculo, se ele já nao existir, senao atualiza posicao
+                                    //Para ja' assume que o obstáculo têm lado = corridorwidth
+                                    warehouseState.addObstacle(new Obstacle(
+                                            jsonObject.get("tagID").toString(),
+                                            Float.parseFloat(jsonObject.get("x").toString()),
+                                            Float.parseFloat(jsonObject.get("y").toString()),
+                                            corridorWidth,
+                                            now));
+
+                                }
+                        }
+                        //System.out.println(dtf.format(now));
+                        //System.out.println(status);
+
+                        break;
+                    case TOPIC_UPDATEXML:
                         serverUrl= busMessage.getContent();
                         String xml_str = get_xml_from_server(serverUrl);
 
@@ -867,7 +940,7 @@ public class PathPlanner extends JFrame {
             e.printStackTrace();
             //TODO: É PRECISO MAIS ALGUMA COISA?
         }
-        write_xml_to_file("tarefa.xml", xmlString);
+        //write_xml_to_file("tarefa.xml", xmlString);
         Map<Agent, String> tasksAssignment = solver.solve();
         if (tasksAssignment != null) {
             for (Agent agent : tasksAssignment.keySet()) {
@@ -889,6 +962,15 @@ public class PathPlanner extends JFrame {
         }
     }
 
+    public class CheckFrozenTasks extends TimerTask {
+        public void run() {
+            try {
+                solvePendingtasks();
+            } catch (Exception ex) {
+                System.out.println("error running thread " + ex.getMessage());
+            }
+        }
+    }
     public void playPacman(String agentid, String content) throws IOException, SAXException {
         String posx;
         String posy;
@@ -939,7 +1021,7 @@ public class PathPlanner extends JFrame {
 
                 repaint();
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(250);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -957,9 +1039,14 @@ public class PathPlanner extends JFrame {
         //SERVICE BUS
         OutputStream output;
         try {
-            output = new FileOutputStream(dir + "\\logPathPlanner.txt");
+            output = new FileOutputStream(dir + "\\logPathPlanner.txt", true);
             printOut = new PrintStream(output);
             System.setOut(printOut);
+            DateTimeFormatter dtf= DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now=LocalDateTime.now();
+            System.out.println("\n ================================================================== \n");
+            System.out.println("New start on:");
+            System.out.println(dtf.format(now));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -2,8 +2,16 @@ package gui;
 
 import javax.net.ssl.*;
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
@@ -11,10 +19,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Random;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import newWarehouse.Warehouse;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import whgraph.ARWGraphNode;
 import xmlutils.XMLfuncs;
 import classlib.BusMessage;
 import classlib.CommunicationManager;
@@ -32,12 +48,12 @@ public class GuiARWCommTB extends JFrame {
     private JButton oper_available;
     private JButton oper_concluded;
     private JButton RecebeDisponib;
-    private JButton EnviaTarefa;
+    private JButton GeraTarefa;
     private JButton RecebeConclusao;
     private JButton EnviaConclusao;
     private JTextArea Consola;
 
-    public static final String PLANNER_NAME = "planeador";
+    public static final String PLANNER_NAME = "planeadorLN";
     public static final String CLIENT_ID_PREFIX = "ra";
     public static final String ERP_ID = "ERP";
     public static final String RA_ID = "ra";
@@ -54,7 +70,8 @@ public class GuiARWCommTB extends JFrame {
     public static final String TOPIC_ENDTASK = "endTask";
     public static final String TOPIC_NEWTASK = "newTask";
     public static final String TOPIC_CONCLUDETASK = "setTarefaFinalizada";
-
+    public static final String TOPIC_STATUS = "taskStatus";
+    public static final String TOPIC_LOCAPROX = "location";
     CommunicationManager cm;
     esb_callbacks Checkbus;
     String Last_tarefa;
@@ -78,10 +95,9 @@ public class GuiARWCommTB extends JFrame {
         newoperator = new JButton("Novo Operador");
         oper_available = new JButton("Operador disponível");
         oper_concluded = new JButton("Operador terminou");
-        RecebeDisponib = new JButton("Recebe Disp.");
-        EnviaTarefa = new JButton("Envia Tarefa");
-        RecebeConclusao = new JButton("Recebe Concl.");
-        EnviaConclusao = new JButton("Envia Conclusao");
+        GeraTarefa = new JButton("Gera Tarefa");
+        //RecebeConclusao = new JButton("Recebe Concl.");
+        //EnviaConclusao = new JButton("Envia Conclusao");
         //ExitButton = new JButton("FIM") ;
 
         Consola = new JTextArea(20, 80);
@@ -92,9 +108,9 @@ public class GuiARWCommTB extends JFrame {
         add(newoperator);
         add(oper_available);
         add(oper_concluded);
-        add(EnviaTarefa);
-        add(RecebeConclusao);
-        add(EnviaConclusao);
+        add(GeraTarefa);
+        //add(RecebeConclusao);
+        //add(EnviaConclusao);
         //add(ExitButton);
         add(Consola);
 
@@ -108,7 +124,7 @@ public class GuiARWCommTB extends JFrame {
             }
         });
 
-        EnviaTarefa.addActionListener(new ActionListener() {
+        GeraTarefa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 // delegate to event handler method
@@ -122,14 +138,14 @@ public class GuiARWCommTB extends JFrame {
                 // delegate to event handler method
                 String message = new JSONObject()
                         .put("available", "yes")
-                        .put("posicaox", 20.000)
-                        .put("posicaoy", 58.000).toString();
+                        .put("posicaox", 20.0)
+                        .put("posicaoy", 58.0).toString();
 
                 cm.SendMessageAsync(Util.GenerateId(), "request", "available", PLANNER_NAME, "application/json", message, "1");
 
             }
         });
-
+/*
         oper_concluded.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -144,7 +160,7 @@ public class GuiARWCommTB extends JFrame {
                 Executa_ConcluiTarefa();
             }
         });
-
+*/
         Checkbus = new esb_callbacks();
 
         String clientID = CLIENT_ID_PREFIX + (Math.abs((new Random()).nextInt()) - 1);
@@ -158,7 +174,8 @@ public class GuiARWCommTB extends JFrame {
             }
         });
 
-        cm.SubscribeContentAsync("updateXML",MODELADOR_ID);
+        cm.SubscribeContentAsync(TOPIC_UPDATEXML,MODELADOR_ID);
+        cm.SubscribeContentAsync(TOPIC_LOCAPROX,"locaproximada");
 
         System.out.println("CLIENT_ID: " + clientID);
         System.out.println("ERP_ID: " + ERP_ID);
@@ -169,17 +186,86 @@ public class GuiARWCommTB extends JFrame {
     }
 
 
-    public void Executa_EnviaXML() {
-        String xmlstring = "";
+    public void Executa_EnviaXML()  {
+        Warehouse newwarehouse = new Warehouse();
         try {
-            xmlstring = read_xml_from_file("warehouse_model_lab.xml");
-        } catch (IOException e) {
-            e.printStackTrace();
+            String xmlString = read_xml_from_file("warehouse_model.xml");
+            newwarehouse.createFromXML(xmlString);
+            Hashtable<String, Point2D.Float> wmscodes = newwarehouse.getWmscodes();
+            String numproducts=JOptionPane.showInputDialog("Number of products? ");
+
+            int num= Integer.parseInt(numproducts);
+            if (num==0)
+                return;
+            if (num>wmscodes.size()*90/100)
+                num= wmscodes.size()*90/100;
+
+             int[] lindices=IntStream.rangeClosed(1,num).toArray();
+             List<Integer> indices = Arrays.stream(lindices).boxed().collect(Collectors.toList());
+             Collections.shuffle(indices);
+
+             List<String> wms=new ArrayList(wmscodes.keySet());
+
+
+
+            xmlString = "";
+
+                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+                // root elements
+                Document doc = docBuilder.newDocument();
+                Element rootElement = doc.createElement("ArrayOfTarefa");
+
+                doc.appendChild(rootElement);
+                //Node List
+               for(int i=0; i<num; i++) {
+                   Element tarefa = doc.createElement("Tarefa");
+
+                   Element subelem = doc.createElement("Ordem");
+                   subelem.appendChild(doc.createTextNode("Encomenda 999991"));
+                   tarefa.appendChild(subelem);
+
+                   subelem=doc.createElement("LinhaOrdem");
+                   subelem.appendChild(doc.createTextNode(String.format("%d",i+1)));
+                   tarefa.appendChild(subelem);
+
+                   subelem=doc.createElement("Produto");
+                   subelem.appendChild(doc.createTextNode(String.format("500020201000%03d",i+50)));
+                   tarefa.appendChild(subelem);
+
+                   subelem=doc.createElement("Quantidade");
+                   subelem.appendChild(doc.createTextNode("2"));
+                   tarefa.appendChild(subelem);
+
+                   subelem=doc.createElement("Origem");
+                   subelem.appendChild(doc.createTextNode(String.format("%s",wms.get(indices.get(i)))));
+                   tarefa.appendChild(subelem);
+
+                   subelem=doc.createElement("Destino");
+                   subelem.appendChild(doc.createTextNode("13.S.0.0"));
+                   tarefa.appendChild(subelem);
+
+                   rootElement.appendChild(tarefa);
+
+               }
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer;
+
+            transformer = tf.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            StringWriter writer = new StringWriter();
+
+            //transform document to string
+            transformer.transform(new DOMSource(doc), new StreamResult(writer));
+
+            xmlString = writer.getBuffer().toString();
+            write_xml_to_file("newtask.xml",xmlString);
         }
-        ArrayList<String> lista = XMLfuncs.createBrokenXML(xmlstring, 30000);
-        for (int i = 0; i < lista.size(); i++) {
-            String jsonstr = lista.get(i);
-            cm.SendStreamMessageAsync("mod_updateXML2", "application/json", jsonstr, "1");
+        catch (Exception e) {
+            System.out.println("Error while creating task");
+            System.out.println(e.getMessage());
+
         }
     }
 
@@ -219,7 +305,7 @@ public class GuiARWCommTB extends JFrame {
 
         switch (busMessage.getMessageType()) {
             case "request":
-                System.out.println("REQUEST message ready to be processed.");
+                //System.out.println("REQUEST message ready to be processed.");
                 String identificador = busMessage.getInfoIdentifier();
                 switch (identificador) {
 
@@ -233,6 +319,7 @@ public class GuiARWCommTB extends JFrame {
                         String[] split = busMessage.getFromTopic().split("Topic");
 
                         if (identificador.equals("newOperator")) {
+                            cm.SubscribeContentAsync("taskStatus",split[0]);
                             try {
                                 String xml_armazem = read_xml_from_file(WAREHOUSE_FILE);
                                 cm.SendMessageAsync((Integer.parseInt(busMessage.getId()) + 1) + "", "response",
@@ -398,8 +485,20 @@ public class GuiARWCommTB extends JFrame {
 
                 break;
             case "stream":
-                System.out.println("STREAM message ready to be processed.");
+                //System.out.println("STREAM message ready to be processed.");
                 switch (busMessage.getInfoIdentifier()) {
+                    case TOPIC_STATUS:
+                    case TOPIC_LOCAPROX:
+
+                        String status= busMessage.getContent();
+                        DateTimeFormatter dtf= DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                        LocalDateTime now=LocalDateTime.now();
+                        //System.out.println(dtf.format(now));
+                        //System.out.println(status);
+                        Consola.append(dtf.format(now)+"\n");
+                        Consola.append(status+"\n");
+
+                        break;
                     case "updateXML":
                         String serverUrl= busMessage.getContent();
                         String xml_str = get_xml_from_server(serverUrl);

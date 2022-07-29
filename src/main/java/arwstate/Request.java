@@ -81,7 +81,8 @@ public class Request {
                             element.getElementsByTagName("Produto").item(0).getTextContent(),
                             element.getElementsByTagName("Quantidade").item(0).getTextContent(),
                             element.getElementsByTagName("Origem").item(0).getTextContent(),
-                            element.getElementsByTagName("Destino").item(0).getTextContent());
+                            "13.S.0.1");
+                            //element.getElementsByTagName("Destino").item(0).getTextContent());
                     addPick(pick);
                 }
             }

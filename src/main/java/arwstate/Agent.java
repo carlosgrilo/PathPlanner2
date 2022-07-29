@@ -2,6 +2,7 @@ package arwstate;
 
 public class Agent {
     private String id;
+    private String tagid;
     private float initialX;
     private float initialY;
     private String startNode;
@@ -12,6 +13,13 @@ public class Agent {
         this.id = id;
         this.initialX = initialX;
         this.initialY = initialY;
+
+    }
+    public Agent(String id, float initialX, float initialY, String tagid) {
+        this.id = id;
+        this.initialX = initialX;
+        this.initialY = initialY;
+        this.tagid=tagid;
     }
 
     public String getId() {
@@ -20,6 +28,14 @@ public class Agent {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setTagid(String tagid) {
+        this.tagid = tagid;
+    }
+
+    public String getTagid() {
+        return tagid;
     }
 
     public float getInitialX() {

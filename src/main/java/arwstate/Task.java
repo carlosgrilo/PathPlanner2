@@ -39,6 +39,14 @@ public class Task {
         picks = new ArrayList<>();
     }
 
+    public Task copy(){
+        Task task = new Task(request);
+        task.setAgent(agent);
+        task.getPicks().addAll(picks);
+        task.setGraph(graph);
+        return task;
+    }
+
     public void computeMassCenter(){
         massCenterX = massCenterY = 0;
         for(Pick pick : picks){
@@ -59,6 +67,10 @@ public class Task {
 
     public void setPicks(List<Pick> picks) {
         this.picks = picks;
+    }
+
+    public void removePicks(List<Pick> pickstoremove){
+        picks.removeAll(pickstoremove);
     }
 
     public void addPick(Pick pick){

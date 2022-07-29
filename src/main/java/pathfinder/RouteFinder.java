@@ -14,7 +14,7 @@ public class RouteFinder<T extends GraphNode> {
         this.targetScorer = targetScorer;
     }
 
-    public Route findRoute(T from, T to) {
+    public Route findRoute(T from, T to) throws IllegalStateException {
         Map<T, RouteNode<T>> allNodes = new HashMap<>();
         Queue<RouteNode> openSet = new PriorityQueue<>();
         double finalScore= 0.0;

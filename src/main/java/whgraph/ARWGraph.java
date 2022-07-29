@@ -304,6 +304,16 @@ public class ARWGraph {
         return node;
     }
 
+    public void removeIntersection(float posx, float posy, float corridorwidth){
+        List<Edge> edgestoremove =new ArrayList<>(edges);
+        ARWGraphNode node=findClosestNode(posx,posy,corridorwidth);
+        if (node!=null)
+            removeNode(node);
+        for(Edge edge : edgestoremove){
+            if (edge.intercepts(posx, posy, corridorwidth))
+                edges.remove(edge);
+        }
+    }
     public Graph getPathGraph(){
 
         Set<GNode> nos = new HashSet<>();

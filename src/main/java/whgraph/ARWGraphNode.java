@@ -133,13 +133,13 @@ public class ARWGraphNode {
 
 
     public float getDistance(ARWGraphNode node) {
-        float distance = Math.abs((int) (node.getLocation().getX() - this.getLocation().getX())) + Math.abs((int) (node.getLocation().getY() - this.getLocation().getY()));
-        return distance;
+        //float distance = Math.abs((int) (node.getLocation().getX() - this.getLocation().getX())) + Math.abs((int) (node.getLocation().getY() - this.getLocation().getY()));
+        return (float)location.distance(node.getLocation());
     }
 
     public float getDistance(float x, float y) {
-        float distance = Math.abs((int) (x - this.getLocation().getX())) + Math.abs((int) (y - this.getLocation().getY()));
-        return distance;
+        //float distance = Math.abs((int) (x - this.getLocation().getX())) + Math.abs((int) (y - this.getLocation().getY()));
+        return (float)location.distance(x,y);
     }
 
 

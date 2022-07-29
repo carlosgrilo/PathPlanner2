@@ -1,6 +1,7 @@
 package solvers;
 
 import arwstate.Agent;
+import arwstate.Task;
 import arwstate.WarehouseState;
 import arwstate.TaskOneAgentOneDestiny;
 import newWarehouse.Warehouse;
@@ -25,6 +26,21 @@ public abstract class Solver {
      */
     public abstract Map<Agent, String> solve();
 
+    public abstract Solution solveTask(Task task);
+
+    public String solveOnetask(Task task){
+        try {
+            Solution solution = solveTask(task);
+            Agent agent = task.getAgent();
+            task.setRoute(solution.getRoute(agent));
+            return task.XMLPath();
+        }
+        catch(Exception e){
+            //Colocar aqui o que fazer se não for possível encontrar um caminho para os produtos
+            //Eventualmenet será necessário enviar a rota para o ponto de entrega, sem mais nada.
+            return "";
+        }
+    }
 
     /**
      * Assigns tasks to agents (criterium: mass center)

@@ -1,5 +1,8 @@
 package whgraph;
 
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -163,5 +166,12 @@ public class Edge {
 
     public void setOblique_edge(boolean oblique_edge) {
         this.oblique_edge = oblique_edge;
+    }
+
+
+    public boolean intercepts(double x, double y, double radius){
+        Circle circle=new Circle(radius);
+        Line line=new Line(start.getX(),start.getY(),end.getX(),end.getY());
+        return line.intersects(circle.getBoundsInLocal());
     }
 }
